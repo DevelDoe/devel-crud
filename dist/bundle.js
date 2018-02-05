@@ -634,7 +634,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8dc7cce2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_fed36922_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__ = __webpack_require__(35);
 var disposed = false
 var normalizeComponent = __webpack_require__(3)
 /* script */
@@ -652,13 +652,13 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_Home_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_8dc7cce2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_fed36922_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Home_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src/components/Home.vue"
+Component.options.__file = "src\\components\\Home.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -667,9 +667,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8dc7cce2", Component.options)
+    hotAPI.createRecord("data-v-fed36922", Component.options)
   } else {
-    hotAPI.reload("data-v-8dc7cce2", Component.options)
+    hotAPI.reload("data-v-fed36922", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -726,28 +726,32 @@ module.exports = __webpack_require__(30);
 /* global __resourceQuery WorkerGlobalScope self */
 /* eslint prefer-destructuring: off */
 
-const url = __webpack_require__(9);
-const stripAnsi = __webpack_require__(16);
-const log = __webpack_require__(18).getLogger('webpack-dev-server');
-const socket = __webpack_require__(19);
-const overlay = __webpack_require__(21);
+var url = __webpack_require__(9);
+var stripAnsi = __webpack_require__(16);
+var log = __webpack_require__(18).getLogger('webpack-dev-server');
+var socket = __webpack_require__(19);
+var overlay = __webpack_require__(21);
 
 function getCurrentScriptSource() {
   // `document.currentScript` is the most accurate way to find the current script,
   // but is not supported in all browsers.
-  if (document.currentScript) { return document.currentScript.getAttribute('src'); }
+  if (document.currentScript) {
+    return document.currentScript.getAttribute('src');
+  }
   // Fall back to getting all scripts in the document.
-  const scriptElements = document.scripts || [];
-  const currentScript = scriptElements[scriptElements.length - 1];
-  if (currentScript) { return currentScript.getAttribute('src'); }
+  var scriptElements = document.scripts || [];
+  var currentScript = scriptElements[scriptElements.length - 1];
+  if (currentScript) {
+    return currentScript.getAttribute('src');
+  }
   // Fail as there was no script to use.
   throw new Error('[WDS] Failed to get current script source.');
 }
 
-let urlParts;
-let hotReload = true;
+var urlParts = void 0;
+var hotReload = true;
 if (typeof window !== 'undefined') {
-  const qs = window.location.search.toLowerCase();
+  var qs = window.location.search.toLowerCase();
   hotReload = qs.indexOf('hotreload=false') === -1;
 }
 if (true) {
@@ -755,66 +759,63 @@ if (true) {
   urlParts = url.parse(__resourceQuery.substr(1));
 } else {
   // Else, get the url from the <script> this file was called with.
-  let scriptHost = getCurrentScriptSource();
+  var scriptHost = getCurrentScriptSource();
   // eslint-disable-next-line no-useless-escape
   scriptHost = scriptHost.replace(/\/[^\/]+$/, '');
-  urlParts = url.parse((scriptHost || '/'), false, true);
+  urlParts = url.parse(scriptHost || '/', false, true);
 }
 
 if (!urlParts.port || urlParts.port === '0') {
   urlParts.port = self.location.port;
 }
 
-let hot = false;
-let initial = true;
-let currentHash = '';
-let useWarningOverlay = false;
-let useErrorOverlay = false;
-let useProgress = false;
+var _hot = false;
+var initial = true;
+var currentHash = '';
+var useWarningOverlay = false;
+var useErrorOverlay = false;
+var useProgress = false;
 
-const INFO = 'info';
-const WARNING = 'warning';
-const ERROR = 'error';
-const NONE = 'none';
+var INFO = 'info';
+var WARNING = 'warning';
+var ERROR = 'error';
+var NONE = 'none';
 
 // Set the default log level
 log.setDefaultLevel(INFO);
 
 // Send messages to the outside, so plugins can consume it.
 function sendMsg(type, data) {
-  if (
-    typeof self !== 'undefined' &&
-  (typeof WorkerGlobalScope === 'undefined' ||
-  !(self instanceof WorkerGlobalScope))
-  ) {
+  if (typeof self !== 'undefined' && (typeof WorkerGlobalScope === 'undefined' || !(self instanceof WorkerGlobalScope))) {
     self.postMessage({
-      type: `webpack${type}`,
-      data
+      type: 'webpack' + type,
+      data: data
     }, '*');
   }
 }
 
-const onSocketMsg = {
-  hot() {
-    hot = true;
+var onSocketMsg = {
+  hot: function hot() {
+    _hot = true;
     log.info('[WDS] Hot Module Replacement enabled.');
   },
-  invalid() {
+  invalid: function invalid() {
     log.info('[WDS] App updated. Recompiling...');
     // fixes #1042. overlay doesn't clear if errors are fixed but warnings remain.
     if (useWarningOverlay || useErrorOverlay) overlay.clear();
     sendMsg('Invalid');
   },
-  hash(hash) {
-    currentHash = hash;
+  hash: function hash(_hash) {
+    currentHash = _hash;
   },
+
   'still-ok': function stillOk() {
     log.info('[WDS] Nothing changed.');
     if (useWarningOverlay || useErrorOverlay) overlay.clear();
     sendMsg('StillOk');
   },
   'log-level': function logLevel(level) {
-    const hotCtx = __webpack_require__(26);
+    var hotCtx = __webpack_require__(26);
     if (hotCtx.keys().indexOf('./log') !== -1) {
       hotCtx('./log').setLogLevel(level);
     }
@@ -831,12 +832,12 @@ const onSocketMsg = {
         log.disableAll();
         break;
       default:
-        log.error(`[WDS] Unknown clientLogLevel '${level}'`);
+        log.error('[WDS] Unknown clientLogLevel \'' + level + '\'');
     }
   },
-  overlay(value) {
+  overlay: function overlay(value) {
     if (typeof document !== 'undefined') {
-      if (typeof (value) === 'boolean') {
+      if (typeof value === 'boolean') {
         useWarningOverlay = false;
         useErrorOverlay = value;
       } else if (value) {
@@ -845,53 +846,62 @@ const onSocketMsg = {
       }
     }
   },
-  progress(progress) {
+  progress: function progress(_progress) {
     if (typeof document !== 'undefined') {
-      useProgress = progress;
+      useProgress = _progress;
     }
   },
+
   'progress-update': function progressUpdate(data) {
-    if (useProgress) log.info(`[WDS] ${data.percent}% - ${data.msg}.`);
+    if (useProgress) log.info('[WDS] ' + data.percent + '% - ' + data.msg + '.');
   },
-  ok() {
+  ok: function ok() {
     sendMsg('Ok');
     if (useWarningOverlay || useErrorOverlay) overlay.clear();
     if (initial) return initial = false; // eslint-disable-line no-return-assign
     reloadApp();
   },
+
   'content-changed': function contentChanged() {
     log.info('[WDS] Content base changed. Reloading...');
     self.location.reload();
   },
-  warnings(warnings) {
+  warnings: function warnings(_warnings) {
     log.warn('[WDS] Warnings while compiling.');
-    const strippedWarnings = warnings.map(warning => stripAnsi(warning));
+    var strippedWarnings = _warnings.map(function (warning) {
+      return stripAnsi(warning);
+    });
     sendMsg('Warnings', strippedWarnings);
-    for (let i = 0; i < strippedWarnings.length; i++) { log.warn(strippedWarnings[i]); }
-    if (useWarningOverlay) overlay.showMessage(warnings);
+    for (var i = 0; i < strippedWarnings.length; i++) {
+      log.warn(strippedWarnings[i]);
+    }
+    if (useWarningOverlay) overlay.showMessage(_warnings);
 
     if (initial) return initial = false; // eslint-disable-line no-return-assign
     reloadApp();
   },
-  errors(errors) {
+  errors: function errors(_errors) {
     log.error('[WDS] Errors while compiling. Reload prevented.');
-    const strippedErrors = errors.map(error => stripAnsi(error));
+    var strippedErrors = _errors.map(function (error) {
+      return stripAnsi(error);
+    });
     sendMsg('Errors', strippedErrors);
-    for (let i = 0; i < strippedErrors.length; i++) { log.error(strippedErrors[i]); }
-    if (useErrorOverlay) overlay.showMessage(errors);
+    for (var i = 0; i < strippedErrors.length; i++) {
+      log.error(strippedErrors[i]);
+    }
+    if (useErrorOverlay) overlay.showMessage(_errors);
   },
-  error(error) {
-    log.error(error);
+  error: function error(_error) {
+    log.error(_error);
   },
-  close() {
+  close: function close() {
     log.error('[WDS] Disconnected!');
     sendMsg('Close');
   }
 };
 
-let hostname = urlParts.hostname;
-let protocol = urlParts.protocol;
-
+var hostname = urlParts.hostname;
+var protocol = urlParts.protocol;
 
 // check ipv4 and ipv6 `all hostname`
 if (hostname === '0.0.0.0' || hostname === '::') {
@@ -912,18 +922,18 @@ if (hostname && (self.location.protocol === 'https:' || urlParts.hostname === '0
   protocol = self.location.protocol;
 }
 
-const socketUrl = url.format({
-  protocol,
+var socketUrl = url.format({
+  protocol: protocol,
   auth: urlParts.auth,
-  hostname,
+  hostname: hostname,
   port: urlParts.port,
   pathname: urlParts.path == null || urlParts.path === '/' ? '/sockjs-node' : urlParts.path
 });
 
 socket(socketUrl, onSocketMsg);
 
-let isUnloading = false;
-self.addEventListener('beforeunload', () => {
+var isUnloading = false;
+self.addEventListener('beforeunload', function () {
   isUnloading = true;
 });
 
@@ -931,19 +941,19 @@ function reloadApp() {
   if (isUnloading || !hotReload) {
     return;
   }
-  if (hot) {
+  if (_hot) {
     log.info('[WDS] App hot update...');
     // eslint-disable-next-line global-require
-    const hotEmitter = __webpack_require__(28);
+    var hotEmitter = __webpack_require__(28);
     hotEmitter.emit('webpackHotUpdate', currentHash);
     if (typeof self !== 'undefined' && self.window) {
       // broadcast update to window
-      self.postMessage(`webpackHotUpdate${currentHash}`, '*');
+      self.postMessage('webpackHotUpdate' + currentHash, '*');
     }
   } else {
-    let rootWindow = self;
+    var rootWindow = self;
     // use parent window for reload (in case we're in an iframe with no valid src)
-    const intervalId = self.setInterval(() => {
+    var intervalId = self.setInterval(function () {
       if (rootWindow.location.protocol !== 'about:') {
         // reload immediately if protocol is valid
         applyReload(rootWindow, intervalId);
@@ -963,7 +973,6 @@ function reloadApp() {
     rootWindow.location.reload();
   }
 }
-
 /* WEBPACK VAR INJECTION */}.call(exports, "?http://localhost:3001"))
 
 /***/ }),
@@ -2495,9 +2504,11 @@ var objectKeys = Object.keys || function (obj) {
 
 "use strict";
 
-const ansiRegex = __webpack_require__(17);
+var ansiRegex = __webpack_require__(17)();
 
-module.exports = input => typeof input === 'string' ? input.replace(ansiRegex(), '') : input;
+module.exports = function (str) {
+	return typeof str === 'string' ? str.replace(ansiRegex, '') : str;
+};
 
 
 /***/ }),
@@ -2506,14 +2517,8 @@ module.exports = input => typeof input === 'string' ? input.replace(ansiRegex(),
 
 "use strict";
 
-
-module.exports = () => {
-	const pattern = [
-		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))'
-	].join('|');
-
-	return new RegExp(pattern, 'g');
+module.exports = function () {
+	return /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-PRZcf-nqry=><]/g;
 };
 
 
@@ -2784,12 +2789,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 "use strict";
 
 
-const SockJS = __webpack_require__(20);
+var SockJS = __webpack_require__(20);
 
-let retries = 0;
-let sock = null;
+var retries = 0;
+var sock = null;
 
-const socket = function initSocket(url, handlers) {
+var socket = function initSocket(url, handlers) {
   sock = new SockJS(url);
 
   sock.onopen = function onopen() {
@@ -2797,7 +2802,9 @@ const socket = function initSocket(url, handlers) {
   };
 
   sock.onclose = function onclose() {
-    if (retries === 0) { handlers.close(); }
+    if (retries === 0) {
+      handlers.close();
+    }
 
     // Try to reconnect.
     sock = null;
@@ -2807,10 +2814,10 @@ const socket = function initSocket(url, handlers) {
       // Exponentially increase timeout to reconnect.
       // Respectfully copied from the package `got`.
       // eslint-disable-next-line no-mixed-operators, no-restricted-properties
-      const retryInMs = 1000 * Math.pow(2, retries) + Math.random() * 100;
+      var retryInMs = 1000 * Math.pow(2, retries) + Math.random() * 100;
       retries += 1;
 
-      setTimeout(() => {
+      setTimeout(function () {
         socket(url, handlers);
       }, retryInMs);
     }
@@ -2818,13 +2825,14 @@ const socket = function initSocket(url, handlers) {
 
   sock.onmessage = function onmessage(e) {
     // This assumes that all data sent via the websocket is JSON.
-    const msg = JSON.parse(e.data);
-    if (handlers[msg.type]) { handlers[msg.type](msg.data); }
+    var msg = JSON.parse(e.data);
+    if (handlers[msg.type]) {
+      handlers[msg.type](msg.data);
+    }
   };
 };
 
 module.exports = socket;
-
 
 /***/ }),
 /* 20 */
@@ -8576,12 +8584,12 @@ module.exports = function lolcation(loc) {
 // The error overlay is inspired (and mostly copied) from Create React App (https://github.com/facebookincubator/create-react-app)
 // They, in turn, got inspired by webpack-hot-middleware (https://github.com/glenjamin/webpack-hot-middleware).
 
-const ansiHTML = __webpack_require__(22);
-const Entities = __webpack_require__(23).AllHtmlEntities;
+var ansiHTML = __webpack_require__(22);
+var Entities = __webpack_require__(23).AllHtmlEntities;
 
-const entities = new Entities();
+var entities = new Entities();
 
-const colors = {
+var colors = {
   reset: ['transparent', 'transparent'],
   black: '181818',
   red: 'E36049',
@@ -8596,7 +8604,7 @@ const colors = {
 ansiHTML.setColors(colors);
 
 function createOverlayIframe(onIframeLoad) {
-  const iframe = document.createElement('iframe');
+  var iframe = document.createElement('iframe');
   iframe.id = 'webpack-dev-server-client-overlay';
   iframe.src = 'about:blank';
   iframe.style.position = 'fixed';
@@ -8613,7 +8621,7 @@ function createOverlayIframe(onIframeLoad) {
 }
 
 function addOverlayDivTo(iframe) {
-  const div = iframe.contentDocument.createElement('div');
+  var div = iframe.contentDocument.createElement('div');
   div.id = 'webpack-dev-server-client-overlay-div';
   div.style.position = 'fixed';
   div.style.boxSizing = 'border-box';
@@ -8635,9 +8643,9 @@ function addOverlayDivTo(iframe) {
   return div;
 }
 
-let overlayIframe = null;
-let overlayDiv = null;
-let lastOnOverlayDivReady = null;
+var overlayIframe = null;
+var overlayDiv = null;
+var lastOnOverlayDivReady = null;
 
 function ensureOverlayDivExists(onOverlayDivReady) {
   if (overlayDiv) {
@@ -8656,7 +8664,7 @@ function ensureOverlayDivExists(onOverlayDivReady) {
   }
 
   // Create iframe and, when it is ready, a div inside it.
-  overlayIframe = createOverlayIframe(() => {
+  overlayIframe = createOverlayIframe(function () {
     overlayDiv = addOverlayDivTo(overlayIframe);
     // Now we can talk!
     lastOnOverlayDivReady(overlayDiv);
@@ -8669,12 +8677,9 @@ function ensureOverlayDivExists(onOverlayDivReady) {
 }
 
 function showMessageOverlay(message) {
-  ensureOverlayDivExists((div) => {
+  ensureOverlayDivExists(function (div) {
     // Make it look similar to our terminal.
-    div.innerHTML = `<span style="color: #${
-      colors.red
-    }">Failed to compile.</span><br><br>${
-      ansiHTML(entities.encode(message))}`;
+    div.innerHTML = '<span style="color: #' + colors.red + '">Failed to compile.</span><br><br>' + ansiHTML(entities.encode(message));
   });
 }
 
@@ -8700,7 +8705,6 @@ exports.clear = function handleSuccess() {
 exports.showMessage = function handleMessage(messages) {
   showMessageOverlay(messages[0]);
 };
-
 
 /***/ }),
 /* 22 */
@@ -20474,7 +20478,7 @@ module.exports = Vue$3;
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var apply = Function.prototype.apply;
+/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
 
 // DOM APIs, for completeness
 
@@ -20525,9 +20529,17 @@ exports._unrefActive = exports.active = function(item) {
 
 // setimmediate attaches itself to the global object
 __webpack_require__(33);
-exports.setImmediate = setImmediate;
-exports.clearImmediate = clearImmediate;
+// On some exotic environments, it's not clear which object `setimmeidate` was
+// able to install onto.  Search each possibility in the same order as the
+// `setimmediate` library.
+exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
+                       (typeof global !== "undefined" && global.setImmediate) ||
+                       (this && this.setImmediate);
+exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
+                         (typeof global !== "undefined" && global.clearImmediate) ||
+                         (this && this.clearImmediate);
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 33 */
@@ -20731,7 +20743,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7ba5bd90_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04c2046b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(36);
 var disposed = false
 var normalizeComponent = __webpack_require__(3)
 /* script */
@@ -20749,13 +20761,13 @@ var __vue_scopeId__ = null
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_presets_env_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7ba5bd90_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_04c2046b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src/App.vue"
+Component.options.__file = "src\\App.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -20764,9 +20776,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7ba5bd90", Component.options)
+    hotAPI.createRecord("data-v-04c2046b", Component.options)
   } else {
-    hotAPI.reload("data-v-7ba5bd90", Component.options)
+    hotAPI.reload("data-v-04c2046b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -20794,7 +20806,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-8dc7cce2", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-fed36922", esExports)
   }
 }
 
@@ -20821,7 +20833,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7ba5bd90", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-04c2046b", esExports)
   }
 }
 
@@ -20865,7 +20877,7 @@ exports = module.exports = __webpack_require__(39)(false);
 
 
 // module
-exports.push([module.i, "/**\n * @Author: Andree Ray <andreeray>\n * @Date:   2018-01-07T20:31:42+01:00\n * @Email:  andreeray@live.com\n * @Filename: devel-style.css\n * @Last modified by:   andreeray\n * @Last modified time: 2018-01-07T21:34:58+01:00\n */\n\n/* http://meyerweb.com/eric/tools/css/reset/\n    v2.0 | 20110126\n    License: none (public domain)\n */\n\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {\n    margin: 0;\n    padding: 0;\n    border: 0;\n    font-size: 100%;\n    font: inherit;\n    vertical-align: baseline;\n}\n\n/* HTML5 display-role reset for older browsers */\n\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n    display: block;\n}\n\nbody {\n    line-height: 1;\n}\n\nol, ul {\n    list-style: none;\n}\n\nblockquote, q {\n    quotes: none;\n}\n\nblockquote:before, blockquote:after, q:before, q:after {\n    content: '';\n    content: none;\n}\n\ntable {\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n\n/**\n  * @Author: Andree Ray <andreeray>\n  * @Date:   2018-01-07T20:31:42+01:00\n  * @Email:  andreeray@live.com\n  * @Filename: devel-style.css\n * @Last modified by:   andreeray\n * @Last modified time: 2018-01-07T21:34:58+01:00\n  */\n\n/* html & body */\n\nhtml, body {\n    height: 100%;\n}\n\nhtml {\n    box-sizing: border-box;\n}\n\n*, *:before, *:after {\n    box-sizing: inherit;\n}\n\nbody {\n    margin: 0 auto;\n    padding: 0px;\n    font: 10px 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n    /* font-size base 10 */\n    color: white;\n    line-height: 1.2em;\n    -webkit-font-smoothing: antialiased;\n    -moz-font-smoothing: antialiased;\n    font-smoothing: antialiased;\n    font-weight: 300;\n}\n\na {\n    color: white;\n}\n\n/* clearfix */\n\n.group:after {\n    content: \"\";\n    display: table;\n    clear: both;\n}\n\n/* main sections */\n\n#app {\n    height: 100%;\n}\n\n#background {\n    font-size: 1.6rem;\n    /* => 16 px (remember, base = 10) */\n    position: relative;\n    background-color: rgb(0, 119, 204);\n    background-image: linear-gradient(0deg, transparent, transparent 7px, rgba(255, 255, 255, 0.25) 7px), linear-gradient(90deg, transparent, transparent 7px, rgba(255, 255, 255, 0.25) 7px);\n    background-size: 8px 8px;\n    background-position: left top;\n}\n\n/**\n * HTML block-level elements\n * -------------------------\n * A Block-level element occupies the entire space of its\n * parent element, thereby creating a a block.\n *\n * Browsers typically display the element with a newline bothe\n * before and after the element. You can visualize them as a\n * stack of blocks.\n *\n * Note: Block-level elements always starts on an new line and takes\n * up the fyll width available (stretches out to the left and right as fare\n * as it can.\n*/\n\narticle, aside, blockquote, body, br, button, canvas, caption, col, colgroup, dd, div, dl, dt, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr, li, map, object, ol, output, p, pre, progress, section, table, tbody, textarea, tfoot, th, thead, tr, ul, video {\n    background-color: rgba(255, 255, 255, 0.125);\n    outline: rgba(255, 255, 255, 0.5) solid 1px !important;\n    padding: 1%;\n}\n", ""]);
+exports.push([module.i, "/**\n * @Author: Andree Ray <andreeray>\n * @Date:   2018-01-07T20:31:42+01:00\n * @Email:  andreeray@live.com\n * @Filename: devel-style.css\n * @Last modified by:   andreeray\n * @Last modified time: 2018-01-29T19:09:23+01:00\n */\n\n/* http://meyerweb.com/eric/tools/css/reset/\n    v2.0 | 20110126\n    License: none (public domain)\n */\n\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {\n    margin: 0;\n    padding: 0;\n    border: 0;\n    font-size: 100%;\n    font: inherit;\n    vertical-align: baseline;\n}\n\n/* HTML5 display-role reset for older browsers */\n\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n    display: block;\n}\n\nbody {\n    line-height: 1;\n}\n\nol, ul {\n    list-style: none;\n}\n\nblockquote, q {\n    quotes: none;\n}\n\nblockquote:before, blockquote:after, q:before, q:after {\n    content: '';\n    content: none;\n}\n\ntable {\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n\n/**\n  * @Author: Andree Ray <andreeray>\n  * @Date:   2018-01-07T20:31:42+01:00\n  * @Email:  andreeray@live.com\n  * @Filename: devel-style.css\n * @Last modified by:   andreeray\n * @Last modified time: 2018-01-29T19:09:23+01:00\n  */\n\n/* html & body */\n\nhtml, body {\n    height: 100%;\n}\n\nhtml {\n    box-sizing: border-box;\n}\n\n*, *:before, *:after {\n    box-sizing: inherit;\n}\n\nbody {\n    margin: 0;\n    padding: 0px !important;\n    font: 10px 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n    /* font-size base 10 */\n    color: white;\n    line-height: 1.2em;\n    -webkit-font-smoothing: antialiased;\n    -moz-font-smoothing: antialiased;\n    font-smoothing: antialiased;\n    font-weight: 300;\n}\n\na {\n    color: white;\n}\n\n/* clearfix */\n\n.group:after {\n    content: \"\";\n    display: table;\n    clear: both;\n}\n\n/* main sections */\n\n#background {\n    font-size: 1.6rem;\n    /* => 16 px (remember, base = 10) */\n    position: relative;\n    background-color: rgb(0, 119, 204);\n}\n/* tables */\ntable { width: 100%; }\ntd { text-align: center; }\n\n/* inputs */\ninput {\n    background: transparent;\n    border: none;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.5);\n    width: 100%;\n    font-size: 100%;\n    color: white;\n}\n\n::-webkit-input-placeholder { /* WebKit, Blink, Edge */\n    color: rgba(255, 255, 255, 0.5);\n}\n:-moz-placeholder { /* Mozilla Firefox 4 to 18 */\n    color: rgba(255, 255, 255, 0.5);\n    opacity:  1;\n}\n::-moz-placeholder { /* Mozilla Firefox 19+ */\n    color: rgba(255, 255, 255, 0.5);\n    opacity:  1;\n}\n:-ms-input-placeholder { /* Internet Explorer 10-11 */\n    color: rgba(255, 255, 255, 0.5);\n}\n::-ms-input-placeholder { /* Microsoft Edge */\n    color: rgba(255, 255, 255, 0.5);\n}\n\n::placeholder { /* Most modern browsers support this now. */\n    color: rgba(255, 255, 255, 0.5);\n}\ntextarea:focus, input:focus{\n    outline: none;\n}\n\n/* textar */\ntextarea {\n    width: 100%;\n    height: 100%;\n    border: none;\n    font-size: 100%;\n    color: white;\n}\n\n/* buttons */\nbutton {\n    font-size: 100%;\n    color: white;\n}\n\n/**\n * HTML block-level elements\n * -------------------------\n * A Block-level element occupies the entire space of its\n * parent element, thereby creating a a block.\n *\n * Browsers typically display the element with a newline bothe\n * before and after the element. You can visualize them as a\n * stack of blocks.\n *\n * Note: Block-level elements always starts on an new line and takes\n * up the fyll width available (stretches out to the left and right as fare\n * as it can.\n*/\n\narticle, aside, blockquote, body, br, button, canvas, caption, col, colgroup, dd, div, dl, dt, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr, li, map, object, ol, output, p, pre, progress, section, table, tbody, textarea, tfoot, th, thead, tr, ul, video {\n    background-color: rgba(255, 255, 255, 0.125);\n    padding: 0.7%;\n    outline: 1px solid rgba(255,255,255,0.5);\n}\n", ""]);
 
 // exports
 
@@ -24059,7 +24071,7 @@ if (inBrowser && window.Vue) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _Home = __webpack_require__(5);
@@ -24069,9 +24081,9 @@ var _Home2 = _interopRequireDefault(_Home);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = [{
-    path: '/',
-    component: _Home2.default,
-    name: 'home'
+  path: '/',
+  component: _Home2.default,
+  name: 'home'
 }]; /**
      * @Author: Andree Ray <andreeray>
      * @Date:   2018-01-18T21:21:50+01:00
