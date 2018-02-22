@@ -2230,9 +2230,9 @@ Url.prototype.parseHost = function() {
 	if (
 		true
 	) {
-		!(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+		!(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
 			return punycode;
-		}).call(exports, __webpack_require__, exports, module),
+		}.call(exports, __webpack_require__, exports, module),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else if (freeExports && freeModule) {
 		if (module.exports == freeExports) {
@@ -9629,6 +9629,10 @@ var _routes = __webpack_require__(43);
 
 var _routes2 = _interopRequireDefault(_routes);
 
+var _plugin = __webpack_require__(44);
+
+var _plugin2 = _interopRequireDefault(_plugin);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -9644,15 +9648,19 @@ _vue2.default.use(_vueRouter2.default);
 
 var router = new _vueRouter2.default({ routes: _routes2.default });
 
+_vue2.default.use(_plugin2.default);
+
 new _vue2.default({
-    el: '#app',
-    data: {
-        msg: 'Upp & Running With Vue'
-    },
-    components: {
-        App: _App2.default
-    },
-    router: router
+  el: '#app',
+  data: function data() {
+    var data = { msg: 'Up and running with Vue' };
+    return data;
+  },
+  render: function render(h) {
+    return h(_App2.default, { props: this.$data });
+  },
+
+  router: router
 });
 
 /***/ }),
@@ -20478,7 +20486,7 @@ module.exports = Vue$3;
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
+var apply = Function.prototype.apply;
 
 // DOM APIs, for completeness
 
@@ -20529,17 +20537,9 @@ exports._unrefActive = exports.active = function(item) {
 
 // setimmediate attaches itself to the global object
 __webpack_require__(33);
-// On some exotic environments, it's not clear which object `setimmeidate` was
-// able to install onto.  Search each possibility in the same order as the
-// `setimmediate` library.
-exports.setImmediate = (typeof self !== "undefined" && self.setImmediate) ||
-                       (typeof global !== "undefined" && global.setImmediate) ||
-                       (this && this.setImmediate);
-exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
-                         (typeof global !== "undefined" && global.clearImmediate) ||
-                         (this && this.clearImmediate);
+exports.setImmediate = setImmediate;
+exports.clearImmediate = clearImmediate;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 33 */
@@ -24092,6 +24092,33 @@ exports.default = [{
      * @Last modified by:   andreeray
      * @Last modified time: 2018-01-18T21:26:42+01:00
      */
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+// Detta är ditt plugin objekt. det kan exporteras för att användas vartsom
+var Plugin = {
+    // install metoden är allt som behöver existera på plugin-objektet.
+    // Det tar det globala Vue-objektet såväl som användardefinierade alternativ.
+    install: function install(Vue, options) {
+        // Vi kallar Vue.mixin () här för att injicera funktionalitet i alla komponenter.
+        Vue.mixin({
+            // Allt som läggs till en mixin injiceras i alla komponenter.
+            // I det här fallet körs mounted() metoden när komponenten läggs till DOM.
+            mounted: function mounted() {
+                console.log('Mounted!');
+            }
+        });
+    }
+};
+exports.default = Plugin;
 
 /***/ })
 /******/ ]);

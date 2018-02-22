@@ -16,14 +16,17 @@ Vue.use(VueRouter)
 import routes from './utils/routes'
 const router = new VueRouter({ routes })
 
+import Plugin from './plugin.js'
+Vue.use(Plugin)
 
 new Vue({
     el: '#app',
-    data: {
-        msg: 'Upp & Running With Vue'
-    },
-    components: {
-        App
-    },
+    data () {
+     let data = {msg: 'Up and running with Vue'}
+     return data
+   },
+   render (h) {
+     return h(App, { props: this.$data })
+   },
     router
 })
