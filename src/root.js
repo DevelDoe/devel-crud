@@ -16,7 +16,7 @@ Vue.use(VueRouter)
 import routes from './utils/routes'
 const router = new VueRouter({ routes })
 
-import MixinPlugin from './mixin-plugin.js'
+import MixinPlugin from './plugins/mixin-plugin.js'
 Vue.use(MixinPlugin)
 
 new Vue({

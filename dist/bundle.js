@@ -9629,9 +9629,9 @@ var _routes = __webpack_require__(43);
 
 var _routes2 = _interopRequireDefault(_routes);
 
-var _plugin = __webpack_require__(44);
+var _mixinPlugin = __webpack_require__(44);
 
-var _plugin2 = _interopRequireDefault(_plugin);
+var _mixinPlugin2 = _interopRequireDefault(_mixinPlugin);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9648,7 +9648,7 @@ _vue2.default.use(_vueRouter2.default);
 
 var router = new _vueRouter2.default({ routes: _routes2.default });
 
-_vue2.default.use(_plugin2.default);
+_vue2.default.use(_mixinPlugin2.default);
 
 new _vue2.default({
   el: '#app',
@@ -24113,7 +24113,7 @@ var Plugin = {
             // Allt som läggs till en mixin injiceras i alla komponenter.
             // I det här fallet körs mounted() metoden när komponenten läggs till DOM.
             mounted: function mounted() {
-                console.log('Mounted!');
+                console.log('Mixin Plugin');
             }
         });
     }

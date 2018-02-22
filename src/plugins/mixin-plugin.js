@@ -8,7 +8,7 @@ const Plugin = {
             // Allt som läggs till en mixin injiceras i alla komponenter.
             // I det här fallet körs mounted() metoden när komponenten läggs till DOM.
             mounted() {
-                console.log('Mounted!')
+                console.log('Mixin Plugin')
             }
         })
     }
