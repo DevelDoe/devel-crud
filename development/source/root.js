@@ -9,16 +9,12 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import '../node_modules/devel-style/devel-style.scss'
 import './assets/css/app.scss'
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 import routes from './utils/routes'
 const router = new VueRouter({ routes })
-
-import MixinPlugin from './plugins/mixin-plugin.js'
-Vue.use(MixinPlugin)
 
 import { store } from './store/store'
 

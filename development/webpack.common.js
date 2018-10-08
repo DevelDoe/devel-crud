@@ -8,10 +8,9 @@
  * @License: MIT
  */
 
-
+const webpack = require('webpack')
 const path = require('path')
 const WriteFilePlugin = require('write-file-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const token = process.env.TOKEN || false
 
@@ -21,15 +20,33 @@ module.exports = {
     },
     plugins: [
         new WriteFilePlugin(),
-        new CleanWebpackPlugin(['../distribution']),
         new HtmlWebpackPlugin({
-            title: 'wimse admin',
+            title: 'DevelVue',
             template: 'index.html'
-        })
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            Tether: 'tether',
+            'window.Tether': 'tether',
+            Popper: ['popper.js', 'default'],
+            Alert: 'exports-loader?Alert!bootstrap/js/dist/alert',
+            Button: 'exports-loader?Button!bootstrap/js/dist/button',
+            Carousel: 'exports-loader?Carousel!bootstrap/js/dist/carousel',
+            Collapse: 'exports-loader?Collapse!bootstrap/js/dist/collapse',
+            Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown',
+            Modal: 'exports-loader?Modal!bootstrap/js/dist/modal',
+            Popover: 'exports-loader?Popover!bootstrap/js/dist/popover',
+            Scrollspy: 'exports-loader?Scrollspy!bootstrap/js/dist/scrollspy',
+            Tab: 'exports-loader?Tab!bootstrap/js/dist/tab',
+            Tooltip: 'exports-loader?Tooltip!bootstrap/js/dist/tooltip',
+            Util: 'exports-loader?Util!bootstrap/js/dist/util',
+        }),
     ],
     output: {
         filename: '[name].bundle.js',
-        path: token ? path.resolve(__dirname, '../../server/app') : path.resolve(__dirname, '../distribution'),
+        path: token ? path.resolve(__dirname, '../dist') : path.resolve(__dirname, '../devbuild'),
     },
     module: {
         rules: [
@@ -49,10 +66,6 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
-            },
-            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
@@ -67,15 +80,9 @@ module.exports = {
                 }
             },
             {
-                test: /\.scss$/,
-                use: [{
-                    loader: "style-loader" // creates style nodes from JS strings
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                }, {
-                    loader: "sass-loader" // compiles Sass to CSS
-                }]
-            }
+                test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+                use: 'file-loader',
+            },
         ]
     },
     resolve: {
