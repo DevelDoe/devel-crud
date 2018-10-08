@@ -9,7 +9,15 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import './assets/css/app.scss'
+
+const appName = "DevelStrap VueJS"
+
+import 'bootstrap'
+// Alternatively, you may import plugins individually as needed:
+// import 'bootstrap/js/dist/util';
+// import 'bootstrap/js/dist/dropdown';
+
+import './assets/scss/app.scss'
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -22,7 +30,7 @@ new Vue({
     el: '#app',
     store: store,
     data () {
-     let data = { msg: 'Up and running with Vue' }
+     let data = { msg: appName }
      return data
    },
    render (h) {

@@ -11,18 +11,21 @@
 
  const webpack = require('webpack')
  const path = require('path')
- const CleanWebpackPlugin = require('clean-webpack-plugin')
  const merge = require('webpack-merge')
  const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
     mode: 'development',
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'build'),
+    },
     devtool: 'inlinesourcemap',
     devServer: {
-        contentBase: path.join(__dirname, "../devbuild"),
+        contentBase: path.join(__dirname, "build"),
         compress: false,
         inline: true,
-        port: 3000
+        port: 8080
     },
     module: {
         rules: [
@@ -32,16 +35,35 @@ module.exports = merge(common, {
             },
             {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
-            },
-            {
-                test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                use: 'url-loader?limit=10000',
+                use: [
+                    {
+                        // Adds CSS to the DOM by injecting a `<style>` tag
+                        loader: 'style-loader'
+                    },
+                    {
+                        // Interprets `@import` and `url()` like `import/require()` and will resolve them
+                        loader: 'css-loader'
+                    },
+                    {
+                        // Loader for webpack to process CSS with PostCSS
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function () {
+                                return [
+                                    require('autoprefixer')
+                                ];
+                            }
+                        }
+                    },
+                    {
+                        // Loads a SASS/SCSS file and compiles it to CSS
+                        loader: 'sass-loader'
+                    }
+                ]
             }
         ],
     },
     plugins: [
-        new CleanWebpackPlugin(['../devbuild']),
         new webpack.HotModuleReplacementPlugin(),
     ],
 })

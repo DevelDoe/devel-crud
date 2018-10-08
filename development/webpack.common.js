@@ -12,13 +12,19 @@ const webpack = require('webpack')
 const path = require('path')
 const WriteFilePlugin = require('write-file-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const token = process.env.TOKEN || false
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
     entry: {
         app: './source/root.js',
     },
     plugins: [
+        new CleanWebpackPlugin('build',  {
+          root:     path.resolve(__dirname),
+          exclude:  [''],
+          verbose:  true,
+          dry:      false
+        }),
         new WriteFilePlugin(),
         new HtmlWebpackPlugin({
             title: 'DevelVue',
@@ -44,10 +50,6 @@ module.exports = {
             Util: 'exports-loader?Util!bootstrap/js/dist/util',
         }),
     ],
-    output: {
-        filename: '[name].bundle.js',
-        path: token ? path.resolve(__dirname, '../dist') : path.resolve(__dirname, '../devbuild'),
-    },
     module: {
         rules: [
             {
@@ -80,9 +82,19 @@ module.exports = {
                 }
             },
             {
-                test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-                use: 'file-loader',
+                test: /\.(png|jpg|gif)$/, loader: 'file-loader?name=./img/[name].[ext]'
             },
+            {
+                test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/',    // where the fonts will go
+                        publicPath: 'fonts/'       // override the default path
+                    }
+                }]
+            }
         ]
     },
     resolve: {

@@ -18,7 +18,7 @@ needs for a complete Vue web app solution.
 
 `npm run dist`
 
-## Release log
+## Release Log
 
 * 1.0 skeleton
 * 1.1 Vue Router
@@ -26,7 +26,7 @@ needs for a complete Vue web app solution.
 
 ## Backlog
 
-* Bootstrap
-* Authentication
+* Authentication & Authorization
+* File Loader
 
 ---
