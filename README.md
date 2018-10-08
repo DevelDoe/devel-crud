@@ -6,15 +6,15 @@ needs for a complete Vue web app solution.
 
 ## Install
 
-Clone this repository
+`npm install`
 
-`npm install` to install your npm modules
+## Build
 
-### development
+### Development
 
 `npm run dev`
 
-### production
+### Production
 
 `npm run dist`
 
@@ -24,7 +24,7 @@ Clone this repository
 * 1.1 Vue Router
 * 1.2 VueX
 
-# Backlog
+## Backlog
 
 * Bootstrap
 * Authentication
