@@ -17,7 +17,7 @@ import 'bootstrap'
 // import 'bootstrap/js/dist/util';
 // import 'bootstrap/js/dist/dropdown';
 
-import './assets/scss/app.scss'
+import './assets/scss/root.scss'
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -30,7 +30,7 @@ new Vue({
     el: '#app',
     store: store,
     data () {
-     let data = { msg: appName }
+     let data = { appName: appName }
      return data
    },
    render (h) {

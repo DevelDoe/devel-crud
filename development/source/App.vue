@@ -10,28 +10,28 @@
 <template>
 <div id="app">
 
-    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top" id="home">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"> DevelStrap VueJS </a>
+            <a class="navbar-brand" href="#"> {{ appName }} </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li v-on:click="setActiveNavItem('home')" :class="{ 'nav-item': true, active: isActiveNavItem('home') }">
-                        <a class="nav-link" href="#">Home </a>
+                        <a class="nav-link" href="#">home </a>
                     </li>
-                    <li v-on:click="setActiveNavItem('about')" :class="{ 'nav-item': true, active: isActiveNavItem('about') }">
-                        <a class="nav-link" href="#">About </a>
+                    <li v-on:click="setActiveNavItem('stack')" :class="{ 'nav-item': true, active: isActiveNavItem('stack') }">
+                        <a class="nav-link" href="#stack">stack </a>
                     </li>
-                    <li v-on:click="setActiveNavItem('services')" :class="{ 'nav-item': true, active: isActiveNavItem('services'), }">
-                        <a class="nav-link" href="#">Services </a>
+                    <li v-on:click="setActiveNavItem('about')" :class="{ 'nav-item': true, active: isActiveNavItem('about'), }">
+                        <a class="nav-link" href="#about">about </a>
                     </li>
-                    <li v-on:click="setActiveNavItem('team')" :class="{ 'nav-item': true, active: isActiveNavItem('team') }">
-                        <a class="nav-link" href="#">Team </a>
+                    <li v-on:click="setActiveNavItem('code')" :class="{ 'nav-item': true, active: isActiveNavItem('code') }">
+                        <a class="nav-link" href="#code">code </a>
                     </li>
                     <li v-on:click="setActiveNavItem('connect')" :class="{ 'nav-item': true, active: isActiveNavItem('connect') }">
-                        <a class="nav-link" href="#">Connect </a>
+                        <a class="nav-link" href="#connect">connect </a>
                     </li>
                 </ul>
             </div>
@@ -48,9 +48,8 @@
             <div class="carousel-item active">
                 <img src="./assets/img/background.png" >
                 <div class="carousel-caption">
-                    <h1 class="display-2">DevelStrap VueJS</h1>
+                    <h1 class="display-2">DevelStrap</h1>
                     <h3>starting point for your VueJS projects.</h3>
-                    <button type="button" class="btn btn-outline-light btn-lg">VIEW DEMO</button>
                     <button type="button" class="btn btn-primary btn-lg">Get Started</button>
                 </div>
             </div>
@@ -74,7 +73,7 @@
         </div>
     </div>
 
-    <div class="container-fluid padded">
+    <div class="container-fluid padded" id="stack">
         <div class="row welcome text-center">
             <div class="col-12">
                 <h1 class="display-4">Built with ease.</h1>
@@ -85,6 +84,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="container-fluid padding">
         <div class="row text-center padding">
@@ -114,33 +114,175 @@
                 <p>The most popular HTML, CSS, and JS library in the world.</p>
             </div>
         </div>
+    </div>
+
+    <!-- Fixed Background -->
+    <figure>
+        <div class="fixed-wrap">
+            <div id="fixed"></div>
+        </div>
+    </figure>
+
+
+
+
+    <!-- Me Myself And I -->
+    <div class="container-fluid" id="about">
+        <div class="row welcome text-center">
+            <div class="col-12">
+                <h1 class="display-4">Me Myself and I</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid padding">
+        <div class="row padding">
+            <div class="col-md-4">
+                <div class="card" style="border:none;">
+                    <img class="card-img-top" src="https://www.w3.org/html/logo/downloads/HTML5_Badge_256.png" alt="" >
+                    <div class="card-body">
+                        <h4 class="card-title">Structure</h4>
+                        <p>Proper HTML5 structuring and scemantics to indicate clearly what role is played by the content those tags contain. HTML tags are (mostly) used to format content,these tags tell the browser how to display the content on the page.</p>
+                        <a href="https://www.semrush.com/blog/semantic-html5-guide/" class="btn btn-outline-secondary">More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="border:none;">
+                    <img class="card-img-top" src="https://marketing.dcassetcdn.com/blog/2016/January/2016-web-design-trends/CSS3Logo_300.png" alt="" >
+                    <div class="card-body">
+                        <h4 class="card-title">Presentation</h4>
+                        <p>Mobile first, responsive design for a rich understanding of what users are looking for and the right way to deliver it for the best user experience. </p>
+                        <a href="https://alistapart.com/article/responsive-web-design/" class="btn btn-outline-secondary">More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="border:none;">
+                    <img class="card-img-top" src="https://www.pixelperfect.co.za/wp-content/uploads/2018/07/JS.png" alt="" >
+                    <div class="card-body">
+                        <h4 class="card-title">Behavior</h4>
+                        <p>Using Javascript to code front-end has come a long way from just validation and jQuery hooks to create dynamic web pages. Today the complex single page applications rely heavely on frameworks such as VueJS, React and Angular.  </p>
+                        <a href="https://www.semrush.com/blog/semantic-html5-guide/" class="btn btn-outline-secondary">More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <hr class="my-4">
     </div>
 
-    <hr class="my-4">
-    <h3>Install</h3>
-    <code>npm install</code>
-    <hr class="my-4">
+    <!-- Two Column Section -->
+    <div class="container-fluid" id="code">
+        <div class="row padding">
+            <div class="col-md-12 col-lg-6">
+                <h2>Get Started...</h2>
+                <h4>Clone</h4>
+                <code>git clone git@github.com:DevelDoe/devel-vue.git</code>
+                <h4>Install</h4>
+                <code>npm install</code>
+                <h4>Build</h4>
+                <code>npm run dev</code>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://media.wired.com/photos/5b36a5b6e237e87ce9592b8e/191:100/pass/Github-Microsoft-BIZ-FINAL.jpg" alt="github" class="img-fluid">
+            </div>
+        </div>
+    </div>
 
-    <h3>Build</h3>
-    <code>npm run dev</code><br/>
-    <code>npm run dist</code>
-    <hr class="my-4">
+    <!-- Social -->
+    <div class="container-fluid padding" id="connect">
+        <div class="row text-center padding">
+            <div class="col-12">
+                <h2>Connect</h2>
+            </div>
+            <div class="col-12 social padding">
+                <a href="https://www.facebook.com/develdoe"><i class="fa fa-facebook"></i></a>
+                <a href="https://www.github.com/develdoe"><i class="fa fa-github"></i></a>
+                <a href="https://www.instagram.com/develdoe"><i class="fa fa-instagram"></i></a>
+                <a href="http://andreeray.se"><i class="fa fa-home"></i></a>
+            </div>
+        </div>
+    </div>
 
-    <h3>Release Log</h3>
-    <ul>
-        <li>1.0 skeleton</li>
-        <li>1.1 Vue Router</li>
-        <li>1.2 VueX</li>
-        <li>1.3 Bootstrap</li>
-    </ul>
-    <hr class="my-4">
 
-    <h3>Backlog</h3>
-    <ul>
-        <li>Authentication & Authorization</li>
-        <li>File Uploader</li>
-    </ul> -->
+
+    <footer>
+        <div class="container-fluid padding">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Release Log</h3>
+                    <div class="list-group">
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Vue</h5>
+                                <small>V1.0</small>
+                            </div>
+                            <p class="mb-1">Basic Vue skeleton.</p>
+                        </div>
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Resources</h5>
+                                <small>V1.1</small>
+                            </div>
+                            <p class="mb-1">Application Protocal Interface</p>
+                        </div>
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Router</h5>
+                                <small>V1.2</small>
+                            </div>
+                            <p class="mb-1">Application Routing</p>
+                        </div>
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Store</h5>
+                                <small>V1.3</small>
+                            </div>
+                            <p class="mb-1">Centralized store.</p>
+                        </div>
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Bootstrap</h5>
+                                <small>V1.4</small>
+                            </div>
+                            <p class="mb-1">Basic Skeleton of a vue application.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3>Back Log</h3>
+                    <div class="list-group">
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Authentication & Authorization</h5>
+                                <small>V1.5</small>
+                            </div>
+                            <p class="mb-1">User signup, roles and permissions.</p>
+                        </div>
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Administration</h5>
+                                <small>V1.6</small>
+                            </div>
+                            <p class="mb-1">Administration section interface</p>
+                        </div>
+                        <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">File Transfer</h5>
+                                <small>V1.7</small>
+                            </div>
+                            <p class="mb-1">Rich transfer user experience of files such as images.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <hr class="light">
+                    <h5>made by DevelDoe</h5>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 
     <keep-alive>
         <!-- <router-view v-bind:msg="msg"></router-view> -->
@@ -154,7 +296,7 @@ import Home from './components/Home.vue'
 
 export default {
     name: 'app',
-    props: ['msg'],
+    props: [ 'appName' ],
     data() {
         return {
             activeNavItem: 'home',
