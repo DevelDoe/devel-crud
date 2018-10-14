@@ -20,12 +20,23 @@ needs for a complete Vue web app solution.
 
 #### Release Log
 
-* 1.0 Vue Skeleton
-* 1.1 Vue Resources
-* 1.2 Vue Router
-* 1.3 VueX Store
-* 1.4 Bootstrap
-* 1.5 Administration Interface
-* 1.6 Charts
+* 1.0 Vue Skeleton - Basic Vue skeleton.
+* 1.1 Vue Resources - Application Protocol Interface.
+* 1.2 Vue Router - Application Routing.
+* 1.3 VueX Store - Centralized store.
+* 1.4 Bootstrap - Bootstrap integration
+* 1.5 Administration - Administration interface
+* 1.6 Charts - Add chartJS module.
+
+#### backlog
+
+* 2.1 API - Backend API and database integration.
+* 2.1.2 Todo - Simple todo list for admin.
+* 2.2 Validation - Application metadata and validation logic.
+* 2.4 Authentication & Authorization - User signup, roles and permissions.
+* 2.5 Blog - Blogging feature.
+* 2.6 Search - Dynamic user search feature.
+* 2.7 Chat - Messaging system.
+* 2.8 File Transfer - Rich transfer user experience.
 
 ---
