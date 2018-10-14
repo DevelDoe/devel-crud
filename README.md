@@ -18,7 +18,7 @@ needs for a complete Vue web app solution.
 
 `npm run dist`
 
-## Release Log
+#### Release Log
 
 * 1.0 Vue Skeleton
 * 1.1 Vue Resources
