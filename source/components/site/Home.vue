@@ -318,6 +318,13 @@
                             </div>
                             <div  class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Toaster</h5>
+                                    <small>V2.1.3</small>
+                                </div>
+                                <p class="mb-1">Notification system.</p>
+                            </div>
+                            <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">Validation</h5>
                                     <small>V2.2</small>
                                 </div>

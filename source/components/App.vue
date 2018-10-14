@@ -29,6 +29,9 @@
                     <li :class="{ 'nav-item': true, active: isActiveNavItem('dashboard') }">
                         <a href="/#/admin/dashboard" @click="$store.dispatch( 'setLocation', 'dashboard' )"> Overview </a>
                     </li>
+                    <li :class="{ 'nav-item': true, active: isActiveNavItem('todo') }">
+                        <a href="/#/admin/todo" @click="$store.dispatch( 'setLocation', 'todo' )"> Todo </a>
+                    </li>
 
                     <li class="nav-caption">Resources</li>
                     <li class="nav-item"> <a href="https://github.com/develdoe">GitHub</a> </li>

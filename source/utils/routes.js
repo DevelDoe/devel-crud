@@ -9,6 +9,7 @@
 
 import Home         from '../components/site/Home.vue'
 import Dashboard    from '../components/admin/Dashboard.vue'
+import Todo    from '../components/admin/Todo.vue'
 
 import store from '../store/store'
 
@@ -34,6 +35,12 @@ export default [{
         path: '/admin/dashboard',
         component: Dashboard,
         name: 'dashboard',
+        beforeEnter: authenticate
+    },
+    {
+        path: '/admin/todo',
+        component: Todo,
+        name: 'todo',
         beforeEnter: authenticate
     }
 ]

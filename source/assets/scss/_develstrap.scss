@@ -44,6 +44,10 @@ button {
             font-weight: 200;
         }
     }
+    input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: #666;
+        opacity: 1; /* Firefox */
+    }
 }
 .content {
     transition: margin .3s;
