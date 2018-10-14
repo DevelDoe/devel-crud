@@ -20,13 +20,12 @@ needs for a complete Vue web app solution.
 
 ## Release Log
 
-* 1.0 skeleton
-* 1.1 Vue Router
-* 1.2 VueX
-
-## Backlog
-
-* Authentication & Authorization
-* File Loader
+* 1.0 Vue Skeleton
+* 1.1 Vue Resources
+* 1.2 Vue Router
+* 1.3 VueX Store
+* 1.4 Bootstrap
+* 1.5 Administration Interface
+* 1.6 Charts
 
 ---
