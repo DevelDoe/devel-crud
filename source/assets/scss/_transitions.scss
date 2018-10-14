@@ -1,0 +1,18 @@
+.drawer-enter-active, .drawer-leave-active {
+  transition: margin .3s;
+}
+.drawer-enter, .drawer-leave-to /* .drawer-leave-active below version 2.1.8 */ {
+  margin-left: -200px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
