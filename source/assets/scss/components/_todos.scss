@@ -57,6 +57,12 @@
                     display: none;
                 }
             }
+            .completed {
+                label {
+                    text-decoration: line-through;
+                    color: #777;
+                }
+            }
             .editing {
                 .view {
                     display: none;

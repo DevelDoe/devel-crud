@@ -15,14 +15,17 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="paper">
-                        <h3>Products</h3>
-                        <p>Proper HTML5 structuring and scemantics to indicate clearly what role is played by the content those tags contain. HTML tags are (mostly) used to format content,these tags tell the browser how to display the content on the page.</p>
-                        <button type="button" class="btn btn-primary">ADD</button>
+                        <h3>Todo</h3>
+                        <ul class="todo-list">
+                            <li v-for="(todo, index) in filterTodos" class="todo" :key=" 'todo' + index"  >
+                                {{ todo.title }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="paper">
-                        <h3>TODO</h3>
+                        <h3>Countries</h3>
                         <p>Proper HTML5 structuring and scemantics to indicate clearly what role is played by the content those tags contain. HTML tags are (mostly) used to format content,these tags tell the browser how to display the content on the page.</p>
                     </div>
                 </div>
@@ -32,8 +35,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: 'dashboard',
+    computed: {
+        ...mapGetters([ 'todos' ]),
+        filterTodos() {
+            return this.todos.filter( todo => { return todo.completed === false  })
+        }
+    },
     mounted() {
         var chart = new Chart(this.$refs.orderHistoryCanvas, {
             type: 'line',

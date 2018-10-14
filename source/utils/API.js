@@ -87,6 +87,7 @@ const API = {
         const coll = args.shift() || null
         const obj  = args.shift() || null
 
+
         fetch(`${url}/${coll}s/${obj._id}`, {
                 method: "PUT", // *GET, POST, PUT, DELETE, etc.
                 mode: "cors", // no-cors, cors, *same-origin

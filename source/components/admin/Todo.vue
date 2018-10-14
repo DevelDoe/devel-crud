@@ -17,7 +17,7 @@
                             <ul class="todo-list">
                                 <li v-for="(todo, index) in filteredTodos" class="todo" :key=" 'todo' + index" :class="{ completed: todo.completed, editing: todo == editedTodo }" >
                                     <div class="view">
-                                        <input class="toggle" type="checkbox" v-model="todo.completed">
+                                        <input class="toggle" type="checkbox" v-model="todo.completed" @click="todo.completed = !todo.completed, $api.update( 'todo', todo )">
                                         <label @dblclick="editTodo(todo)"> {{ todo.title }} </label>
                                         <i class="fa fa-times" aria-hidden="true" @click="removeTodo(todo._id)"></i>
                                     </div>
@@ -68,6 +68,14 @@ export default {
             newTodo: '',
             editedTodo: null,
             visibility: 'active'
+        }
+    },
+    watch: {
+        todos: {
+            handler: function( todos ) {
+                console.log('update')
+            },
+            deep: true
         }
     },
     computed: {

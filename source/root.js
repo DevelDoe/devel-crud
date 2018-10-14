@@ -30,13 +30,16 @@ if( process.env.NODE_ENV === 'production' ) Vue.http.options.root = 'http://35.2
 
 
 import store from './store/store'
+
+
 import chart from 'chart.js'
 
 
-import App from './components/App.vue'
-
 import api from './utils/API'
 Object.defineProperty(Vue.prototype, '$api', { get() { return this.$root.api } } )
+
+
+import App from './components/App.vue'
 
 new Vue({
     el: '#app',
