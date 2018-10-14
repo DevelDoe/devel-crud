@@ -311,29 +311,50 @@
                             </div>
                             <div  class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">Authentication & Authorization</h5>
+                                    <h5 class="mb-1">Todo</h5>
+                                    <small>V2.1.2</small>
+                                </div>
+                                <p class="mb-1">Simple todo list for admin.</p>
+                            </div>
+                            <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Validation</h5>
                                     <small>V2.2</small>
+                                </div>
+                                <p class="mb-1">Application metadata and validation logic.</p>
+                            </div>
+                            <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Authentication & Authorization</h5>
+                                    <small>V2.3</small>
                                 </div>
                                 <p class="mb-1">User signup, roles and permissions.</p>
                             </div>
                             <div  class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">Blog</h5>
-                                    <small>V2.3</small>
+                                    <small>V2.4</small>
                                 </div>
                                 <p class="mb-1">Blogging Feature.</p>
                             </div>
                             <div  class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Search</h5>
+                                    <small>V2.5</small>
+                                </div>
+                                <p class="mb-1">Dynamic user search feature.</p>
+                            </div>
+                            <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">Chat</h5>
-                                    <small>V2.4</small>
+                                    <small>V2.6</small>
                                 </div>
                                 <p class="mb-1">Modern messaging feature.</p>
                             </div>
                             <div  class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">File Transfer</h5>
-                                    <small>V2.5</small>
+                                    <small>V2.7</small>
                                 </div>
                                 <p class="mb-1">Rich transfer user experience.</p>
                             </div>
