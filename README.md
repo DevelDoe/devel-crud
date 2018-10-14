@@ -18,7 +18,7 @@ needs for a complete Vue web app solution.
 
 `npm run dist`
 
-#### Release Log
+#### Master Branch v1
 
 * 1.0 Vue Skeleton - Basic Vue skeleton.
 * 1.1 Vue Resources - Application Protocol Interface.
@@ -28,7 +28,7 @@ needs for a complete Vue web app solution.
 * 1.5 Administration - Administration interface
 * 1.6 Charts - Add chartJS module.
 
-#### backlog
+#### FullStack Branch v2
 
 * 2.1 API - Backend API and database integration.
 * 2.1.2 Todo - Simple todo list for admin.
