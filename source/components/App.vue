@@ -16,7 +16,7 @@
         <div :class="{ 'drawer': token }" v-if="token">
             <nav class="navbar  navbar-dark bg-light sticky-top" id="home">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#"> Admin</a>
+                    <a class="navbar-brand" href="#"> Admins</a>
                     <i class="fa fa-sign-out" aria-hidden="true" @click="$store.dispatch('delToken'), $router.push('/')" title="logout"></i>
                 </div>
             </nav>
