@@ -15,11 +15,11 @@
                         <section class="main" v-show="todos.length" v-cloak>
                             <input class="toggle-all" type="checkbox" v-model="allDone">
                             <ul class="todo-list">
-                                <li v-for="(todo, index) in filteredTodos" class="todo" :key=" 'todo' + index" :class="{ completed: todo.completed, editing: todo == editedTodo }" >
+                                <li v-for="(todo, i) in filteredTodos" class="todo" :key=" 'todo' + i" :class="{ completed: todo.completed, editing: todo === editedTodo }" >
                                     <div class="view">
                                         <input class="toggle" type="checkbox" v-model="todo.completed" @click="todo.completed = !todo.completed, $api.update( 'todo', todo )">
                                         <label @dblclick="editTodo(todo)"> {{ todo.title }} </label>
-                                        <i class="fa fa-times" aria-hidden="true" @click="removeTodo(todo._id)"></i>
+                                        <i class="fa fa-times" aria-hidden="true" @click="removeTodo(todo)"></i>
                                     </div>
                                     <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
                                 </li>
@@ -70,14 +70,6 @@ export default {
             visibility: 'active'
         }
     },
-    watch: {
-        todos: {
-            handler: function( todos ) {
-                console.log('update')
-            },
-            deep: true
-        }
-    },
     computed: {
         filteredTodos: function() {
             return filters[this.visibility]( this.todos )
@@ -105,16 +97,17 @@ export default {
     methods: {
         addTodo: function() {
             const value = this.newTodo && this.newTodo.trim()
-            if( !value ) return
             const todo = {
                 title: value,
                 completed: false
             }
-            this.$api.save( 'todo', todo )
-            this.newTodo = ''
+            const valid = this.$api.save( 'todo', todo )
+            if( valid === undefined ) {
+                this.newTodo = ''
+            }
         },
-        removeTodo: function( id ) {
-            this.$api.del( 'todo', id )
+        removeTodo: function( todo ) {
+            this.$api.del( 'todo', todo )
         },
         editTodo: function( todo ) {
             this.beforeEditCache = todo.title
@@ -123,10 +116,16 @@ export default {
         doneEdit: function( todo ) {
             if( !this.editedTodo ) return
             this.editedTodo = null
+
             todo.title = todo.title.trim()
             if( !todo.title ) this.removeTodo( todo._id )
-            else {
-                this.$api.update( 'todo', todo )
+            if ( this.beforeEditCache === todo.title ) return
+            else  {
+                const valid = this.$api.update( 'todo', todo )
+
+                if ( !valid && valid !== undefined ) {
+                    todo.title = this.beforeEditCache
+                }
             }
         },
         cancelEdit: function() {
@@ -141,6 +140,12 @@ export default {
         'todo-focus': function( el, binding ) {
             if( binding.value ) el.focus()
         }
+    },
+    mounted() {
+        this.$store.dispatch( 'setLocation', 'todo' )
+    },
+    destroyed() {
+        this.$store.dispatch( 'setLocation', '' )
     }
 }
 </script>

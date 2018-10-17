@@ -19,14 +19,8 @@ import './assets/scss/root.scss'
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
-import routes from './utils/routes'
+import routes from './util/routes'
 const router = new VueRouter({ routes })
-
-
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
-if( process.env.NODE_ENV === 'development' ) Vue.http.options.root = 'http://localhost:4002'
-if( process.env.NODE_ENV === 'production' ) Vue.http.options.root = 'http://35.241.141.40:4001'
 
 
 import store from './store/store'
@@ -35,9 +29,11 @@ import store from './store/store'
 import chart from 'chart.js'
 
 
-import api from './utils/API'
+import api from './util/api'
 Object.defineProperty(Vue.prototype, '$api', { get() { return this.$root.api } } )
 
+import Plugins from './plugins/plugins.js'
+Vue.use(Plugins)
 
 import App from './components/App.vue'
 
@@ -54,5 +50,7 @@ new Vue({
    router,
    created() {
        api.get( 'todos' )
+       api.get( 'resources' )
+       api.get( 'users' )
    }
 })

@@ -6,11 +6,13 @@ $fa-font-path: "~font-awesome/fonts";
 @import '_fixes';
 @import '_bootstrap-fixes';
 @import '_develstrap';
+@import '_admin';
 @import '_drawer';
 @import '_transitions';
 @import '_signin';
 @import './components/_todos';
 @import './components/_dashboard';
+@import './components/_data';
 
 // Alternatively, you may import parts of Boostrap individually as needed.
 // Note that Bootstrap’s functions, variables and mixins are required.

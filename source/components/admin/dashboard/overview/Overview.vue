@@ -45,6 +45,7 @@ export default {
         }
     },
     mounted() {
+        this.$store.dispatch( 'setLocation', 'overview' )
         var chart = new Chart(this.$refs.orderHistoryCanvas, {
             type: 'line',
             data: {
@@ -67,6 +68,9 @@ export default {
                 }
             }
         })
+    },
+    destroyed() {
+        this.$store.dispatch( 'setLocation', '' )
     }
 }
 </script>

@@ -30,7 +30,6 @@
                                 <input type="checkbox" value="remember-me"> Remember me
                                 </label>
                             </div>
-
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -65,7 +64,6 @@
                         </li>
                         <li id="login" v-if="!isLogged">
                             <button type="button" class="btn btn-ouline-secondary" data-toggle="modal" data-target="#loginModal" >login</button>
-                            <!-- <button type="button" class="btn btn-ouline-secondary"  >login</button> -->
                         </li>
                     </ul>
                 </div>
@@ -82,9 +80,8 @@
                 <div class="carousel-item active">
                     <img src="../../assets/img/background.png" >
                     <div class="carousel-caption">
-                        <h1 class="display-2">DevelStrap</h1>
+                        <h1 class="display-2">{{ appName }}</h1>
                         <h3>starting point for your VueJS projects.</h3>
-                        <button type="button" class="btn btn-primary btn-lg"> <a href="#code">Get Started</a> </button>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -397,6 +394,12 @@ export default {
         isActiveNavItem: function( location ) {
             return this.location === location
         }
+    },
+    mounted() {
+        this.$store.dispatch( 'setLocation', 'home' )
+    },
+    destroyed() {
+        this.$store.dispatch( 'setLocation', '' )
     }
 }
 </script>

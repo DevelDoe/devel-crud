@@ -9,12 +9,15 @@
 
 <template>
 <div id="app">
+
+        <DevelToast :toast="toast"/>
+
         <transition name="drawer">
         <div :class="{ 'drawer': isLogged }" v-if="isLogged">
             <nav class="navbar  navbar-dark bg-light sticky-top" id="home">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#"> Admin</a>
-                    <i class="fa fa-sign-out" aria-hidden="true" @click="$store.dispatch('setIsLogged'), $store.dispatch( 'setLocation', 'home' ), $router.push('/')" title="logout"></i>
+                    <i class="fa fa-sign-out" aria-hidden="true" @click="$store.dispatch('setIsLogged'), $router.push('/')" title="logout"></i>
                 </div>
             </nav>
             <div class="container-fluid">
@@ -22,19 +25,24 @@
 
                     <li class="nav-caption">Site</li>
                     <li :class="{ 'nav-item': true, active: isActiveNavItem('home') || isActiveNavItem('stack') || isActiveNavItem('about') || isActiveNavItem('code') || isActiveNavItem('connect') }">
-                        <a href="/#/" @click="$store.dispatch( 'setLocation', 'home' )"> Landing </a>
+                        <a href="/#/"> Landing </a>
                     </li>
 
                     <li class="nav-caption">Dashboards</li>
-                    <li :class="{ 'nav-item': true, active: isActiveNavItem('dashboard') }">
-                        <a href="/#/admin/dashboard" @click="$store.dispatch( 'setLocation', 'dashboard' )"> Overview </a>
+                    <li :class="{ 'nav-item': true, active: isActiveNavItem('overview') }">
+                        <a href="/#/admin/overview"> Overview </a>
                     </li>
                     <li :class="{ 'nav-item': true, active: isActiveNavItem('todo') }">
-                        <a href="/#/admin/todo" @click="$store.dispatch( 'setLocation', 'todo' )"> Todo </a>
+                        <a href="/#/admin/todo"> Todo </a>
                     </li>
 
-                    <li class="nav-caption">Resources</li>
-                    <li class="nav-item"> <a href="https://github.com/develdoe">GitHub</a> </li>
+                    <li class="nav-caption">Settings</li>
+                    <li :class="{ 'nav-item': true, active: isActiveNavItem('data') }">
+                        <a href="/#/admin/data">Data</a>
+                    </li>
+                    <li :class="{ 'nav-item': true, active: isActiveNavItem('users') }">
+                        <a href="/#/admin/users">Users</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -56,7 +64,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'app',
     computed: {
-        ...mapGetters([ 'isLogged', 'location' ])
+        ...mapGetters([ 'isLogged', 'location', 'toast' ])
     },
     methods: {
         isActiveNavItem: function( location ) {

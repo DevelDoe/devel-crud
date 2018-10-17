@@ -7,9 +7,12 @@
  * @Last modified time: 2018-01-18T21:26:42+01:00
  */
 
-import Home         from '../components/site/Home.vue'
-import Dashboard    from '../components/admin/Dashboard.vue'
-import Todo    from '../components/admin/Todo.vue'
+import Home     from '../components/site/Home.vue'
+import Overview from '../components/admin/dashboard/overview/Overview.vue'
+import Todo     from '../components/admin/dashboard/todo/Todo.vue'
+import Data     from '../components/admin/setting/data/Data.vue'
+import Users    from '../components/admin/setting/users/Users.vue'
+import User    from '../components/admin/setting/users/User.vue'
 
 import store from '../store/store'
 
@@ -32,9 +35,9 @@ export default [{
         name: 'home'
     },
     {
-        path: '/admin/dashboard',
-        component: Dashboard,
-        name: 'dashboard',
+        path: '/admin/overview',
+        component: Overview,
+        name: 'overview',
         beforeEnter: authenticate
     },
     {
@@ -42,5 +45,22 @@ export default [{
         component: Todo,
         name: 'todo',
         beforeEnter: authenticate
+    },
+    {
+        path: '/admin/data',
+        component: Data,
+        name: 'data',
+        beforeEnter: authenticate
+    },
+    {
+        path: '/admin/users',
+        component: Users,
+        name: 'users',
+        beforeEnter: authenticate
+    },
+    {
+        path: '/admin/user',
+        component: User,
+        name: 'user'
     }
 ]
