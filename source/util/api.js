@@ -4,7 +4,17 @@ var url = 'http://35.241.141.40:4002'
 import store from '../store/store'
 const API = {
     get: function( coll ) {
-        fetch(`${url}/${coll}`).then( res => {
+        fetch(`${url}/${coll}`, {
+            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, cors, *same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, same-origin, *omit
+            headers: {
+                'Authorization': store.state.token
+            },
+            redirect: "follow", // manual, *follow, error
+            referrer: "no-referrer", // no-referrer, *client
+        }).then( res => {
             if( res.status !== 200 ) {
                 if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
                 store.dispatch( 'toast', 'Error fetching data')
@@ -27,7 +37,7 @@ const API = {
         const args = (arguments === 1 ? [arguments[0]] : Array.apply( null, arguments ))
         const coll   = args.shift() || null
         const data   = args.shift() || null
-
+        console.log(store.state.token)
         if( validate( coll, data ) ) {
 
             fetch(`${url}/${coll}s`, {
@@ -37,7 +47,7 @@ const API = {
                     credentials: "same-origin", // include, same-origin, *omit
                     headers: {
                         "Content-Type": "application/json; charset=utf-8",
-                        // "Content-Type": "application/x-www-form-urlencoded",
+                        'Authorization': store.state.token
                     },
                     redirect: "follow", // manual, *follow, error
                     referrer: "no-referrer", // no-referrer, *client
@@ -87,7 +97,7 @@ const API = {
                 credentials: "same-origin", // include, same-origin, *omit
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
-                    // "Content-Type": "application/x-www-form-urlencoded",
+                    'Authorization': store.state.token
                 },
                 redirect: "follow", // manual, *follow, error
                 referrer: "no-referrer", // no-referrer, *client
@@ -124,7 +134,7 @@ const API = {
                     credentials: "same-origin", // include, same-origin, *omit
                     headers: {
                         "Content-Type": "application/json; charset=utf-8",
-                        // "Content-Type": "application/x-www-form-urlencoded",
+                        'Authorization': store.state.token
                     },
                     redirect: "follow", // manual, *follow, error
                     referrer: "no-referrer", // no-referrer, *client
@@ -175,7 +185,7 @@ function empty( data ) {
 }
 function validate( coll, data ) {
     const self              = this
-    const schema           = store.state.resources.find( resource => resource.name === coll )
+    const schema            = store.state.resources.find( resource => resource.name === coll )
     let valid               = true
     let err                 = []
 

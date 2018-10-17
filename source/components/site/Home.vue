@@ -22,9 +22,9 @@
                             <h1>DevelStrap VueJS</h1>
                             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                             <label for="inputEmail" class="sr-only">Email address</label>
-                            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" value="guest">
+                            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" v-model="email">
                             <label for="inputPassword" class="sr-only">Password</label>
-                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" value="example">
+                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" v-model="password">
                             <div class="checkbox mb-3">
                                 <label>
                                 <input type="checkbox" value="remember-me"> Remember me
@@ -33,11 +33,12 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" form="loginForm" @click="$store.dispatch('setIsLogged')" data-dismiss="modal">Sign in</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" form="loginForm" @click="login" >Sign in</button>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top" id="home">
             <div class="container-fluid">
@@ -62,13 +63,14 @@
                         <li @click="$store.dispatch( 'setLocation', 'connect' )" :class="{ 'nav-item': true, active: isActiveNavItem('connect') }">
                             <a class="nav-link" href="#connect">connect </a>
                         </li>
-                        <li id="login" v-if="!isLogged">
+                        <li id="login" v-if="!token">
                             <button type="button" class="btn btn-ouline-secondary" data-toggle="modal" data-target="#loginModal" >login</button>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
 
         <div id="slides" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -92,6 +94,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="container-fluid">
             <div class="row jumbotron">
@@ -154,9 +157,6 @@
             </div>
         </figure>
 
-
-
-
         <!-- Me Myself And I -->
         <div class="container-fluid" id="about">
             <div class="row welcome text-center">
@@ -165,6 +165,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="container-fluid padding">
             <div class="row padding">
@@ -387,12 +388,48 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: 'home',
+    data() {
+        return {
+            email: 'guest@example.com',
+            password: 'password'
+        }
+    },
     computed: {
-        ...mapGetters([ 'appName', 'isLogged', 'location' ])
+        ...mapGetters([ 'appName', 'token', 'location' ])
     },
     methods: {
         isActiveNavItem: function( location ) {
             return this.location === location
+        },
+        login() {
+            fetch('http://35.241.141.40:4002/login', {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                credentials: "same-origin",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                redirect: "follow",
+                referrer: "no-referrer",
+                body: JSON.stringify({
+                    email: this.email,
+                    password: this.password
+                })
+            }).then( res => {
+                res.json().then( data => {
+                    if(data.token) {
+                        this.$store.dispatch('setToken', data.token)
+                        this.$store.dispatch('setUser', { username: data.username || 'Anonymous', token: data.token })
+                        this.$api.get( 'todos' )
+                        this.$api.get( 'resources' )
+                        this.$api.get( 'users' )
+                        $('#loginModal').modal('hide')
+                    }
+                })
+            })
+
+
         }
     },
     mounted() {

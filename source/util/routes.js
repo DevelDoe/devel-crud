@@ -22,7 +22,7 @@ function authenticate( to, from, next ) {
         store.dispatch( 'setLocation', to.name )
     }
 
-    if( store.getters.isLogged ) {
+    if( store.getters.token ) {
         next()
     } else {
         next('/')
@@ -30,11 +30,6 @@ function authenticate( to, from, next ) {
 }
 
 export default [{
-        path: '/',
-        component: Home,
-        name: 'home'
-    },
-    {
         path: '/admin/overview',
         component: Overview,
         name: 'overview',
@@ -62,5 +57,10 @@ export default [{
         path: '/admin/user',
         component: User,
         name: 'user'
+    },
+    {
+      path: '*',
+      component: Home,
+      name: 'home'
     }
 ]

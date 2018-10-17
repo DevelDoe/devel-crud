@@ -35,7 +35,7 @@
                 </div>
                     <div class="form-group">
                     <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" required v-model="newPassword" @blur="update(user)" @keyup.enter="update(user)">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" required v-model="user.password" @blur="update(user)" @keyup.enter="update(user)">
                 </div>
                 <div class="form-group">
                     <label for="inputImg">Image Source</label>

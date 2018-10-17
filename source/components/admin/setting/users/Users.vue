@@ -91,9 +91,14 @@
                         {{user.lname}}
                     </router-link>
                 </div>
-                <div class="col-sm" v-else>
+                <div class="col-sm" v-else-if="user.username">
                     <router-link :to="{ name: 'user', query: { user_id: user._id } }">
                         {{user.username}}
+                    </router-link>
+                </div>
+                <div class="col-sm" v-else>
+                    <router-link :to="{ name: 'user', query: { user_id: user._id } }">
+                        {{user.email}}
                     </router-link>
                 </div>
             </div>

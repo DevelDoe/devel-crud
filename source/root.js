@@ -47,10 +47,5 @@ new Vue({
    render (h) {
      return h(App, { props: this.$data })
    },
-   router,
-   created() {
-       api.get( 'todos' )
-       api.get( 'resources' )
-       api.get( 'users' )
-   }
+   router
 })

@@ -13,11 +13,11 @@
         <DevelToast :toast="toast"/>
 
         <transition name="drawer">
-        <div :class="{ 'drawer': isLogged }" v-if="isLogged">
+        <div :class="{ 'drawer': token }" v-if="token">
             <nav class="navbar  navbar-dark bg-light sticky-top" id="home">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#"> Admin</a>
-                    <i class="fa fa-sign-out" aria-hidden="true" @click="$store.dispatch('setIsLogged'), $router.push('/')" title="logout"></i>
+                    <i class="fa fa-sign-out" aria-hidden="true" @click="$store.dispatch('delToken'), $router.push('/')" title="logout"></i>
                 </div>
             </nav>
             <div class="container-fluid">
@@ -47,7 +47,7 @@
             </div>
         </div>
         </transition >
-        <div :class="{ 'content': true, 'admin-open': isLogged }">
+        <div :class="{ 'content': true, 'admin-open': token }">
             <keep-alive>
                 <transition name="fade" mode="out-in" >
                     <router-view />
@@ -64,7 +64,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'app',
     computed: {
-        ...mapGetters([ 'isLogged', 'location', 'toast' ])
+        ...mapGetters([ 'token', 'location', 'toast' ])
     },
     methods: {
         isActiveNavItem: function( location ) {
