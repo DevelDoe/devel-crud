@@ -395,7 +395,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([ 'appName', 'token', 'location' ])
+        ...mapGetters([ 'appName', 'token', 'location', 'users' ])
     },
     methods: {
         isActiveNavItem: function( location ) {
@@ -419,8 +419,9 @@ export default {
             }).then( res => {
                 res.json().then( data => {
                     if(data.token) {
+                        var user = this.users.find( user => user.email === this.email )
                         this.$store.dispatch('setToken', data.token)
-                        this.$store.dispatch('setUser', { username: data.username || 'Anonymous', token: data.token })
+                        this.$store.dispatch('setUser', user )
                         this.$api.get( 'todos' )
                         this.$api.get( 'resources' )
                         this.$api.get( 'users' )

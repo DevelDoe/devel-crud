@@ -14,12 +14,27 @@
 
         <transition name="drawer">
         <div :class="{ 'drawer': token }" v-if="token">
-            <nav class="navbar  navbar-dark bg-light sticky-top" id="home">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#"> Admins</a>
-                    <i class="fa fa-sign-out" aria-hidden="true" @click="$store.dispatch('delToken'), $router.push('/')" title="logout"></i>
-                </div>
-            </nav>
+
+                <nav class="navbar  navbar-dark bg-light sticky-top" id="home">
+                    <div class="navbar-user">
+                        <div class="container-fluid">
+                            <div class="img">
+                                <img :src=" updatedUser.img_src " alt="">
+                                
+                            </div>
+
+
+                            <div class="devel-col info">
+                                <h2>{{ updatedUser.username }}</h2>
+                                <h3>{{ updatedUser.fname }} {{ updatedUser.lname }}</h3>
+                            </div>
+                            <div class="devel-col" >
+                                <i class="fa fa-sign-out"  aria-hidden="true" @click="$store.dispatch('delToken'), $store.dispatch('removeUser'), $router.push('/')" ></i>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
             <div class="container-fluid">
                 <ul class="nav nav-stacked">
 
@@ -64,7 +79,10 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'app',
     computed: {
-        ...mapGetters([ 'token', 'location', 'toast' ])
+        ...mapGetters([ 'token', 'location', 'toast', 'users', 'user' ]),
+        updatedUser() {
+            return this.users.find( u => u._id === this.user._id )
+        }
     },
     methods: {
         isActiveNavItem: function( location ) {
