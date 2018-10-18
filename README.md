@@ -18,6 +18,8 @@ See [DEMO](http://develstrapvue.net/)
 
 `npm run dist`
 
+### Release Log
+
 Vue
 V1.0
 Basic Vue skeleton.
