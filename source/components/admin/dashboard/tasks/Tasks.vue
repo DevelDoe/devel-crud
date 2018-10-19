@@ -1,9 +1,11 @@
 <template lang="html">
-    <div id="todo" class="admin">
+    <div id="tasks" class="admin">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row heading">
                 <div class="col-12">
-                    <h2 class="display-6">Reminder</h2>
+                    <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
+                    <h2 class="display-6">Tasks</h2>
                 </div>
             </div>
             <div class="row">
@@ -148,7 +150,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch( 'setLocation', 'todo' )
+        this.$store.dispatch( 'setLocation', 'tasks' )
     },
     destroyed() {
         this.$store.dispatch( 'setLocation', '' )

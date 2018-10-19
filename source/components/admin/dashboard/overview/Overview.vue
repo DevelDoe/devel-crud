@@ -1,8 +1,10 @@
 <template lang="html">
     <div id="dashboard" class="admin">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row heading">
                 <div class="col-12">
+                    <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
                     <h2 class="display-6">Dashboards</h2>
                 </div>
             </div>
@@ -13,7 +15,7 @@
                         <canvas ref="orderHistoryCanvas" width="400" height="100" ></canvas>
                     </div>
                 </div>
-                <div class="col-lg-6" v-if="logged.applications.indexOf('reminders') !== -1">
+                <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1">
                     <div class="paper">
                         <h3>Reminders</h3>
                         <ul class="todo-list">

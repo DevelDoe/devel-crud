@@ -28,12 +28,16 @@ import store from './store/store'
 
 import chart from 'chart.js'
 
-
 import api from './util/api'
 Object.defineProperty(Vue.prototype, '$api', { get() { return this.$root.api } } )
 
 import Plugins from './plugins/plugins.js'
 Vue.use(Plugins)
+
+import Globals from './components/_globals/globals.js'
+Vue.use(Globals)
+
+Object.defineProperty(Vue.prototype, '$bus', { get() { return this.$root.api.bus } })
 
 import App from './components/App.vue'
 

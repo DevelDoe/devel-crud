@@ -20,7 +20,6 @@ const store = new Vux.Store({
         token: '',
         location: 'home',
         todos: [],
-        toast: '',
         resources: null,
         users: [],
         logged: null
@@ -30,7 +29,6 @@ const store = new Vux.Store({
         token          : state => { return state.token },
         location       : state => { return state.location },
         todos          : state => { return state.todos },
-        toast          : state => { return state.toast },
         resources      : state => { return state.resources },
         users          : state => { return state.users },
         logged         : state => { return state.logged },
@@ -44,8 +42,6 @@ const store = new Vux.Store({
         setTodos       : ( state, payload ) => { state.todos = payload },
         addTodo        : ( state, payload ) => { state.todos.push( payload ) },
         delTodo        : ( state, payload ) => { state.todos = state.todos.filter( todo => { return todo._id != payload } ) },
-
-        toast       : ( state, payload ) => { state.toast = payload },
 
         setResources   : ( state, payload ) => { state.resources = payload },
         addResource    : ( state, payload ) => { state.resources.push( payload ) },
@@ -67,8 +63,6 @@ const store = new Vux.Store({
         setTodos       : ( ctx, payload )   => { ctx.commit( 'setTodos', payload ) },
         addTodo        : ( ctx, payload )   => { ctx.commit( 'addTodo', payload ) },
         delTodo        : ( ctx, payload )   => { ctx.commit( 'delTodo', payload ) },
-
-        toast          : ( ctx, payload )   => { ctx.commit( 'toast', payload ) },
 
         setResources   : ( ctx, payload )   => { ctx.commit( 'setResources', payload ) },
         addResource    : ( ctx, payload )   => { ctx.commit( 'addResource', payload ) },

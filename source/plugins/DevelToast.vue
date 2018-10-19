@@ -10,7 +10,7 @@
 <script>
 export default {
     name: 'DevelToast',
-    computed: { toast() { return this.$store.getters.toast }}
+    props: [ 'toast' ]
 }
 </script>
 

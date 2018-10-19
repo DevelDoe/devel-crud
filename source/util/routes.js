@@ -9,7 +9,7 @@
 
 import Home     from '../components/site/Home.vue'
 import Overview from '../components/admin/dashboard/overview/Overview.vue'
-import Reminder from '../components/admin/dashboard/reminder/Reminder.vue'
+import Tasks    from '../components/admin/dashboard/tasks/Tasks.vue'
 import Data     from '../components/admin/setting/data/Data.vue'
 import Users    from '../components/admin/setting/users/Users.vue'
 import User     from '../components/admin/setting/users/User.vue'
@@ -36,9 +36,9 @@ export default [{
         beforeEnter: authenticate
     },
     {
-        path: '/admin/reminder',
-        component: Reminder,
-        name: 'reminder',
+        path: '/admin/tasks',
+        component: Tasks,
+        name: 'tasks',
         beforeEnter: authenticate
     },
     {

@@ -45,8 +45,8 @@
                     <li :class="{ 'nav-item': true, active: isActiveNavItem('overview') }">
                         <a href="/#/admin/overview"> Overview </a>
                     </li>
-                    <li v-if="logged.applications.indexOf('reminders') !== -1" :class="{ 'nav-item': true, active: isActiveNavItem('reminder') }">
-                        <a href="/#/admin/reminder"> Reminder </a>
+                    <li v-if="logged.applications.indexOf('tasks') !== -1" :class="{ 'nav-item': true, active: isActiveNavItem('tasks') }">
+                        <a href="/#/admin/tasks"> Reminder </a>
                     </li>
 
                     <li class="nav-caption">Administration</li>
@@ -76,13 +76,21 @@
 import { mapGetters } from 'vuex'
 export default {
     name: 'app',
+    data() {
+        return {
+            toast: ''
+        }
+    },
     computed: {
-        ...mapGetters([ 'token', 'location', 'toast', 'logged' ]),
+        ...mapGetters([ 'token', 'location', 'logged' ]),
     },
     methods: {
         isActiveNavItem: function( location ) {
             return this.location === location
         }
+    },
+    created() {
+        this.$bus.$on('toast', toast => { this.toast = toast })
     }
 }
 </script>

@@ -2,7 +2,12 @@
 // if( process.env.NODE_ENV === 'production' )  var url = 'http://35.241.141.40:4002'
 var url = 'http://35.241.141.40:4002'
 import store from '../store/store'
+import Vue from 'vue'
+
+const bus = new Vue()
+
 const API = {
+    bus: bus,
     get: function(  ) {
         const args = (arguments === 1 ? [arguments[0]] : Array.apply(null, arguments))
         const coll = args.shift() || null
@@ -21,8 +26,8 @@ const API = {
         }).then( res => {
             if( res.status !== 200 ) {
                 if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
-                store.dispatch( 'toast', 'Error fetching data')
-                setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                bus.$emit('toast', 'Error fetching data' )
+                setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                 return
             }
             var Coll = capitalize(coll)
@@ -35,8 +40,8 @@ const API = {
 
         })
         .catch(err => {
-            store.dispatch( 'toast', 'Database fetch error')
-            setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+            bus.$emit('toast', 'Database fetch error' )
+            setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
             if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
         })
     },
@@ -64,26 +69,26 @@ const API = {
                     .then( res => {
                         if( res.status !== 200 ) {
                             if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
-                            store.dispatch( 'toast', 'Error saving data')
-                            setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                            bus.$emit('toast', 'Error saving data' )
+                            setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                             return
                         }
                         res.json().then( d => {
                             if( d.err ) {
-                                store.dispatch( 'toast', 'Error saving data')
-                                setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                                bus.$emit('toast', 'Error savin data'  )
+                                setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                                 if( process.env.NODE_ENV === 'development' ) console.log( d.err )
                                 return
                             }
                             var Coll = capitalize(coll)
                             store.dispatch( `add${Coll}`, d)
-                            store.dispatch( 'toast', 'Saved')
-                            setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                            bus.$emit('toast', 'Saved' )
+                            setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                         })
                     })
                     .catch(err => {
-                        store.dispatch( 'toast', 'Database save error')
-                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        bus.$emit('toast', 'Database save error' )
+                        setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                         if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
                     })
             } else {
@@ -116,18 +121,18 @@ const API = {
                 .then( res => {
                     if( res.status !== 200 ) {
                         if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
-                        store.dispatch( 'toast', 'Error deleting data')
-                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        bus.$emit('toast', 'Error deleting data' )
+                        setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                         return
                     }
                     var Coll = capitalize(coll)
                     store.dispatch( `del${Coll}`, id )
-                    store.dispatch( 'toast', 'Deleted')
-                    setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                    bus.$emit('toast', 'Deleted' )
+                    setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                 })
                 .catch(err => {
-                    store.dispatch( 'toast', 'Database delete error')
-                    setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                    bus.$emit('toast', 'Database delete error' )
+                    setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                     if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
                 })
             }
@@ -157,16 +162,19 @@ const API = {
                     .then( res => {
                         if( res.status !== 200 ) {
                             if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
-                            store.dispatch( 'toast', 'Error updating data')
-                            setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                            bus.$emit('toast', 'Error updating data' )
+                            setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                             return
                         }
-                        store.dispatch( 'toast', 'Updated')
-                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        const Coll = capitalize(coll)
+                        store.dispatch(`del${Coll}`, data._id)
+                        store.dispatch(`add${Coll}`, data)
+                        bus.$emit('toast', 'Updated' )
+                        setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                     })
                     .catch(err => {
-                        store.dispatch( 'toast', 'Database update error')
-                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        bus.$emit('toast', 'Database update error' )
+                        setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                         if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
                     })
             } else {
@@ -211,21 +219,21 @@ function readRights( coll ) {
 function writeRights( coll, data ) {
     const accessRights = store.state.logged.sec_lv
     if(coll === 'resource' && accessRights === '9'  || coll === 'user' && accessRights === '9' ) {
-        store.dispatch( 'toast', 'No Write permissions: Your on a special guest account, I guess your someone who has an interesst in my work! Please feel free to look around.')
-        setTimeout( () => { store.dispatch('toast', '' ) }, 8000 )
+        bus.$emit('toast', 'No Write permissions: Your on a special guest account, I guess your someone who has an interesst in my work! Please feel free to look around.' )
+        setTimeout( () => { bus.$emit('toast', '' ) }, 8000 )
         API.get( `${coll}` )
         return false
     } else if( coll !== 'resource') {
         const writeRights = store.state.resources.find( resource => resource.name === coll ).write
         if (accessRights === '9') {
-           store.dispatch( 'toast', 'No Write permissions: Your on a special guest account, I guess your someone who has an interesst in my work! Please feel free to look around.')
-           setTimeout( () => { store.dispatch('toast', '' ) }, 8000 )
+           bus.$emit('toast', 'No Write permissions: Your on a special guest account, I guess your someone who has an interesst in my work! Please feel free to look around.' )
+           setTimeout( () => { bus.$emit('toast', '' ) }, 8000 )
            return false
         } else if (accessRights <= writeRights ) {
             return true
         } else {
-            store.dispatch( 'toast', 'Your security clearance is at level ' + accessRights + '. Write persmission for this dataset is at level ' + writeRights + '. Please contact administrator to grant you higher security level to write to this dataset.')
-            setTimeout( () => { store.dispatch('toast', '' ) }, 8000 )
+            bus.$emit('toast', 'Your security clearance is at level ' + accessRights + '. Write persmission for this dataset is at level ' + writeRights + '. Please contact administrator to grant you higher security level to write to this dataset.' )
+            setTimeout( () => { bus.$emit('toast', '' ) }, 8000 )
             return false
         }
     }
@@ -259,8 +267,8 @@ function validate( coll, data ) {
     })
 
     if ( !valid ) {
-        store.dispatch('toast', err.join(', '))
-        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+        bus.$emit('toast', err.join(', ') )
+        setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
         return
     }
 

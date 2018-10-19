@@ -25,7 +25,9 @@
         </div>
 
         <div class="container-fluid">
-            <div class="row">
+            <div class="row heading">
+                <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
+                <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
                 <div class="col-sm" v-if="user.fname && user.lname">
                     <h2 class="display-6">{{user.fname}} {{user.lname}}</h2>
                 </div>
@@ -79,7 +81,7 @@
                     <div class="row padding">
                         <div class="col">
                             <h3>Applications</h3>
-                            <button type="button" class="btn btn-dark" :class="{ 'active': user.applications.indexOf('reminders') !== -1 }" @click="toggleApplication('reminders')">Reminder</button>
+                            <button type="button" class="btn btn-dark" :class="{ 'active': user.applications.indexOf('tasks') !== -1 }" @click="toggleApplication('tasks')">Tasks</button>
                         </div>
                     </div>
                     <div class="row administration">
@@ -126,7 +128,8 @@ export default {
         update( user ) {
             this.$api.update( 'user', user )
             if( this.logged._id === user._id ) {
-
+                this.$store.dispatch('delLogged')
+                this.$store.dispatch('setLogged', this.user)
             }
         },
         removeUser: function( user ) {

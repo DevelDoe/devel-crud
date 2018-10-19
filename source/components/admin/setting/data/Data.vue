@@ -87,8 +87,10 @@
 
 
         <div class="container-fluid">
-            <div class="row">
+            <div class="row heading">
                 <div class="col-12">
+                    <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
+                    <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
                     <h2 class="display-6">Data</h2>
                 </div>
             </div>
