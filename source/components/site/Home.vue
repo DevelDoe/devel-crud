@@ -18,7 +18,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
                     </div>
                     <div class="modal-body text-center">
-                        <form class="form-signin" id="loginForm">
+                        <form class="form-signin" id="loginForm" onsubmit="return false;">
                             <h1>DevelStrap VueJS</h1>
                             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                             <label for="inputEmail" class="sr-only">Email address</label>
@@ -390,7 +390,7 @@ export default {
     name: 'home',
     data() {
         return {
-            email: 'guest@example.com',
+            email: 'guest@example.ex',
             password: 'password'
         }
     },
@@ -419,13 +419,23 @@ export default {
             }).then( res => {
                 res.json().then( data => {
                     if(data.token) {
-                        var user = this.users.find( user => user.email === this.email )
+
                         this.$store.dispatch('setToken', data.token)
-                        this.$store.dispatch('setUser', user )
-                        this.$api.get( 'todos' )
-                        this.$api.get( 'resources' )
-                        this.$api.get( 'users' )
-                        $('#loginModal').modal('hide')
+
+
+
+                        this.$api.get( 'user', () => {
+                            var user = this.users.find( user => user.email === this.email )
+                            this.$store.dispatch('setLogged', user )
+                            $('#loginModal').modal('hide')
+                            this.$api.get( 'resource', () => {
+                                this.$api.get( 'todo' )
+                            })
+                        })
+
+
+
+
                     }
                 })
             })

@@ -3,8 +3,12 @@
 var url = 'http://35.241.141.40:4002'
 import store from '../store/store'
 const API = {
-    get: function( coll ) {
-        fetch(`${url}/${coll}`, {
+    get: function(  ) {
+        const args = (arguments === 1 ? [arguments[0]] : Array.apply(null, arguments))
+        const coll = args.shift() || null
+        const cb   = args.shift() || null
+
+        fetch(`${url}/${coll}s`, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, cors, *same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -23,7 +27,10 @@ const API = {
             }
             var Coll = capitalize(coll)
             res.json().then( data => {
-                store.dispatch( `set${Coll}` , data )
+                var Coll = capitalize(coll)
+                const access = readRights( coll )
+                if( access )  store.dispatch( `set${Coll}s` , data )
+                if(cb) cb()
             })
 
         })
@@ -37,50 +44,53 @@ const API = {
         const args = (arguments === 1 ? [arguments[0]] : Array.apply( null, arguments ))
         const coll   = args.shift() || null
         const data   = args.shift() || null
-        console.log(store.state.token)
-        if( validate( coll, data ) ) {
 
-            fetch(`${url}/${coll}s`, {
-                    method: "POST", // *GET, POST, PUT, DELETE, etc.
-                    mode: "cors", // no-cors, cors, *same-origin
-                    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                    credentials: "same-origin", // include, same-origin, *omit
-                    headers: {
-                        "Content-Type": "application/json; charset=utf-8",
-                        'Authorization': store.state.token
-                    },
-                    redirect: "follow", // manual, *follow, error
-                    referrer: "no-referrer", // no-referrer, *client
-                    body: JSON.stringify(data), // body data type must match "Content-Type" header
-                })
-                .then( res => {
-                    if( res.status !== 200 ) {
-                        if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
-                        store.dispatch( 'toast', 'Error saving data')
-                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
-                        return
-                    }
-                    res.json().then( d => {
-                        if( d.err ) {
+        if(  writeRights( coll ) ) {
+            if( validate( coll, data ) ) {
+
+                fetch(`${url}/${coll}s`, {
+                        method: "POST", // *GET, POST, PUT, DELETE, etc.
+                        mode: "cors", // no-cors, cors, *same-origin
+                        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                        credentials: "same-origin", // include, same-origin, *omit
+                        headers: {
+                            "Content-Type": "application/json; charset=utf-8",
+                            'Authorization': store.state.token
+                        },
+                        redirect: "follow", // manual, *follow, error
+                        referrer: "no-referrer", // no-referrer, *client
+                        body: JSON.stringify(data), // body data type must match "Content-Type" header
+                    })
+                    .then( res => {
+                        if( res.status !== 200 ) {
+                            if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
                             store.dispatch( 'toast', 'Error saving data')
                             setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
-                            if( process.env.NODE_ENV === 'development' ) console.log( d.err )
                             return
                         }
-                        var Coll = capitalize(coll)
-                        store.dispatch( `add${Coll}`, d)
-                        store.dispatch( 'toast', 'Saved')
-                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        res.json().then( d => {
+                            if( d.err ) {
+                                store.dispatch( 'toast', 'Error saving data')
+                                setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                                if( process.env.NODE_ENV === 'development' ) console.log( d.err )
+                                return
+                            }
+                            var Coll = capitalize(coll)
+                            store.dispatch( `add${Coll}`, d)
+                            store.dispatch( 'toast', 'Saved')
+                            setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        })
                     })
-                })
-                .catch(err => {
-                    store.dispatch( 'toast', 'Database save error')
-                    setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
-                    if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
-                })
-        } else {
-            return false
+                    .catch(err => {
+                        store.dispatch( 'toast', 'Database save error')
+                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
+                    })
+            } else {
+                return false
+            }
         }
+
     },
     del: function() {
         const args = (arguments === 1 ? [arguments[0]] : Array.apply( null, arguments ))
@@ -88,47 +98,11 @@ const API = {
         const data = args.shift() || null
         const id   = data._id
 
+        const access = writeRights( coll, data )
+        if(  access ) {
 
-
-        fetch(`${url}/${coll}s/${id}`, {
-                method: "DELETE", // *GET, POST, PUT, DELETE, etc.
-                mode: "cors", // no-cors, cors, *same-origin
-                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: "same-origin", // include, same-origin, *omit
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                    'Authorization': store.state.token
-                },
-                redirect: "follow", // manual, *follow, error
-                referrer: "no-referrer", // no-referrer, *client
-            })
-            .then( res => {
-                if( res.status !== 200 ) {
-                    if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
-                    store.dispatch( 'toast', 'Error deleting data')
-                    setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
-                    return
-                }
-                var Coll = capitalize(coll)
-                store.dispatch( `del${Coll}`, id )
-                store.dispatch( 'toast', 'Deleted')
-                setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
-            })
-            .catch(err => {
-                store.dispatch( 'toast', 'Database delete error')
-                setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
-                if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
-            })
-    },
-    update: function() {
-        const args = (arguments === 1 ? [arguments[0]] : Array.apply( null, arguments ))
-        const coll = args.shift() || null
-        const data = args.shift() || null
-
-        if( validate( coll, data ) ) {
-
-            fetch(`${url}/${coll}s/${data._id}`, {
-                    method: "PUT", // *GET, POST, PUT, DELETE, etc.
+            fetch(`${url}/${coll}s/${id}`, {
+                    method: "DELETE", // *GET, POST, PUT, DELETE, etc.
                     mode: "cors", // no-cors, cors, *same-origin
                     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
                     credentials: "same-origin", // include, same-origin, *omit
@@ -138,30 +112,66 @@ const API = {
                     },
                     redirect: "follow", // manual, *follow, error
                     referrer: "no-referrer", // no-referrer, *client
-                    body: JSON.stringify(data), // body data type must match "Content-Type" header
                 })
                 .then( res => {
                     if( res.status !== 200 ) {
                         if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
-                        store.dispatch( 'toast', 'Error updating data')
+                        store.dispatch( 'toast', 'Error deleting data')
                         setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
                         return
                     }
-                    // res.json().then(d => {
-                    //     var Coll = capitalize(coll)
-                    //     store.dispatch( `del${Coll}`, data._id)
-                    //     store.dispatch( `add${Coll}`, d)
-                    // })
-                    store.dispatch( 'toast', 'Updated')
+                    var Coll = capitalize(coll)
+                    store.dispatch( `del${Coll}`, id )
+                    store.dispatch( 'toast', 'Deleted')
                     setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
                 })
                 .catch(err => {
-                    store.dispatch( 'toast', 'Database update error')
+                    store.dispatch( 'toast', 'Database delete error')
                     setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
                     if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
                 })
-        } else {
-            return false
+            }
+    },
+    update: function() {
+        const args = (arguments === 1 ? [arguments[0]] : Array.apply( null, arguments ))
+        const coll = args.shift() || null
+        const data = args.shift() || null
+        const access = writeRights( coll, data )
+        if(  access ) {
+
+            if( validate( coll, data ) ) {
+
+                fetch(`${url}/${coll}s/${data._id}`, {
+                        method: "PUT", // *GET, POST, PUT, DELETE, etc.
+                        mode: "cors", // no-cors, cors, *same-origin
+                        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+                        credentials: "same-origin", // include, same-origin, *omit
+                        headers: {
+                            "Content-Type": "application/json; charset=utf-8",
+                            'Authorization': store.state.token
+                        },
+                        redirect: "follow", // manual, *follow, error
+                        referrer: "no-referrer", // no-referrer, *client
+                        body: JSON.stringify(data), // body data type must match "Content-Type" header
+                    })
+                    .then( res => {
+                        if( res.status !== 200 ) {
+                            if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
+                            store.dispatch( 'toast', 'Error updating data')
+                            setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                            return
+                        }
+                        store.dispatch( 'toast', 'Updated')
+                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                    })
+                    .catch(err => {
+                        store.dispatch( 'toast', 'Database update error')
+                        setTimeout( () => { store.dispatch('toast', '' ) }, 4000 )
+                        if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
+                    })
+            } else {
+                return false
+            }
         }
     },
 }
@@ -182,6 +192,43 @@ function empty( data ) {
     }
     return count == 0
 
+}
+function readRights( coll ) {
+
+    if( coll !== 'user' && coll !== 'resource' ) {
+        const readRights = store.state.resources.find( resource => resource.name === coll ).read
+        const accessRights = store.state.logged.sec_lv
+        if (accessRights < readRights || accessRights === readRights) {
+            return true
+        } else {
+            return false
+        }
+    } else {
+        return true
+    }
+
+}
+function writeRights( coll, data ) {
+    const accessRights = store.state.logged.sec_lv
+    if(coll === 'resource' && accessRights === '9'  || coll === 'user' && accessRights === '9' ) {
+        store.dispatch( 'toast', 'No Write permissions: Your on a special guest account, I guess your someone who has an interesst in my work! Please feel free to look around.')
+        setTimeout( () => { store.dispatch('toast', '' ) }, 8000 )
+        API.get( `${coll}` )
+        return false
+    } else if( coll !== 'resource') {
+        const writeRights = store.state.resources.find( resource => resource.name === coll ).write
+        if (accessRights === '9') {
+           store.dispatch( 'toast', 'No Write permissions: Your on a special guest account, I guess your someone who has an interesst in my work! Please feel free to look around.')
+           setTimeout( () => { store.dispatch('toast', '' ) }, 8000 )
+           return false
+        } else if (accessRights <= writeRights ) {
+            return true
+        } else {
+            store.dispatch( 'toast', 'Your security clearance is at level ' + accessRights + '. Write persmission for this dataset is at level ' + writeRights + '. Please contact administrator to grant you higher security level to write to this dataset.')
+            setTimeout( () => { store.dispatch('toast', '' ) }, 8000 )
+            return false
+        }
+    }
 }
 function validate( coll, data ) {
     const self              = this
@@ -224,7 +271,7 @@ function validate( coll, data ) {
 }
 function duplicate( coll, data, key ) {
 
-    if(data[key] === "") return false
+    if(data[key] === "" || data[key] === null) return false
 
     let collection = store.getters[coll+'s']
 
@@ -233,7 +280,7 @@ function duplicate( coll, data, key ) {
     })
 
     var fieldsData = removeSelfFromList.map( item => {
-        return item[key].toLowerCase()
+        if(item[key] !== null) return item[key].toLowerCase()
     })
 
     var duplicate = fieldsData.some( name => {

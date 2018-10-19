@@ -13,9 +13,9 @@
                         <canvas ref="orderHistoryCanvas" width="400" height="100" ></canvas>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" v-if="logged.applications.indexOf('reminders') !== -1">
                     <div class="paper">
-                        <h3>Todo</h3>
+                        <h3>Reminders</h3>
                         <ul class="todo-list">
                             <li v-for="(todo, index) in filterTodos" class="todo" :key=" 'todo' + index"  >
                                 {{ todo.title }}
@@ -39,10 +39,15 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'dashboard',
     computed: {
-        ...mapGetters([ 'todos' ]),
+        ...mapGetters([ 'todos', 'logged' ]),
         filterTodos() {
-            return this.todos.filter( todo => { return todo.completed === false  })
-        }
+            return this.loggedTodos.filter( todo => { return todo.completed === false  })
+        },
+        loggedTodos: function() {
+            return this.todos.filter( todo => {
+                return todo.user_id === this.logged._id
+            })
+        },
     },
     mounted() {
         this.$store.dispatch( 'setLocation', 'overview' )

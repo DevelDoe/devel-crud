@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="display-6">Todo</h2>
+                    <h2 class="display-6">Reminder</h2>
                 </div>
             </div>
             <div class="row">
@@ -71,8 +71,13 @@ export default {
         }
     },
     computed: {
+        loggedTodos: function() {
+            return this.todos.filter( todo => {
+                return todo.user_id === this.logged._id
+            })
+        },
         filteredTodos: function() {
-            return filters[this.visibility]( this.todos )
+            return filters[this.visibility]( this.loggedTodos )
         },
         remaining: function() {
             return filters.active( this.todos ).length
@@ -87,7 +92,7 @@ export default {
                 })
             }
         },
-        ...mapGetters([ 'todos' ])
+        ...mapGetters([ 'todos', 'logged' ])
     },
     filters: {
         pluralize: function( n ) {
@@ -99,7 +104,8 @@ export default {
             const value = this.newTodo && this.newTodo.trim()
             const todo = {
                 title: value,
-                completed: false
+                completed: false,
+                user_id: this.logged._id
             }
             const valid = this.$api.save( 'todo', todo )
             if( valid === undefined ) {

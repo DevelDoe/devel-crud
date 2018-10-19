@@ -9,10 +9,10 @@
 
 import Home     from '../components/site/Home.vue'
 import Overview from '../components/admin/dashboard/overview/Overview.vue'
-import Todo     from '../components/admin/dashboard/todo/Todo.vue'
+import Reminder from '../components/admin/dashboard/reminder/Reminder.vue'
 import Data     from '../components/admin/setting/data/Data.vue'
 import Users    from '../components/admin/setting/users/Users.vue'
-import User    from '../components/admin/setting/users/User.vue'
+import User     from '../components/admin/setting/users/User.vue'
 
 import store from '../store/store'
 
@@ -36,9 +36,9 @@ export default [{
         beforeEnter: authenticate
     },
     {
-        path: '/admin/todo',
-        component: Todo,
-        name: 'todo',
+        path: '/admin/reminder',
+        component: Reminder,
+        name: 'reminder',
         beforeEnter: authenticate
     },
     {

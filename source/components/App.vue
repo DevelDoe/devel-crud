@@ -13,23 +13,21 @@
         <DevelToast :toast="toast"/>
 
         <transition name="drawer">
-        <div :class="{ 'drawer': token }" v-if="token">
+        <div :class="{ 'drawer': logged }" v-if="logged">
 
                 <nav class="navbar  navbar-dark bg-light sticky-top" id="home">
                     <div class="navbar-user">
                         <div class="container-fluid">
                             <div class="img">
-                                <img :src=" updatedUser.img_src " alt="">
-                                
+                                <img :src=" logged.img_src " alt="">
+
                             </div>
-
-
                             <div class="devel-col info">
-                                <h2>{{ updatedUser.username }}</h2>
-                                <h3>{{ updatedUser.fname }} {{ updatedUser.lname }}</h3>
+                                <h2>{{ logged.username }}</h2>
+                                <h3>{{ logged.fname }} {{ logged.lname }}</h3>
                             </div>
                             <div class="devel-col" >
-                                <i class="fa fa-sign-out"  aria-hidden="true" @click="$store.dispatch('delToken'), $store.dispatch('removeUser'), $router.push('/')" ></i>
+                                <i class="fa fa-sign-out"  aria-hidden="true" @click="$store.dispatch('delToken'), $store.dispatch('delLogged'), $router.push('/')" ></i>
                             </div>
                         </div>
                     </div>
@@ -47,15 +45,15 @@
                     <li :class="{ 'nav-item': true, active: isActiveNavItem('overview') }">
                         <a href="/#/admin/overview"> Overview </a>
                     </li>
-                    <li :class="{ 'nav-item': true, active: isActiveNavItem('todo') }">
-                        <a href="/#/admin/todo"> Todo </a>
+                    <li v-if="logged.applications.indexOf('reminders') !== -1" :class="{ 'nav-item': true, active: isActiveNavItem('reminder') }">
+                        <a href="/#/admin/reminder"> Reminder </a>
                     </li>
 
-                    <li class="nav-caption">Settings</li>
-                    <li :class="{ 'nav-item': true, active: isActiveNavItem('data') }">
+                    <li class="nav-caption">Administration</li>
+                    <li v-if="logged.administrations.indexOf('data') !== -1" :class="{ 'nav-item': true, active: isActiveNavItem('data') }">
                         <a href="/#/admin/data">Data</a>
                     </li>
-                    <li :class="{ 'nav-item': true, active: isActiveNavItem('users') }">
+                    <li v-if="logged.administrations.indexOf('users') !== -1" :class="{ 'nav-item': true, active: isActiveNavItem('users') }">
                         <a href="/#/admin/users">Users</a>
                     </li>
                 </ul>
@@ -79,10 +77,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'app',
     computed: {
-        ...mapGetters([ 'token', 'location', 'toast', 'users', 'user' ]),
-        updatedUser() {
-            return this.users.find( u => u._id === this.user._id )
-        }
+        ...mapGetters([ 'token', 'location', 'toast', 'logged' ]),
     },
     methods: {
         isActiveNavItem: function( location ) {

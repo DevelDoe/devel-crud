@@ -13,7 +13,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <form id="userForm" class="needs-validation" :class="{ 'needs-validation': !valid }"novalidate>
+                                <form id="userForm" class="needs-validation" :class="{ 'needs-validation': !valid }"novalidate onsubmit="return false;">
                                     <div class="form-group">
                                         <label for="inputFname">First Name</label>
                                         <input type="text" class="form-control" id="inputFname"  placeholder="Enter name" v-model="newUser.fname">
@@ -44,16 +44,8 @@
                                     <div class="form-group">
                                         <label for="exampleFormControlSelect1">Security Level</label>
                                         <select class="form-control" id="exampleFormControlSelect1" v-model="newUser.sec_lv">
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
+                                            <option value="" selected class="selectPlaceholder">Security Level</option>
+                                            <option v-for="(level, i) in accelSecLv" :value="i" >{{level}}</option>
                                         </select>
                                     </div>
                                 </form>
@@ -124,14 +116,26 @@ export default {
                 email: '',
                 password: '',
                 img_src: '',
-                sec_lv: null
-            }
+                sec_lv: '',
+                applications: [],
+                administrations: []
+            },
+            sec_lvs: [ 'root', 'admin', 'owner', 'operator', 'user', 'unknown','unknown','unknown','unknown', 'guest' ]
         }
     },
     computed: {
-        ...mapGetters(['users']),
+        ...mapGetters(['users','logged']),
         valid() {
             return this.newUser.email !== '' && this.newUser.password !== ''
+        },
+        accelSecLv() {
+            const lv = this.logged.sec_lv
+            if(lv === '0') return this.sec_lvs
+            let acces = []
+            this.sec_lvs.forEach( (lev, i) => {
+                 if(i > lv)acces.push(lev)
+            })
+            return acces
         }
     },
     methods: {

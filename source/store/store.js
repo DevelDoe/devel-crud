@@ -23,7 +23,7 @@ const store = new Vux.Store({
         toast: '',
         resources: null,
         users: [],
-        user: {}
+        logged: null
     },
     getters: {
         appName        : state => { return state.appName },
@@ -33,7 +33,7 @@ const store = new Vux.Store({
         toast          : state => { return state.toast },
         resources      : state => { return state.resources },
         users          : state => { return state.users },
-        user           : state => { return state.user },
+        logged         : state => { return state.logged },
     },
     mutations: {
         setAppName     : ( state, payload ) => { state.appName = payload },
@@ -55,8 +55,8 @@ const store = new Vux.Store({
         addUser        : ( state, payload ) => { state.users.push( payload ) },
         delUser        : ( state, payload ) => { state.users = state.users.filter( user => { return user._id != payload } ) },
 
-        setUser        : ( state, payload ) => { state.user = payload },
-        removeUser     : ( state, payload ) => { state.user = {} },
+        setLogged      : ( state, payload ) => { state.logged = payload },
+        delLogged      : ( state, payload ) => { state.logged = null },
     },
     actions: {
         setAppName     : ( ctx, payload )   => { ctx.commit( 'setAppName', payload ) },
@@ -78,8 +78,8 @@ const store = new Vux.Store({
         addUser        : ( ctx, payload )   => { ctx.commit( 'addUser', payload ) },
         delUser        : ( ctx, payload )   => { ctx.commit( 'delUser', payload ) },
 
-        setUser        : ( ctx, payload )   => { ctx.commit( 'setUser', payload ) },
-        removeUser     : ( ctx, payload )   => { ctx.commit( 'removeUser', payload ) },
+        setLogged      : ( ctx, payload )   => { ctx.commit( 'setLogged', payload ) },
+        delLogged      : ( ctx, payload )   => { ctx.commit( 'delLogged', payload ) },
     }
 })
 

@@ -1,13 +1,57 @@
 .admin {
-    .form-control {
-        background-color: rgba(255,255,255,.04);
+    .form-group {
+        .form-control {
+            color: #ccc;
+            background-color: rgba(255, 255, 255, 0.01);
+            border: none;
+            padding: 29px;
+            border-radius: 0;
+        }
+        select {
+            color: #ccc;
+        }
+        option {
+            color:  $background;
+            font-weight:bold;
+            padding:5px
+        }
+    }
+    .btn-danger {
+        color: $background;
+        border:none;
+        background-color: #c37878;
+        &:hover {
+            background-color:  #c15353;
+        }
+    }
+    .btn {
+
+    }
+    .btn-primary {
+        background-color: $primary-light;
+        &:hover {
+            background-color: $primary;
+        }
+    }
+    .btn-dark {
+        color: $background;
         border: none;
+        &:hover {
+            background: #777;
+        }
+    }
+    .btn-dark.active {
+        color: $background !important;
+        background-color: #ccc !important;
+    }
+    .selectPlaceholder {
         color: #ccc;
-        background-color: rgba(255, 255, 255, 0.01);
-        border: none;
-        color: #ccc;
-        padding: 29px;
-        border-radius: 0;
+    }
+    .btn-disabled {
+        background-color: #ccc;
+        &:hover {
+            background-color: #ccc;
+        }
     }
     .modal {
         color: #666;
@@ -25,6 +69,7 @@
             border: 1px solid #ced4da;
             padding: 0.375rem 0.75rem;
             border-radius: 5px;
+
         }
         input::placeholder {
             color: #ccc;
@@ -38,30 +83,13 @@
                 color: #333;
             }
         }
-    }
-    // input {
-    //     padding: 10px ;
-    //     border: none;
-    //     background: rgba(255, 255, 255, 0.04);
-    //     box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
-    //     font-size: 24px;
-    // }
-    // .form-check-input {
-    //     margin-top: 4px;
-    // }
-    // .form-check-label {
-    //     font-size: 25px ;
-    //     line-height: 15px;
-    //     margin-bottom: 20px;
-    // }
-    .selectPlaceholder {
-        color: #ccc;
-    }
 
-    .btn-disabled {
-        background-color: #ccc;
-        &:hover {
-            background-color: #ccc;
+        .btn-danger {
+            color: #fff;
+            background-color: #c19f9f;
+            &:hover {
+                background-color:  #c15353;
+            }
         }
     }
 }
