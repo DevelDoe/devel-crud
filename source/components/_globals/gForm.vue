@@ -12,9 +12,8 @@
                     <div class="modal-body text-center">
                         <form class="form-signin" id="loginForm" onsubmit="return false;">
                             <h1>Warnign</h1>
-                            <p>Are you shure you want to delete {{schema}}! This action can not be undone!
-
-                            </p>
+                            <p>Are you shure you want to delete {{schema}}!
+                            This action can not be undone!</p>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -50,8 +49,6 @@
                             </select>
                         </div>
                     </span>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                    <button type="button" class="btn btn-primary" @click="update(data)">Save</button>
                 </form>
             </div>
             <div class="col-4 toggleFeatures" v-if="data.applications" >
@@ -59,7 +56,7 @@
                     <div class="col">
                         <h3>Applications</h3>
                         <span v-for="(app, i) in apps">
-                            <button type="button" class="btn btn-dark" :class="{ 'active': data.applications.indexOf(app) !== -1 }" @click="toggleApplication(app)">{{app}}</button>
+                            <button type="button" class="btn btn-dark" :class="{ 'active': active.indexOf(app) !== -1 }" @click="toggleApplication(app), activate(app)">{{app}}</button>
                         </span>
                     </div>
                 </div>
@@ -67,12 +64,23 @@
                     <div class="col">
                         <h3>Administration</h3>
                         <span v-for="(admin, i) in admins">
-                            <button type="button" class="btn btn-dark" :class="{ 'active': data.administrations.indexOf(admin) !== -1 }" @click="toggleAdministrations(admin)">{{admin}}</button>
+                            <button type="button" class="btn btn-dark" :class="{ 'active': active.indexOf(admin) !== -1 }" @click="toggleAdministrations(admin), activate(admin)">{{admin}}</button>
                         </span>
                     </div>
                 </div>
             </div>
+
         </div>
+        <div class="row">
+            <div class="col" v-if="data._id">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                <button type="button" class="btn btn-primary" @click="update()">Save</button>
+            </div>
+            <div class="col" v-else>
+                <button type="button" class="btn btn-primary" @click="save()">Save</button>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -87,7 +95,8 @@ export default {
             newPassword:'',
             sec_lvs: [ 'root', 'admin', 'owner', 'operator', 'user', 'unknown','unknown','unknown','unknown', 'guest' ],
             apps: [ 'tasks', 'notes' ],
-            admins: [ 'users', 'data' ]
+            admins: [ 'users', 'data' ],
+            active: []
         }
     },
     computed: {
@@ -107,28 +116,43 @@ export default {
         }
     },
     methods: {
+        activate:function(button){
+            if(this.active.indexOf( button ) !== -1) this.active.splice(this.active.indexOf( button ), 1)
+            else this.active.push(button);
+        },
         toggleApplication( app ) {
-            const index = this.data.applications.indexOf( app )
-            if(index !== -1) this.data.applications.splice(index, 1)
+            if(this.data.applications.indexOf( app ) !== -1) this.data.applications.splice(this.data.applications.indexOf( app ), 1)
             else this.data.applications.push( app )
         },
         toggleAdministrations( app ) {
-            const index = this.data.administrations.indexOf( app )
-            if(index !== -1) this.data.administrations.splice(index, 1)
+            if(this.data.administrations.indexOf( app ) !== -1) this.data.administrations.splice(this.data.administrations.indexOf( app ), 1)
             else this.data.administrations.push( app )
         },
-        update( data ) {
-            this.$api.update( this.schema, data )
-            if( this.logged._id === data._id ) {
+        update() {
+            if( this.logged._id === this.data._id ) {
                 this.$store.dispatch('delLogged')
                 this.$store.dispatch('setLogged', this.data)
             }
-            this.$router.push(`${this.schema}s`)
+            const valid = this.$api.update( this.schema, this.data )
+            if( valid === undefined ) {
+                this.$router.push(`${this.schema}s`)
+            } else {
+                this.valid = false
+            }
+
         },
-        remove: function( data ) {
-            this.$api.del( this.schema, data )
+        remove: function() {
+            this.$api.del( this.schema, this.data )
             $('#deleteModal').modal('hide')
             this.$router.push(`${this.schema}s`)
+        },
+        save: function () {
+            const valid = this.$api.save( this.schema, this.data )
+            if( valid === undefined ) {
+                this.$router.push(`${this.schema}s`)
+            } else {
+                this.valid = false
+            }
         }
     }
 }
