@@ -66,16 +66,24 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-row align-items-center">
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="fieldName" placeholder="Field name" autocomplete="off" v-model="field.name">
                                             </div>
                                         </div>
                                         <div class="col-sm-3 ">
                                             <div class="form-group">
-                                                <select v-model="field.type" class="form-control" id="typeSelect">
+                                                <select v-model="field.inputType" class="form-control" id="typeSelect">
                                                     <option value="" selected class="selectPlaceholder">Type</option>
-                                                    <option v-for="type in types" :value="type" >{{type}}</option>
+                                                    <option v-for="inputType in inputTypes" :value="inputType" >{{inputType}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 ">
+                                            <div class="form-group">
+                                                <select v-model="field.dbType" class="form-control" id="typeSelect">
+                                                    <option value="" selected class="selectPlaceholder">DBType</option>
+                                                    <option v-for="dbType in dbTypes" :value="dbType" >{{dbType}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -108,7 +116,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-lg  btn-block" @click="addField" >add field</button>
+                        <button class="btn btn-lg  btn-block" @click="addField">add field</button>
                         <button class="btn btn-lg btn-primary" @click="updateResource" data-dismiss="modal">Save</button>
                     </div>
                 </div>
@@ -146,12 +154,7 @@
 <script>
 export default {
     name: 'resource',
-    data() {
-        return {
-            levels: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-        }
-    },
-    props: [ 'resource', 'types' ],
+    props: [ 'resource', 'inputTypes', 'dbTypes', 'levels' ],
     methods: {
         delResource( resource ) {
             this.$api.del( 'resource', resource )
@@ -160,7 +163,8 @@ export default {
         addField( field ) {
             this.resource.fields.push({
                 name: '',
-                type: '',
+                inputTypes: '',
+                dbTypes: '',
                 unique: false,
                 required: false
             })

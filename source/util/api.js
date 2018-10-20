@@ -142,6 +142,7 @@ const API = {
         const coll = args.shift() || null
         const data = args.shift() || null
         const access = writeRights( coll, data )
+
         if(  access ) {
 
             if( validate( coll, data ) ) {
@@ -236,6 +237,8 @@ function writeRights( coll, data ) {
             setTimeout( () => { bus.$emit('toast', '' ) }, 8000 )
             return false
         }
+    } else {
+        return true
     }
 }
 function validate( coll, data ) {

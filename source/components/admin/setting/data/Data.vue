@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col">
                                 <label for="readeSelect">Read</label>
-                                <select class="form-control" id="readeSelect">
+                                <select class="form-control" id="readeSelect" v-model="newResource.read">
                                     <option value="" selected class="selectPlaceholder">level</option>
                                     <option v-for="lv in levels" :value="lv" >{{lv}}</option>
                                 </select>
@@ -30,7 +30,7 @@
                             </div>
                             <div class="col">
                                 <label for="readeSelect">Write</label>
-                                <select class="form-control" id="readeSelect">
+                                <select class="form-control" id="readeSelect" v-model="newResource.write">
                                     <option value="" selected class="selectPlaceholder">level</option>
                                     <option v-for="lv in levels" :value="lv" >{{lv}}</option>
                                 </select>
@@ -40,16 +40,24 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-row align-items-center">
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="fieldName" placeholder="Field name" autocomplete="off" v-model="field.name">
                                             </div>
                                         </div>
                                         <div class="col-sm-3 ">
                                             <div class="form-group">
-                                                <select v-model="field.type" class="form-control" id="typeSelect">
-                                                    <option value="" selected class="selectPlaceholder">Type</option>
-                                                    <option v-for="type in types" :value="type" >{{type}}</option>
+                                                <select v-model="field.inputType" class="form-control" id="typeSelect">
+                                                    <option value="" selected class="selectPlaceholder">inputType</option>
+                                                    <option v-for="inputType in inputTypes" :value="inputType" >{{inputType}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 ">
+                                            <div class="form-group">
+                                                <select v-model="field.dbType" class="form-control" id="typeSelect">
+                                                    <option value="" selected class="selectPlaceholder">DBType</option>
+                                                    <option v-for="dbType in dbTypes" :value="dbType" >{{dbType}}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -116,7 +124,7 @@
 
                     <div class="row">
                         <div class="col-7">
-                            <Resources v-for="(resource, i) in resources" :key="'resource'+i" :resource="resource" :types="types"/>
+                            <Resources v-for="(resource, i) in resources" :key="'resource'+i" :resource="resource" :inputTypes="inputTypes" :levels="levels" :dbTypes="dbTypes"/>
                         </div>
                     </div>
 
@@ -146,7 +154,8 @@ export default {
                 name : '',
                 fields: [],
             },
-            types: [ 'String', 'Boolean', 'Number', 'Date', 'Buffer', 'Mixed', 'ObjectId', 'Array', 'Decimal128', 'Map' ],
+            inputTypes: [  'text', 'none', 'select', 'checkbox', 'password', 'email', 'sec_lv', 'button' ],
+            dbTypes: [ 'String', 'Boolean', 'Number', 'Date', 'Buffer', 'Mixed', 'ObjectId', 'Array', 'Decimal128', 'Map' ],
             levels: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
         }
     },
@@ -162,7 +171,8 @@ export default {
         addField( field ) {
             this.newResource.fields.push({
                 name: '',
-                type: '',
+                inputType: '',
+                dbType: '',
                 unique: false,
                 required: false
             })

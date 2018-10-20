@@ -46,7 +46,10 @@
                         <a href="/#/admin/overview"> Overview </a>
                     </li>
                     <li v-if="logged.applications.indexOf('tasks') !== -1" :class="{ 'nav-item': true, active: isActiveNavItem('tasks') }">
-                        <a href="/#/admin/tasks"> Reminder </a>
+                        <a href="/#/admin/tasks"> Tasks </a>
+                    </li>
+                    <li v-if="logged.applications.indexOf('notes') !== -1" :class="{ 'nav-item': true, active: isActiveNavItem('notes') }">
+                        <a href="/#/admin/notes"> Notes </a>
                     </li>
 
                     <li class="nav-caption">Administration</li>

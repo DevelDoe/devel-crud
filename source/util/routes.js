@@ -10,6 +10,7 @@
 import Home     from '../components/site/Home.vue'
 import Overview from '../components/admin/dashboard/overview/Overview.vue'
 import Tasks    from '../components/admin/dashboard/tasks/Tasks.vue'
+import Notes    from '../components/admin/dashboard/notes/Notes.vue'
 import Data     from '../components/admin/setting/data/Data.vue'
 import Users    from '../components/admin/setting/users/Users.vue'
 import User     from '../components/admin/setting/users/User.vue'
@@ -39,6 +40,12 @@ export default [{
         path: '/admin/tasks',
         component: Tasks,
         name: 'tasks',
+        beforeEnter: authenticate
+    },
+    {
+        path: '/admin/notes',
+        component: Notes,
+        name: 'notes',
         beforeEnter: authenticate
     },
     {
