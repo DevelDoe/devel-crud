@@ -11,7 +11,9 @@
 <div id="app">
 
         <DevelToast :toast="toast"/>
-        <gSearch />
+        <transition name="fade" mode="out-in" >
+            <gSearch />
+        </transition>
 
         <div class='dots' :class="{ animate: loading }">
             <span></span>

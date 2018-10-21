@@ -28,3 +28,15 @@
   transform: translateX(10px);
   opacity: 0;
 }
+
+.fade-slow-enter-active,
+.fade-slow-leave-active {
+  transition-duration: 3s;
+  transition-property: opacity;
+  transition-timing-function: ease-in;
+}
+
+.fade-slow-enter,
+.fade-slow-leave-active {
+  opacity: 0
+}

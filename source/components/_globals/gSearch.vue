@@ -1,13 +1,13 @@
 <template lang="html">
-    <div id="gSearch" v-show="showSearch" v-cloak>
+    <div id="gSearch" v-if="showSearch" v-cloak>
         <div class="search">
-            <input type="search"  value="" placeholder="Search" class="search-input" ref='search' autofocus v-model="search">
+            <input type="search"  value="" placeholder="Search" class="search-input" ref='search' autofocus v-model="search" @keyup.esc="$store.dispatch('toggleSearch')">
         </div>
         <div class="results" v-show="search">
             <div v-for="(title, i) in filterData" class="result">
                 {{title[searchField]}}
             </div>
-            <div class="noResults">
+            <div class="noResults" v-show="filterData.length == 0">
                 No results...
             </div>
         </div>
@@ -26,13 +26,13 @@ export default {
         }
     },
     computed: {
-        ...mapGetters( [ 'location', 'searchField', 'showSearch' ]),
+        ...mapGetters( [ 'logged', 'location', 'searchField', 'showSearch' ]),
         data() {
             return this.$store.getters[this.location]
         },
         filterData() {
             return this.data.filter( field => {
-                return field[this.searchField].toLowerCase().indexOf( this.search.toLowerCase() ) > -1
+                return  field.user_id === this.logged._id && field[this.searchField].toLowerCase().indexOf( this.search.toLowerCase() ) > -1
             })
         }
     },
@@ -93,8 +93,8 @@ export default {
 
     .fa-times {
         position: absolute;
-        top: 2%;
-        right: 2%;
+        top: 14px;
+        right: 17px;
         z-index: 9999;
     }
 }
