@@ -42,10 +42,10 @@
                             <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" required v-model="data[item.name]"  >
                             <div class="invalid-feedback"> You must enter a email address, this will be used on login.</div>
                         </div>
-                        <div class="form-group" v-if="item.inputType === 'sec_lv' && ( logged.sec_lv < data.sec_lv || logged.sec_lv === '0' ) ">
+                        <div class="form-group" v-if="item.inputType === 'sec_lv'  ">
                             <label for="exampleFormControlSelect1">Security Level</label>
                             <select class="form-control"  v-model="data.sec_lv">
-                                <option v-for="(level, i) in accelSecLv" :value="i" >{{level}}</option>
+                                <option v-for="(key, i) in Object.keys(accelSecLv)" :value="accelSecLv[key]" >{{key}}</option>
                             </select>
                         </div>
                     </span>
@@ -56,7 +56,7 @@
                     <div class="col">
                         <h3>Applications</h3>
                         <span v-for="(app, i) in apps">
-                            <button type="button" class="btn btn-dark" :class="{ 'active': active.indexOf(app) !== -1 }" @click="toggleApplication(app), activate(app)">{{app}}</button>
+                            <button type="button" class="btn btn-dark" :class="{ 'active': data.applications.indexOf(app) !== -1 } " @click="toggleApplication(app)">{{app}}</button>
                         </span>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <div class="col">
                         <h3>Administration</h3>
                         <span v-for="(admin, i) in admins">
-                            <button type="button" class="btn btn-dark" :class="{ 'active': active.indexOf(admin) !== -1 }" @click="toggleAdministrations(admin), activate(admin)">{{admin}}</button>
+                            <button type="button" class="btn btn-dark" :class="{ 'active': data.administrations.indexOf(admin) !== -1 } " @click="toggleAdministrations(admin)">{{admin}}</button>
                         </span>
                     </div>
                 </div>
@@ -93,10 +93,9 @@ export default {
         return {
             valid: true,
             newPassword:'',
-            sec_lvs: [ 'root', 'admin', 'owner', 'operator', 'user', 'unknown','unknown','unknown','unknown', 'guest' ],
+            sec_lvs:  { root: 0, admin: 1, owner: 2, operator: 3, super: 4, user: 5, pleab: 6, anonymous: 7, special: 8, guest: 9 },
             apps: [ 'tasks', 'notes' ],
-            admins: [ 'users', 'data' ],
-            active: []
+            admins: [ 'users', 'data' ]
         }
     },
     computed: {
@@ -108,25 +107,25 @@ export default {
         accelSecLv() {
             const loggedLevel = this.logged.sec_lv
             if(loggedLevel === '0') return this.sec_lvs
-            let acces = []
-            this.sec_lvs.forEach( (lev, i) => {
-                 if(i > loggedLevel)acces.push(lev)
-            })
+            let acces = {}
+            for(var prop in this.sec_lvs) {
+                if(this.sec_lvs[prop] >= loggedLevel){
+                    acces[prop] = this.sec_lvs[prop]
+                }
+            }
             return acces
         }
     },
     methods: {
-        activate:function(button){
-            if(this.active.indexOf( button ) !== -1) this.active.splice(this.active.indexOf( button ), 1)
-            else this.active.push(button);
-        },
         toggleApplication( app ) {
             if(this.data.applications.indexOf( app ) !== -1) this.data.applications.splice(this.data.applications.indexOf( app ), 1)
             else this.data.applications.push( app )
+            this.$forceUpdate()
         },
-        toggleAdministrations( app ) {
-            if(this.data.administrations.indexOf( app ) !== -1) this.data.administrations.splice(this.data.administrations.indexOf( app ), 1)
-            else this.data.administrations.push( app )
+        toggleAdministrations( admin ) {
+            if(this.data.administrations.indexOf( admin ) !== -1) this.data.administrations.splice(this.data.administrations.indexOf( admin ), 1)
+            else this.data.administrations.push( admin )
+            this.$forceUpdate()
         },
         update() {
             if( this.logged._id === this.data._id ) {
@@ -154,6 +153,9 @@ export default {
                 this.valid = false
             }
         }
+    },
+    update() {
+
     }
 }
 </script>

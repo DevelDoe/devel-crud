@@ -22,7 +22,7 @@
                 </div>
 
 
-                <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1">
+                <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1 && filterTodos.length > 0">
                     <div class="paper">
                         <h3>Tasks</h3>
                         <ul class="todo-list">
