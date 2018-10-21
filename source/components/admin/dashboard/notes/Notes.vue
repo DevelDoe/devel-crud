@@ -10,8 +10,8 @@
                     <ul class="todo-list">
                         <li v-for="(note, i) in loggedNotes" class="note todo" :key=" 'note' + i" :class="{  editing: note === editedNote }" >
                             <div class="view">
-                                <input class="toggle" type="checkbox" v-model="note.overview" @click="note.overview = !note.overview, $api.update( 'note', note )">
                                 <label @dblclick="editNote(note)"> {{ note.title }} </label>
+                                <i class="fa fa-tachometer" aria-hidden="true" :class="{ 'fa-done': note.overview }" @click="note.overview = !note.overview, $api.update( 'note', note )"></i>
                                 <i class="fa fa-times" aria-hidden="true" @click="removeNote(note)"></i>
                             </div>
                             <input class="edit" type="text" v-model="note.title" v-todo-focus="note == editedNote" @blur="doneEdit(note)" @keyup.enter="doneEdit(note)" @keyup.esc="cancelEdit(note)">
@@ -155,6 +155,16 @@ export default {
                         label {
                             margin: .5rem;
                         }
+                        .fa {
+                            font-size: 17px;
+                            color: #333;
+                            &:hover {
+                                color: #ccc;
+                            }
+                        }
+                        .fa-done {
+                            color: #eee;
+                        }
                     }
                     .edit {
                         display: none;
@@ -182,9 +192,6 @@ export default {
                     }
                 }
             }
-        }
-        .fa {
-            font-size: 17px;
         }
     }
 }

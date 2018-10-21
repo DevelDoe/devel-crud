@@ -13,8 +13,8 @@
                             <ul class="todo-list">
                                 <li v-for="(todo, i) in filteredTodos" class="todo" :key=" 'todo' + i" :class="{ completed: todo.completed, editing: todo === editedTodo }" >
                                     <div class="view">
-                                        <input class="toggle" type="checkbox" v-model="todo.completed" @click="todo.completed = !todo.completed, $api.update( 'todo', todo )">
                                         <label @dblclick="editTodo(todo)"> {{ todo.title }} </label>
+                                        <i class="fa fa-check" aria-hidden="true" :class="{ 'fa-check-done': todo.completed }" @click="todo.completed = !todo.completed, $api.update( 'todo', todo )"></i>
                                         <i class="fa fa-times" aria-hidden="true" @click="removeTodo(todo)"></i>
                                     </div>
                                     <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
@@ -77,16 +77,6 @@ export default {
         },
         remaining: function() {
             return filters.active( this.todos ).length
-        },
-        allDone: {
-            get: function() {
-                return this.remaining === 0
-            },
-            set: function( value ) {
-                this.todos.forEach( todo => {
-                    todo.completed = value
-                })
-            }
         },
         ...mapGetters([ 'todos', 'logged' ])
     },
@@ -167,28 +157,6 @@ export default {
         position: relative;
         z-index: 2;
         border:none;
-        .toggle-all:before {
-            content: '❯';
-            font-size: 22px;
-            color: #e6e6e6;
-            padding: 10px 27px 10px 27px;
-        }
-        .toggle-all {
-            position: absolute;
-            top: -55px;
-            left: -12px;
-            width: 60px;
-            height: 34px;
-            text-align: center;
-            border: none;
-            -webkit-transform: rotate(90deg);
-            transform: rotate(90deg);
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .toggle-all, .todo-list li .toggle {
-            background: none;
-        }
         .todo-list {
             margin: 0;
             padding: 0;
@@ -208,6 +176,16 @@ export default {
                 .view {
                     label {
                         margin: .5rem;
+                    }
+                    .fa {
+                        font-size: 17px;
+                        color: #333;
+                        &:hover {
+                            color: #ccc;
+                        }
+                    }
+                    .fa-check-done {
+                        color: #eee;
                     }
                 }
                 .edit {
@@ -288,17 +266,6 @@ export default {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-    }
-}
-.todoapp {
-    .todo {
-        padding-left: 10px;
-        position: relative;
-        font-size: 20px;
-        border-bottom: none;
-    }
-    .fa {
-        font-size: 17px;
     }
 }
 </style>
