@@ -42,7 +42,7 @@
                             <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" required v-model="data[item.name]"  >
                             <div class="invalid-feedback"> You must enter a email address, this will be used on login.</div>
                         </div>
-                        <div class="form-group" v-if="item.inputType === 'sec_lv'  ">
+                        <div class="form-group" v-if="item.inputType === 'sec_lv' && data._id !== logged._id && logged.sec_lv < data.sec_lv ">
                             <label for="exampleFormControlSelect1">Security Level</label>
                             <select class="form-control"  v-model="data.sec_lv">
                                 <option v-for="(key, i) in Object.keys(accelSecLv)" :value="accelSecLv[key]" >{{key}}</option>

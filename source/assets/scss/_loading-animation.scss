@@ -1,0 +1,75 @@
+// must be at least the number of spans, otherwise they just collapse over each other
+$dots: 5; // pixels between dots at their closest
+$spacing: 20; // time offset between dots (will have an apparent effect on spacing also)
+$gap: 0.05;
+@for $i from 1 through $dots {
+    .dots span:nth-child(#{$i}) {
+        animation-delay: #{$i * $gap}s;
+    }
+
+    .dots span:nth-child(#{$i}):after {
+        left: -#{$i * $spacing}px;
+    }
+}
+
+.dots {
+    position: fixed;
+    width: calc(100% + 200px);
+    top: 0;
+    z-index: 9999;
+    background: black;
+    height: 2px;
+
+    span {
+        display: inline-block;
+        position: absolute;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+    }
+
+    span:after {
+        content: "";
+        position: absolute;
+        display: inline-block;
+        background-color: $primary-light;
+        width: 2px;
+        height: 2px;
+        border-radius: 50%;
+    }
+}
+
+.dots.animate span {
+    animation-name: dots;
+}
+@keyframes dots {
+    0%,
+    20% {
+        left: 0;
+        animation-timing-function: ease-out;
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    35% {
+        left: 45%;
+        animation-timing-function: linear;
+    }
+
+    65% {
+        left: 55%;
+        animation-timing-function: ease-in;
+    }
+
+    75% {
+        opacity: 1;
+    }
+
+    100%,
+    80% {
+        left: 100%;
+        opacity: 0;
+    }
+}

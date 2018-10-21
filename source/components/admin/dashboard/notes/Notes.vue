@@ -184,7 +184,7 @@ export default {
                         display: block;
                         width: 506px;
                         padding: 8px 8px;
-                        padding: 8px 8px 8px 54px;
+                        padding: 8px 8px 8px 8px;
                         background: transparent;
                         color: #eee;
                         border:none;
