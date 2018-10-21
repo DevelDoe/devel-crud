@@ -13,11 +13,11 @@
                     <canvas ref="orderHistoryCanvas" width="400" height="100" ></canvas>
                 </div>
             </div>
-            <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1 && filterTodos.length > 0">
+            <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1 && filterTasks.length > 0">
                 <div class="paper">
                     <h3>Tasks</h3>
                     <ul class="todo-list">
-                        <li v-for="(todo, index) in filterTodos" class="todo" :key=" 'todo' + index"  >
+                        <li v-for="(todo, index) in filterTasks" class="todo" :key=" 'todo' + index"  >
                             {{ todo.title }}
                         </li>
                     </ul>
@@ -33,15 +33,15 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'dashboard',
     computed: {
-        ...mapGetters([ 'todos', 'logged', 'notes' ]),
-        filterTodos() {
-            return this.loggedTodos.filter( todo => { return todo.completed === false  })
+        ...mapGetters([ 'tasks', 'logged', 'notes' ]),
+        filterTasks() {
+            return this.loggedTasks.filter( todo => { return todo.completed === false  })
         },
         filterNotes() {
             return this.loggedNotes.filter( note => { return note.overview === true  })
         },
-        loggedTodos: function() {
-            return this.todos.filter( todo => {
+        loggedTasks: function() {
+            return this.tasks.filter( todo => {
                 return todo.user_id === this.logged._id
             })
         },

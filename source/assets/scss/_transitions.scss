@@ -29,11 +29,16 @@
   opacity: 0;
 }
 
-.fade-slow-enter-active,
-.fade-slow-leave-active {
+.fade-slow-enter-active{
   transition-duration: 3s;
   transition-property: opacity;
   transition-timing-function: ease-in;
+}
+
+.fade-slow-leave-active {
+  transition-duration: 0s;
+  transition-property: opacity;
+  transition-timing-function: ease;
 }
 
 .fade-slow-enter,

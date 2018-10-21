@@ -1,8 +1,9 @@
 <template lang="html">
     <div id="gSearch" v-if="showSearch" v-cloak>
         <div class="search">
-            <input type="search"  value="" placeholder="Search" class="search-input" ref='search' autofocus v-model="search" @keyup.esc="$store.dispatch('toggleSearch')">
+            <input type="search"  value="" placeholder="Search" class="search-input" ref='search' autofocus v-model="search" @keydown.esc="$store.dispatch('toggleSearch'), seach = ''">
         </div>
+        <transition name="fade" mode="out-in" >
         <div class="results" v-show="search">
             <div v-for="(title, i) in filterData" class="result">
                 {{title[searchField]}}
@@ -11,7 +12,8 @@
                 No results...
             </div>
         </div>
-        <i class="fa fa-times" aria-hidden="true" @click="$store.dispatch('toggleSearch')"></i>
+        </transition>
+        <i class="fa fa-times" aria-hidden="true" @click="$store.dispatch('toggleSearch'), seach = ''"></i>
     </div>
 </template>
 
@@ -32,7 +34,8 @@ export default {
         },
         filterData() {
             return this.data.filter( field => {
-                return  field.user_id === this.logged._id && field[this.searchField].toLowerCase().indexOf( this.search.toLowerCase() ) > -1
+                if(field.user_id) return  field.user_id === this.logged._id && field[this.searchField].toLowerCase().indexOf( this.search.toLowerCase() ) > -1
+                else return field[this.searchField].toLowerCase().indexOf( this.search.toLowerCase() ) > -1
             })
         }
     },
@@ -50,7 +53,7 @@ export default {
     left: 0;
     width: 100%;
     min-height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, .5) 100%, transparent);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, .9) 100%, transparent);
     z-index: 9998;
 
     .search {
