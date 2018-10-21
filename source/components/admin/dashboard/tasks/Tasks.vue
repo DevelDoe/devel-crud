@@ -1,10 +1,8 @@
 <template lang="html">
     <div id="tasks" class="admin">
         <div class="container-fluid">
-            <div class="container-fluid">
                 <gHeading heading="Tasks"/>
 
-            </div>
             <div class="row">
                 <div class="col-12">
                     <section class="todoapp">
@@ -12,7 +10,6 @@
                             <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
                         </header>
                         <section class="main" v-show="todos.length" v-cloak>
-                            <input class="toggle-all" type="checkbox" v-model="allDone">
                             <ul class="todo-list">
                                 <li v-for="(todo, i) in filteredTodos" class="todo" :key=" 'todo' + i" :class="{ completed: todo.completed, editing: todo === editedTodo }" >
                                     <div class="view">
@@ -159,7 +156,6 @@ export default {
 .todoapp {
     .new-todo{
         padding: 1rem ;
-        margin-left: 40px;
         border: none;
         background: rgba(0, 0, 0, 0.04);
         width: 100%;
@@ -231,7 +227,7 @@ export default {
                 .edit {
                     display: block;
                     width: 506px;
-                    padding: 8px 8px 8px 53px;
+                    padding: 8px 8px 8px 54px;
                     margin: 0 0 0 0px !important;
                     background: transparent;
                     color: #eee;

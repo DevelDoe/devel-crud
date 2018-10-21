@@ -47,7 +47,7 @@ export default {
             return this.loggedTodos.filter( todo => { return todo.completed === false  })
         },
         filterNotes() {
-            return this.loggedNotes.filter( note => { return note.completed === false  })
+            return this.loggedNotes.filter( note => { return note.overview === true  })
         },
         loggedTodos: function() {
             return this.todos.filter( todo => {
