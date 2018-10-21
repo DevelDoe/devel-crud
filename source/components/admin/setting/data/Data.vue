@@ -167,6 +167,7 @@ export default {
     mounted() {
         this.newAppName = this.appName
         this.$store.dispatch( 'setLocation', 'data' )
+        this.$store.dispatch('setSearchField', 'name')
     },
     destroyed() {
         this.$store.dispatch( 'setLocation', '' )
@@ -179,17 +180,6 @@ export default {
 
 <style lang="scss">
 #data {
-    .modal {
-        .fa-trash-o {
-            font-size: 28px;
-            margin-bottom: 18px;
-            padding-left: 5px;
-            color: #777;
-            &:hover {
-                color: #333;
-            }
-        }
-    }
     .card {
         background-color: #ffffff05;
         position: relative;

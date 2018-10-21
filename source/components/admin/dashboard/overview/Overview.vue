@@ -1,5 +1,6 @@
 <template lang="html">
     <div id="dashboard" class="admin">
+
         <div class="row padding">
             <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1" v-for="(note, index) in filterNotes">
                 <div class="paper">
@@ -23,6 +24,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 

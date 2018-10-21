@@ -24,9 +24,6 @@ button {
 ::-webkit-scrollbar {
     display: none;
 }
-#app {
-    height: 100%;
-}
 #dashboard {
     height: 100%;
 }
@@ -40,21 +37,7 @@ button {
 .no-padding {
     padding: 0 !important;
 }
-.admin {
-    color: #eee;
-    .paper {
-        padding: 1rem;
-        border-radius: 5px;
-        background: #313640;
-        h3 {
-            font-weight: 200;
-        }
-    }
-    input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: #666;
-        opacity: 1; /* Firefox */
-    }
-}
+
 .content {
     transition: margin .3s;
 }

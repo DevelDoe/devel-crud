@@ -41,6 +41,12 @@ Object.defineProperty(Vue.prototype, '$bus', { get() { return this.$root.api.bus
 
 import App from './components/App.vue'
 
+Vue.directive('focus', {
+    inserted: function (el) {
+        el.focus()
+    }
+})
+
 new Vue({
     el: '#app',
     store: store,

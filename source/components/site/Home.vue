@@ -390,8 +390,8 @@ export default {
     name: 'home',
     data() {
         return {
-            email: 'guest@example.ex',
-            password: 'password'
+            email: 'andreeray@live.com',
+            password: 'JI21ko87.'
         }
     },
     computed: {
@@ -429,7 +429,7 @@ export default {
                             this.$store.dispatch('setLogged', user )
                             $('#loginModal').modal('hide')
                             this.$api.get( 'resource', () => {
-                                this.$api.get( 'todo' )
+                                this.$api.get( 'task' )
                                 this.$api.get( 'note' )
                             })
                         })
@@ -454,7 +454,7 @@ export default {
 </script>
 <style lang="scss">
 #home {
-    
+
     .form-signin {
         width: 100%;
         max-width: 330px;

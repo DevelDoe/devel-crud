@@ -11,6 +11,7 @@
 <div id="app">
 
         <DevelToast :toast="toast"/>
+        <gSearch />
 
         <div class='dots' :class="{ animate: loading }">
             <span></span>
@@ -71,13 +72,14 @@
             </div>
         </div>
         </transition >
-        <div :class="{ 'content': true, 'admin-open': token }">
+        <div id="admin" :class="{ 'content': true, 'admin-open': token }">
             <div class="container-flui">
                 <div class="row heading">
                     <div class="col-12">
                         <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
                         <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
                         <h2 class="display-6">{{location}}</h2>
+                        <i class="fa fa-search" aria-hidden="true" @click="$store.dispatch('toggleSearch')"></i>
                     </div>
                 </div>
                 <div class="row">
@@ -103,7 +105,8 @@ export default {
     name: 'app',
     data() {
         return {
-            toast: ''
+            toast: '',
+            showSearch: false
         }
     },
     computed: {
@@ -123,18 +126,16 @@ export default {
 #app {
     .heading {
         position: relative;
-        .fa-angle-left, .fa-angle-right {
-            color: #666;
-            cursor: pointer;
-            font-size: 27px;
-            &:hover {
-                color: #ccc;
-            }
-        }
+
         h2 {
             display: inline-block;
             font-size: 23px;
             color: #ccc;
+        }
+        .fa-search {
+            float: right;
+            font-size: 24px;
+            padding-right: 1rem;
         }
     }
 }

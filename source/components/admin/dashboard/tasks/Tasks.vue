@@ -1,10 +1,10 @@
 <template lang="html">
-    <div id="tasks" class="admin">
+    <div id="tasks" >
         <section class="todoapp">
             <header class="header">
                 <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
             </header>
-            <section class="main" v-show="todos.length" v-cloak>
+            <section class="main" v-show="tasks.length" v-cloak>
                 <ul class="todo-list">
                     <li v-for="(todo, i) in filteredTodos" class="todo" :key=" 'todo' + i" :class="{ completed: todo.completed, editing: todo === editedTodo }" >
                         <div class="view">
@@ -23,7 +23,7 @@
                     <li :class="{ selected: visibility == 'active' }" @click="visibility = 'active'">Active</li>
                     <li :class="{ selected: visibility == 'completed' }" @click="visibility = 'completed'">Completed</li>
                 </ul>
-                <button class="clear-completed" @click="removeCompleted()" v-show="todos.length > remaining" v-cloak>Clear completed</button>
+                <button class="clear-completed" @click="removeCompleted()" v-show="tasks.length > remaining" v-cloak>Clear completed</button>
             </footer>
         </section>
     </div>
@@ -60,17 +60,17 @@ export default {
     },
     computed: {
         loggedTodos: function() {
-            return this.todos.filter( todo => {
-                return todo.user_id === this.logged._id
+            return this.tasks.filter( task => {
+                return task.user_id === this.logged._id
             })
         },
         filteredTodos: function() {
             return filters[this.visibility]( this.loggedTodos )
         },
         remaining: function() {
-            return filters.active( this.todos ).length
+            return filters.active( this.tasks ).length
         },
-        ...mapGetters([ 'todos', 'logged' ])
+        ...mapGetters([ 'tasks', 'logged' ])
     },
     filters: {
         pluralize: function( n ) {
@@ -85,13 +85,13 @@ export default {
                 completed: false,
                 user_id: this.logged._id
             }
-            const valid = this.$api.save( 'todo', todo )
+            const valid = this.$api.save( 'task', todo )
             if( valid === undefined ) {
                 this.newTodo = ''
             }
         },
         removeTodo: function( todo ) {
-            this.$api.del( 'todo', todo )
+            this.$api.del( 'task', todo )
         },
         editTodo: function( todo ) {
             this.beforeEditCache = todo.title
@@ -105,7 +105,7 @@ export default {
             if( !todo.title ) this.removeTodo( todo._id )
             if ( this.beforeEditCache === todo.title ) return
             else  {
-                const valid = this.$api.update( 'todo', todo )
+                const valid = this.$api.update( 'task', todo )
 
                 if ( !valid && valid !== undefined ) {
                     todo.title = this.beforeEditCache
@@ -117,7 +117,7 @@ export default {
             todo.title = this.beforeEditCache
         },
         removeCompleted: function() {
-            this.todos = filters.active( this.todos )
+            this.tasks = filters.active( this.tasks )
         }
     },
     directives: {
@@ -126,7 +126,8 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch( 'setLocation', 'tasks' )
+        this.$store.dispatch( 'setLocation', 'tasks' ),
+        this.$store.dispatch('setSearchField', 'title')
     },
     destroyed() {
         this.$store.dispatch( 'setLocation', '' )

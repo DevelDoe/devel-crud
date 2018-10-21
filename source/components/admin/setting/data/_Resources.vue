@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col">
+                            <div class="col padding">
                                 <label for="readeSelect">Read</label>
                                 <select class="form-control" id="readeSelect" v-model="resource.read">
                                     <option value="" selected class="selectPlaceholder">level</option>
@@ -63,52 +63,54 @@
                         </div>
 
                         <div v-for="(field, i) in resource.fields" class="fields" >
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-row align-items-center">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="fieldName" placeholder="Field name" autocomplete="off" v-model="field.name">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3 ">
-                                            <div class="form-group">
-                                                <select v-model="field.inputType" class="form-control" id="typeSelect">
-                                                    <option value="" selected class="selectPlaceholder">Type</option>
-                                                    <option v-for="inputType in inputTypes" :value="inputType" >{{inputType}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3 ">
-                                            <div class="form-group">
-                                                <select v-model="field.dbType" class="form-control" id="typeSelect">
-                                                    <option value="" selected class="selectPlaceholder">DBType</option>
-                                                    <option v-for="dbType in dbTypes" :value="dbType" >{{dbType}}</option>
-                                                </select>
-                                            </div>
+
+                                <div class="form-row align-items-center">
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="fieldName" placeholder="Field name" autocomplete="off" v-model="field.name">
                                         </div>
 
-                                        <div class="col-auto ">
-                                            <i class="fa fa-trash-o" aria-hidden="true" @click="resource.fields.splice( i , 1)"></i>
+
+                                        <div class="form-group">
+                                            <select v-model="field.dbType" class="form-control" id="typeSelect">
+                                                <option value="" selected class="selectPlaceholder">DBType</option>
+                                                <option v-for="dbType in dbTypes" :value="dbType" >{{dbType}}</option>
+                                            </select>
                                         </div>
-                                    </div>
+
+
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="label" placeholder="label" autocomplete="off" v-model="field.label">
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <select v-model="field.inputType" class="form-control" id="typeSelect">
+                                                <option value="" selected class="selectPlaceholder">Type</option>
+                                                <option v-for="inputType in inputTypes" :value="inputType" >{{inputType}}</option>
+                                            </select>
+                                        </div>
+
+
                                 </div>
 
-                            </div>
 
                             <div class="form-row align-items-left checkboxes">
-                                <div class="col-auto ">
+
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="requiredCheck" v-model="field.required">
-                                        <label class="form-check-label" for="requiredCheck">Required</label>
+                                        <label class="form-check-label" for="requiredCheck">Required </label>
                                     </div>
-                                </div>
-                                <div class="col-auto ">
+
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="uniqueCheck" v-model="field.unique">
                                         <label class="form-check-label" for="requiredCheck">Unique</label>
                                     </div>
-                                </div>
+
+
+                                    <i class="fa fa-trash-o" aria-hidden="true" @click="resource.fields.splice( i , 1)"></i>
+
                             </div>
                         </div>
 
@@ -176,5 +178,36 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+#_resources {
+    .modal {
+        color: #666;
+
+        .form-row {
+            margin: 1rem 0;
+        }
+
+        .form-group {
+            margin-right: 1rem;
+        }
+
+        .form-check {
+            position: relative;
+            display: block;
+            padding-left: 1.6rem;
+        }
+
+        .fa-trash-o {
+            font-size: 24px;
+            margin-bottom: 10px;
+            padding-left: 5px;
+            color: #ccc;
+            &:hover {
+                color: #777;
+            }
+        }
+
+    }
+}
+
 </style>

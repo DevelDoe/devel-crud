@@ -30,20 +30,20 @@
                 <form id="userForm" class="needs-validation" :class="{ 'needs-validation': !valid }" novalidate onsubmit="return false;">
                     <span  v-for="(item, i) in fields" :key="i">
                         <div class="form-group" v-if="item.inputType === 'text'">
-                            <label >{{item.name}}</label>
-                            <input type="text" class="form-control" :id="item.name"  :placeholder="item.name" v-model="data[item.name]">
+                            <label >{{item.label}}</label>
+                            <input type="text" class="form-control" :id="item.name"  :placeholder="item.label" v-model="data[item.name]">
                         </div>
                         <div class="form-group" v-if="item.inputType === 'password'">
-                            <label >{{item.name}}</label>
-                            <input type="password" class="form-control" :id="item.name"  :placeholder="item.name" v-model="data[item.name]">
+                            <label >{{item.label}}</label>
+                            <input type="password" class="form-control" :id="item.name"  :placeholder="item.label" v-model="data[item.name]">
                         </div>
                         <div class="form-group" v-if="item.inputType === 'email'">
-                            <label >{{item.name}}</label>
-                            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" required v-model="data[item.name]"  >
+                            <label >{{item.label}}</label>
+                            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" :placeholder="item.label" required v-model="data[item.name]"  >
                             <div class="invalid-feedback"> You must enter a email address, this will be used on login.</div>
                         </div>
                         <div class="form-group" v-if="item.inputType === 'sec_lv' && data._id !== logged._id && logged.sec_lv < data.sec_lv ">
-                            <label for="exampleFormControlSelect1">Security Level</label>
+                            <label for="exampleFormControlSelect1">{{item.label}}</label>
                             <select class="form-control"  v-model="data.sec_lv">
                                 <option v-for="(key, i) in Object.keys(accelSecLv)" :value="accelSecLv[key]" >{{key}}</option>
                             </select>
