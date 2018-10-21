@@ -430,6 +430,7 @@ export default {
                             $('#loginModal').modal('hide')
                             this.$api.get( 'resource', () => {
                                 this.$api.get( 'todo' )
+                                this.$api.get( 'note' )
                             })
                         })
 

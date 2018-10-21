@@ -40,7 +40,9 @@
         }
     }
     .btn {
-
+        a {
+            color: $background;
+        }
     }
     .btn-primary {
         background-color: $primary-light;

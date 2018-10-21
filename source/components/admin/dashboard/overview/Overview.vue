@@ -9,26 +9,27 @@
                 </div>
             </div>
             <div class="row padding">
+                <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1" v-for="(note, index) in filterNotes">
+                    <div class="paper">
+                        <h3> {{ note.title }}</h3>
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="paper">
                         <h3>Order History</h3>
                         <canvas ref="orderHistoryCanvas" width="400" height="100" ></canvas>
                     </div>
                 </div>
+
+
                 <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1">
                     <div class="paper">
-                        <h3>Reminders</h3>
+                        <h3>Tasks</h3>
                         <ul class="todo-list">
                             <li v-for="(todo, index) in filterTodos" class="todo" :key=" 'todo' + index"  >
                                 {{ todo.title }}
                             </li>
                         </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="paper">
-                        <h3>Countries</h3>
-                        <p>Proper HTML5 structuring and scemantics to indicate clearly what role is played by the content those tags contain. HTML tags are (mostly) used to format content,these tags tell the browser how to display the content on the page.</p>
                     </div>
                 </div>
             </div>
@@ -41,13 +42,21 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'dashboard',
     computed: {
-        ...mapGetters([ 'todos', 'logged' ]),
+        ...mapGetters([ 'todos', 'logged', 'notes' ]),
         filterTodos() {
             return this.loggedTodos.filter( todo => { return todo.completed === false  })
+        },
+        filterNotes() {
+            return this.loggedNotes.filter( note => { return note.completed === false  })
         },
         loggedTodos: function() {
             return this.todos.filter( todo => {
                 return todo.user_id === this.logged._id
+            })
+        },
+        loggedNotes: function() {
+            return this.notes.filter( note => {
+                return note.user_id === this.logged._id
             })
         },
     },

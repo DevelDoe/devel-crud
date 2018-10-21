@@ -1,12 +1,9 @@
 <template lang="html">
     <div id="tasks" class="admin">
         <div class="container-fluid">
-            <div class="row heading">
-                <div class="col-12">
-                    <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
-                    <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
-                    <h2 class="display-6">Tasks</h2>
-                </div>
+            <div class="container-fluid">
+                <gHeading heading="Tasks"/>
+
             </div>
             <div class="row">
                 <div class="col-12">
@@ -157,6 +154,3 @@ export default {
     }
 }
 </script>
-
-<style lang="css">
-</style>

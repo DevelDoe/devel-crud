@@ -38,11 +38,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button type="button" class="btn btn-primary"  >
-                        <router-link :to="{ name: 'user', params: {  }  }">
-                            Add User
-                        </router-link>
-                    </button>
+                    <button type="button" class="btn btn-primary" @click="$router.push('user')" > add user </button>
                 </div>
             </div>
         </div>
