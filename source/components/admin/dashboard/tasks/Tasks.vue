@@ -231,7 +231,7 @@ export default {
                 .edit {
                     display: block;
                     width: 506px;
-                    padding: 8px 8px;
+                    padding: 8px 8px 8px 53px;
                     margin: 0 0 0 0px !important;
                     background: transparent;
                     color: #eee;
