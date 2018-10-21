@@ -1,19 +1,4 @@
 .admin {
-    .heading {
-        position: relative;
-        .fa-angle-left, .fa-angle-right {
-            color: #666;
-            cursor: pointer;
-            font-size: 27px;
-            &:hover {
-                color: #ccc;
-            }
-        }
-        h2 {
-            display: inline-block;
-            font-size: 23px;
-        }
-    }
     .form-group {
         .form-control {
             color: #ccc;

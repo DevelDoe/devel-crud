@@ -72,11 +72,25 @@
         </div>
         </transition >
         <div :class="{ 'content': true, 'admin-open': token }">
-            <keep-alive>
-                <transition name="fade" mode="out-in" >
-                    <router-view />
-                </transition>
-            </keep-alive>
+            <div class="container-flui">
+                <div class="row heading">
+                    <div class="col-12">
+                        <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
+                        <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
+                        <h2 class="display-6">{{location}}</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <keep-alive>
+                            <transition name="fade" mode="out-in" >
+                                <router-view />
+                            </transition>
+                        </keep-alive>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -105,3 +119,24 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+#app {
+    .heading {
+        position: relative;
+        .fa-angle-left, .fa-angle-right {
+            color: #666;
+            cursor: pointer;
+            font-size: 27px;
+            &:hover {
+                color: #ccc;
+            }
+        }
+        h2 {
+            display: inline-block;
+            font-size: 23px;
+            color: #ccc;
+        }
+    }
+}
+
+</style>

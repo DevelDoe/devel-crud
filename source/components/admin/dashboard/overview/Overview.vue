@@ -1,36 +1,25 @@
 <template lang="html">
     <div id="dashboard" class="admin">
-        <div class="container-fluid">
-            <div class="row heading">
-                <div class="col-12">
-                    <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
-                    <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
-                    <h2 class="display-6">Dashboards</h2>
+        <div class="row padding">
+            <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1" v-for="(note, index) in filterNotes">
+                <div class="paper">
+                    <h3> {{ note.title }}</h3>
                 </div>
             </div>
-            <div class="row padding">
-                <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1" v-for="(note, index) in filterNotes">
-                    <div class="paper">
-                        <h3> {{ note.title }}</h3>
-                    </div>
+            <div class="col-12">
+                <div class="paper">
+                    <h3>Order History</h3>
+                    <canvas ref="orderHistoryCanvas" width="400" height="100" ></canvas>
                 </div>
-                <div class="col-12">
-                    <div class="paper">
-                        <h3>Order History</h3>
-                        <canvas ref="orderHistoryCanvas" width="400" height="100" ></canvas>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1 && filterTodos.length > 0">
-                    <div class="paper">
-                        <h3>Tasks</h3>
-                        <ul class="todo-list">
-                            <li v-for="(todo, index) in filterTodos" class="todo" :key=" 'todo' + index"  >
-                                {{ todo.title }}
-                            </li>
-                        </ul>
-                    </div>
+            </div>
+            <div class="col-lg-6" v-if="logged.applications.indexOf('tasks') !== -1 && filterTodos.length > 0">
+                <div class="paper">
+                    <h3>Tasks</h3>
+                    <ul class="todo-list">
+                        <li v-for="(todo, index) in filterTodos" class="todo" :key=" 'todo' + index"  >
+                            {{ todo.title }}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

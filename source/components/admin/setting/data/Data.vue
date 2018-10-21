@@ -92,52 +92,33 @@
             </div>
         </div>
 
-
-
-        <div class="container-fluid">
-            <div class="row heading">
-                <div class="col-12">
-                    <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
-                    <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
-                    <h2 class="display-6">Data</h2>
+        <div class="row">
+            <div class="col-md-7">
+                <h4 class="mb-3">General settings</h4>
+                <div class="mb-3">
+                    <label for="appName">Application Name</label>
+                    <input class="form-control" autocomplete="off" v-model="newAppName" @keyup.enter="updateAppName" @blur="updateAppName">
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-7">
-                    <h4 class="mb-3">General settings</h4>
-                    <div class="mb-3">
-                        <label for="appName">Application Name</label>
-                        <input class="form-control" autocomplete="off" v-model="newAppName" @keyup.enter="updateAppName" @blur="updateAppName">
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="mb-3">Data Schema Types</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-7">
+                        <Resources v-for="(resource, i) in resources" :key="'resource'+i" :resource="resource" :inputTypes="inputTypes" :levels="levels" :dbTypes="dbTypes"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal" >Add Resource</button>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-12">
-
-                    <div class="row">
-                        <div class="col">
-                            <h4 class="mb-3">Data Schema Types</h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-7">
-                            <Resources v-for="(resource, i) in resources" :key="'resource'+i" :resource="resource" :inputTypes="inputTypes" :levels="levels" :dbTypes="dbTypes"/>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourceModal" >Add Resource</button>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-
         </div>
     </div>
 </template>
@@ -196,5 +177,55 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+#data {
+    .modal {
+        .fa-trash-o {
+            font-size: 28px;
+            margin-bottom: 18px;
+            padding-left: 5px;
+            color: #777;
+            &:hover {
+                color: #333;
+            }
+        }
+    }
+    .card {
+        background-color: #ffffff05;
+        position: relative;
+        border: none;
+
+        .btn {
+            width: 100%;
+            text-decoration: none;
+            text-align: left;
+            text-transform: uppercase;
+            color: #777;
+        }
+        .fa-trash-o {
+            position: absolute;
+            top: 17px;
+            right: 27px;
+            font-size: 28px;
+            color: #777;
+            &:hover {
+                color: #fff;
+            }
+        }
+        .card-body {
+            .controls {
+                margin-top: 1rem;
+
+                .btn {
+                    width: auto;
+                    text-decoration: none;
+                    text-align: left;
+                    text-transform: none;
+                    color: #292d35;
+                }
+            }
+
+        }
+    }
+}
 </style>

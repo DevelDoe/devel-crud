@@ -1,39 +1,31 @@
 <template lang="html">
     <div id="tasks" class="admin">
-        <div class="container-fluid">
-                <gHeading heading="Tasks"/>
-
-            <div class="row">
-                <div class="col-12">
-                    <section class="todoapp">
-                        <header class="header">
-                            <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
-                        </header>
-                        <section class="main" v-show="todos.length" v-cloak>
-                            <ul class="todo-list">
-                                <li v-for="(todo, i) in filteredTodos" class="todo" :key=" 'todo' + i" :class="{ completed: todo.completed, editing: todo === editedTodo }" >
-                                    <div class="view">
-                                        <label @dblclick="editTodo(todo)"> {{ todo.title }} </label>
-                                        <i class="fa fa-check" aria-hidden="true" :class="{ 'fa-check-done': todo.completed }" @click="todo.completed = !todo.completed, $api.update( 'todo', todo )"></i>
-                                        <i class="fa fa-times" aria-hidden="true" @click="removeTodo(todo)"></i>
-                                    </div>
-                                    <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
-                                </li>
-                            </ul>
-                        </section>
-                        <footer class="footer" v-show="filteredTodos.length" v-cloak>
-                            <span class="todo-count"> <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left</span>
-                            <ul class="filters">
-                                <li :class="{ selected: visibility == 'all' }" @click="visibility = 'all'">All</li>
-                                <li :class="{ selected: visibility == 'active' }" @click="visibility = 'active'">Active</li>
-                                <li :class="{ selected: visibility == 'completed' }" @click="visibility = 'completed'">Completed</li>
-                            </ul>
-                            <button class="clear-completed" @click="removeCompleted()" v-show="todos.length > remaining" v-cloak>Clear completed</button>
-                        </footer>
-                    </section>
-                </div>
-            </div>
-        </div>
+        <section class="todoapp">
+            <header class="header">
+                <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
+            </header>
+            <section class="main" v-show="todos.length" v-cloak>
+                <ul class="todo-list">
+                    <li v-for="(todo, i) in filteredTodos" class="todo" :key=" 'todo' + i" :class="{ completed: todo.completed, editing: todo === editedTodo }" >
+                        <div class="view">
+                            <label @dblclick="editTodo(todo)"> {{ todo.title }} </label>
+                            <i class="fa fa-check" aria-hidden="true" :class="{ 'fa-check-done': todo.completed }" @click="todo.completed = !todo.completed, $api.update( 'todo', todo )"></i>
+                            <i class="fa fa-times" aria-hidden="true" @click="removeTodo(todo)"></i>
+                        </div>
+                        <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
+                    </li>
+                </ul>
+            </section>
+            <footer class="footer" v-show="filteredTodos.length" v-cloak>
+                <span class="todo-count"> <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left</span>
+                <ul class="filters">
+                    <li :class="{ selected: visibility == 'all' }" @click="visibility = 'all'">All</li>
+                    <li :class="{ selected: visibility == 'active' }" @click="visibility = 'active'">Active</li>
+                    <li :class="{ selected: visibility == 'completed' }" @click="visibility = 'completed'">Completed</li>
+                </ul>
+                <button class="clear-completed" @click="removeCompleted()" v-show="todos.length > remaining" v-cloak>Clear completed</button>
+            </footer>
+        </section>
     </div>
 </template>
 
