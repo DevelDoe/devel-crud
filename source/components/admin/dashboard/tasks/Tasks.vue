@@ -154,3 +154,155 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.todoapp {
+    .new-todo{
+        padding: 1rem ;
+        margin-left: 40px;
+        border: none;
+        background: rgba(0, 0, 0, 0.04);
+        width: 100%;
+        color: #eee;
+        font-size: 24px;
+    }
+
+    .main {
+        position: relative;
+        z-index: 2;
+        border:none;
+        .toggle-all:before {
+            content: '❯';
+            font-size: 22px;
+            color: #e6e6e6;
+            padding: 10px 27px 10px 27px;
+        }
+        .toggle-all {
+            position: absolute;
+            top: -55px;
+            left: -12px;
+            width: 60px;
+            height: 34px;
+            text-align: center;
+            border: none;
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .toggle-all, .todo-list li .toggle {
+            background: none;
+        }
+        .todo-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            .todo {
+                padding-left: 0px;
+                position: relative;
+                font-size: 20px;
+                border-bottom: none;
+                .toggle {
+                    text-align: center;
+                    width: 40px;
+                    height: auto;
+                    margin: auto 0;
+                    border: none;
+                }
+                .view {
+                    label {
+                        margin: .5rem;
+                    }
+                }
+                .edit {
+                    display: none;
+                }
+            }
+            .completed {
+                label {
+                    text-decoration: line-through;
+                    color: #777;
+                }
+            }
+            .editing {
+                .view {
+                    display: none;
+                }
+                .edit {
+                    display: block;
+                    width: 506px;
+                    padding: 8px 8px;
+                    margin: 0 0 0 0px !important;
+                    background: transparent;
+                    color: #eee;
+                    border:none;
+                    letter-spacing: 1px;
+                }
+            }
+        }
+    }
+    .footer {
+        color: #777;
+        padding: 10px 15px;
+        height: 20px;
+        text-align: center;
+        background: transparent;
+        .todo-count {
+            float: left;
+            text-align: left;
+        }
+        .filters {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: absolute;
+            right: 0;
+            left: 0;
+            li {
+                display: inline;
+                color: inherit;
+                margin: 3px;
+                padding: 3px 7px;
+                text-decoration: none;
+                border: 1px solid transparent;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            .selected {
+                border-color: #1ec2ff;
+            }
+        }
+        button {
+            float: right;
+            position: relative;
+            line-height: 20px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: none;
+            font-size: 100%;
+            vertical-align: baseline;
+            font-family: inherit;
+            font-weight: inherit;
+            color: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+}
+.todoapp {
+    .todo {
+        padding-left: 10px;
+        position: relative;
+        font-size: 20px;
+        border-bottom: none;
+    }
+    .fa {
+        font-size: 17px;
+    }
+}
+</style>

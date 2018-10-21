@@ -1,5 +1,5 @@
 <template lang="html">
-    <div id="notes" class="admin">
+    <div id="note" class="admin">
         <div class="container-fluid">
             <div class="container-fluid">
                 <gHeading heading="Notes"/>
@@ -9,14 +9,12 @@
                 <div class="col-12">
                     <section class="todoapp">
                         <header class="header">
-                            <input class="new-todo" autofocus autocomplete="off" placeholder="Add a note?" v-model="newNote" @keyup.enter="addNote">
+                            <input class="new-note" autofocus autocomplete="off" placeholder="Keep a note of this" v-model="newNote" @keyup.enter="addNote">
                         </header>
                         <section class="main" v-show="notes.length" v-cloak>
-                            <input class="toggle-all" type="checkbox" v-model="allDone">
                             <ul class="todo-list">
-                                <li v-for="(note, i) in filteredNotes" class="todo" :key=" 'note' + i" :class="{ completed: note.completed, editing: note === editedNote }" >
+                                <li v-for="(note, i) in loggedNotes" class="note todo" :key=" 'note' + i" :class="{ completed: note.completed, editing: note === editedNote }" >
                                     <div class="view">
-                                        <input class="toggle" type="checkbox" v-model="note.completed" @click="note.completed = !note.completed, $api.update( 'note', note )">
                                         <label @dblclick="editNote(note)"> {{ note.title }} </label>
                                         <i class="fa fa-times" aria-hidden="true" @click="removeNote(note)"></i>
                                     </div>
@@ -24,15 +22,6 @@
                                 </li>
                             </ul>
                         </section>
-                        <footer class="footer" v-show="notes.length" v-cloak>
-                            <span class="todo-count"> <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left</span>
-                            <ul class="filters">
-                                <li :class="{ selected: visibility == 'all' }" @click="visibility = 'all'">All</li>
-                                <li :class="{ selected: visibility == 'active' }" @click="visibility = 'active'">Active</li>
-                                <li :class="{ selected: visibility == 'completed' }" @click="visibility = 'completed'">Completed</li>
-                            </ul>
-                            <button class="clear-completed" @click="removeCompleted()" v-show="notes.length > remaining" v-cloak>Clear completed</button>
-                        </footer>
                     </section>
                 </div>
             </div>
@@ -41,22 +30,6 @@
 </template>
 
 <script>
-
-var filters = {
-    all: function( notes ) {
-        return notes
-    },
-    active: function( notes ) {
-        return notes.filter( note => {
-            return !note.completed
-        })
-    },
-    completed: function ( notes ) {
-        return notes.filter( note => {
-            return note.completed
-        })
-    }
-}
 
 import { mapGetters } from 'vuex'
 
@@ -75,35 +48,13 @@ export default {
                 return note.user_id === this.logged._id
             })
         },
-        filteredNotes: function() {
-            return filters[this.visibility]( this.loggedNotes )
-        },
-        remaining: function() {
-            return filters.active( this.notes ).length
-        },
-        allDone: {
-            get: function() {
-                return this.remaining === 0
-            },
-            set: function( value ) {
-                this.notes.forEach( note => {
-                    note.completed = value
-                })
-            }
-        },
         ...mapGetters([ 'notes', 'logged' ])
-    },
-    filters: {
-        pluralize: function( n ) {
-            return n === 1 ? 'item' : 'items'
-        }
     },
     methods: {
         addNote: function() {
             const value = this.newNote && this.newNote.trim()
             const note = {
                 title: value,
-                completed: false,
                 user_id: this.logged._id
             }
             const valid = this.$api.save( 'note', note )
@@ -154,3 +105,46 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+#note {
+    .todoapp {
+        .new-note{
+            padding: 1rem ;
+            border: none;
+            background: rgba(0, 0, 0, 0.04);
+            width: 100%;
+            color: #eee;
+            font-size: 24px;
+        }
+        .main {
+            border: none;
+            .todo-list {
+                .editing {
+                    .edit {
+                        display: block;
+                        width: 506px;
+                        padding: 8px 8px;
+                        margin: 0 0 0 0px !important;
+                        background: transparent;
+                        color: #eee;
+                        border:none;
+                        letter-spacing: 1px;
+                    }
+                }
+            }
+
+        }
+        .note {
+            padding-left: 10px;
+            position: relative;
+            font-size: 20px;
+            border-bottom: none;
+        }
+        .fa {
+            font-size: 17px;
+        }
+    }
+}
+
+</style>
