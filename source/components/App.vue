@@ -12,6 +12,14 @@
 
         <DevelToast :toast="toast"/>
 
+        <div class='dots' :class="{ animate: loading }">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
         <transition name="drawer">
         <div :class="{ 'drawer': logged }" v-if="logged">
 
@@ -85,7 +93,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([ 'token', 'location', 'logged' ]),
+        ...mapGetters([ 'token', 'location', 'logged', 'loading' ]),
     },
     methods: {
         isActiveNavItem: function( location ) {

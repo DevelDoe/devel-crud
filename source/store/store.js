@@ -24,6 +24,7 @@ const store = new Vux.Store({
         users: [],
         logged: null,
         notes: [],
+        loading: false
     },
     getters: {
         appName        : state => { return state.appName },
@@ -34,6 +35,7 @@ const store = new Vux.Store({
         users          : state => { return state.users },
         logged         : state => { return state.logged },
         notes          : state => { return state.notes },
+        loading        : state => { return state.loading },
     },
     mutations: {
         setAppName     : ( state, payload ) => { state.appName = payload },
@@ -59,6 +61,8 @@ const store = new Vux.Store({
         setNotes       : ( state, payload ) => { state.notes = payload },
         addNote        : ( state, payload ) => { state.notes.push( payload ) },
         delNote        : ( state, payload ) => { state.notes = state.notes.filter( note => { return note._id != payload } ) },
+
+        setLoading     : ( state, payload ) => { state.loading = payload },
     },
     actions: {
         setAppName     : ( ctx, payload )   => { ctx.commit( 'setAppName', payload ) },
@@ -84,6 +88,8 @@ const store = new Vux.Store({
         setNotes       : ( ctx, payload )   => { ctx.commit( 'setNotes', payload ) },
         addNote        : ( ctx, payload )   => { ctx.commit( 'addNote', payload ) },
         delNote        : ( ctx, payload )   => { ctx.commit( 'delNote', payload ) },
+
+        setLoading     : ( ctx, payload )   => { ctx.commit( 'setLoading', payload ) },
     }
 })
 

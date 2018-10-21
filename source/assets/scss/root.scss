@@ -12,6 +12,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import '_signin';
 @import './components/_tasks';
 @import './components/_data';
+@import '_loading-animation';
 
 // Alternatively, you may import parts of Boostrap individually as needed.
 // Note that Bootstrap’s functions, variables and mixins are required.

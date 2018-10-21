@@ -13,6 +13,8 @@ const API = {
         const coll = args.shift() || null
         const cb   = args.shift() || null
 
+        store.dispatch('setLoading', true)
+
         fetch(`${url}/${coll}s`, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, cors, *same-origin
@@ -28,6 +30,7 @@ const API = {
                 if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
                 bus.$emit('toast', 'Error fetching data' )
                 setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                store.dispatch('setLoading', false)
                 return
             }
             var Coll = capitalize(coll)
@@ -36,6 +39,7 @@ const API = {
                 const access = readRights( coll )
                 if( access )  store.dispatch( `set${Coll}s` , data )
                 if(cb) cb()
+                store.dispatch('setLoading', false)
             })
 
         })
@@ -43,12 +47,15 @@ const API = {
             bus.$emit('toast', 'Database fetch error' )
             setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
             if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
+            store.dispatch('setLoading', false)
         })
     },
     save: function() {
         const args = (arguments === 1 ? [arguments[0]] : Array.apply( null, arguments ))
         const coll   = args.shift() || null
         const data   = args.shift() || null
+
+        store.dispatch('setLoading', true)
 
         if(  writeRights( coll ) ) {
             if( validate( coll, data ) ) {
@@ -71,6 +78,7 @@ const API = {
                             if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
                             bus.$emit('toast', 'Error saving data' )
                             setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                            store.dispatch('setLoading', false)
                             return
                         }
                         res.json().then( d => {
@@ -78,22 +86,28 @@ const API = {
                                 bus.$emit('toast', 'Error savin data'  )
                                 setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                                 if( process.env.NODE_ENV === 'development' ) console.log( d.err )
+                                store.dispatch('setLoading', false)
                                 return
                             }
                             var Coll = capitalize(coll)
                             store.dispatch( `add${Coll}`, d)
                             bus.$emit('toast', 'Saved' )
                             setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                            store.dispatch('setLoading', false)
                         })
                     })
                     .catch(err => {
                         bus.$emit('toast', 'Database save error' )
                         setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                         if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
+                        store.dispatch('setLoading', false)
                     })
             } else {
                 return false
+                store.dispatch('setLoading', false)
             }
+        }  else {
+            store.dispatch('setLoading', false)
         }
 
     },
@@ -102,6 +116,8 @@ const API = {
         const coll = args.shift() || null
         const data = args.shift() || null
         const id   = data._id
+
+        store.dispatch('setLoading', true)
 
         const access = writeRights( coll, data )
         if(  access ) {
@@ -123,25 +139,32 @@ const API = {
                         if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
                         bus.$emit('toast', 'Error deleting data' )
                         setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                        store.dispatch('setLoading', false)
                         return
                     }
                     var Coll = capitalize(coll)
                     store.dispatch( `del${Coll}`, id )
                     bus.$emit('toast', 'Deleted' )
                     setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                    store.dispatch('setLoading', false)
                 })
                 .catch(err => {
                     bus.$emit('toast', 'Database delete error' )
                     setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                     if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
+                    store.dispatch('setLoading', false)
                 })
-            }
+        }  else {
+            store.dispatch('setLoading', false)
+        }
     },
     update: function() {
         const args = (arguments === 1 ? [arguments[0]] : Array.apply( null, arguments ))
         const coll = args.shift() || null
         const data = args.shift() || null
         const access = writeRights( coll, data )
+
+        store.dispatch('setLoading', true)
 
         if(  access ) {
 
@@ -165,6 +188,7 @@ const API = {
                             if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
                             bus.$emit('toast', 'Error updating data' )
                             setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                            store.dispatch('setLoading', false)
                             return
                         }
                         const Coll = capitalize(coll)
@@ -172,15 +196,20 @@ const API = {
                         store.dispatch(`add${Coll}`, data)
                         bus.$emit('toast', 'Updated' )
                         setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                        store.dispatch('setLoading', false)
                     })
                     .catch(err => {
                         bus.$emit('toast', 'Database update error' )
                         setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                         if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
+                        store.dispatch('setLoading', false)
                     })
             } else {
                 return false
+                store.dispatch('setLoading', false)
             }
+        } else {
+            store.dispatch('setLoading', false)
         }
     },
 }
