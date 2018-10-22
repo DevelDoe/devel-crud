@@ -55,7 +55,7 @@ const store = new Vux.Store({
 
         setResources   : ( state, payload ) => { state.resources = payload },
         addResource    : ( state, payload ) => { state.resources.push( payload ) },
-        delResource    : ( state, payload ) => { state.resources = state.resources.filter( todo => { return todo._id != payload } ) },
+        delResource    : ( state, payload ) => { state.resources = state.resources.filter( resource => { return resource._id != payload } ) },
 
         setUsers       : ( state, payload ) => { state.users = payload },
         addUser        : ( state, payload ) => { state.users.push( payload ) },

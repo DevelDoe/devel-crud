@@ -116,6 +116,13 @@ export default {
 
         .result {
             font-size:24px;
+            a{
+                color: #ccc;
+                cursor: pointer;
+                &:hover {
+                    color:#eee;
+                }
+            }
         }
     }
 

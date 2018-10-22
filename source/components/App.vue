@@ -76,7 +76,7 @@
         </transition >
         <div id="admin" :class="{ 'content': true, 'admin-open': token }">
             <div class="container-flui">
-                <div class="row heading">
+                <div class="row heading" v-if="logged">
                     <div class="col-12">
                         <i class="fa fa-angle-left" aria-hidden="true" @click="$router.go(-1)"></i>
                         <i class="fa fa-angle-right" aria-hidden="true" @click="$router.go(1)"></i>
@@ -130,8 +130,10 @@ export default {
         position: relative;
 
         h2 {
-            display: inline-block;
-            font-size: 23px;
+            position: absolute;
+            top: 12px;
+            left: 57px;
+            font-size: 33px;
             color: #ccc;
         }
         .fa-search {

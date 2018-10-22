@@ -1,23 +1,23 @@
 <template lang="html">
     <div id="tasks" >
-        <section class="todoapp">
+        <section class="taskapp">
             <header class="header">
-                <input class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
+                <input class="new-task" autofocus autocomplete="off" placeholder="What needs to be done?" v-model="newTodo" @keyup.enter="addTodo">
             </header>
             <section class="main" v-show="tasks.length" v-cloak>
-                <ul class="todo-list">
-                    <li v-for="(todo, i) in filteredTodos" class="todo" :key=" 'todo' + i" :class="{ completed: todo.completed, editing: todo === editedTodo }" >
+                <ul class="task-list">
+                    <li v-for="(task, i) in filteredTodos" class="task" :key=" 'task' + i" :class="{ completed: task.completed, editing: task === editedTodo }" >
                         <div class="view">
-                            <label @dblclick="editTodo(todo)"> {{ todo.title }} </label>
-                            <i class="fa fa-check" aria-hidden="true" :class="{ 'fa-check-done': todo.completed }" @click="todo.completed = !todo.completed, $api.update( 'todo', todo )"></i>
-                            <i class="fa fa-times" aria-hidden="true" @click="removeTodo(todo)"></i>
+                            <label @dblclick="editTodo(task)"> {{ task.title }} </label>
+                            <i class="fa fa-check" aria-hidden="true" :class="{ 'fa-check-done': task.completed }" @click="task.completed = !task.completed, $api.update( 'task', task )"></i>
+                            <i class="fa fa-times" aria-hidden="true" @click="removeTodo(task)"></i>
                         </div>
-                        <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
+                        <input class="edit" type="text" v-model="task.title" v-task-focus="task == editedTodo" @blur="doneEdit(task)" @keyup.enter="doneEdit(task)" @keyup.esc="cancelEdit(task)">
                     </li>
                 </ul>
             </section>
             <footer class="footer" v-show="filteredTodos.length" v-cloak>
-                <span class="todo-count"> <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left</span>
+                <span class="task-count"> <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left</span>
                 <ul class="filters">
                     <li :class="{ selected: visibility == 'all' }" @click="visibility = 'all'">All</li>
                     <li :class="{ selected: visibility == 'active' }" @click="visibility = 'active'">Active</li>
@@ -32,17 +32,17 @@
 <script>
 
 var filters = {
-    all: function( todos ) {
-        return todos
+    all: function( tasks ) {
+        return tasks
     },
-    active: function( todos ) {
-        return todos.filter( todo => {
-            return !todo.completed
+    active: function( tasks ) {
+        return tasks.filter( task => {
+            return !task.completed
         })
     },
-    completed: function ( todos ) {
-        return todos.filter( todo => {
-            return todo.completed
+    completed: function ( tasks ) {
+        return tasks.filter( task => {
+            return task.completed
         })
     }
 }
@@ -50,7 +50,7 @@ var filters = {
 import { mapGetters } from 'vuex'
 
 export default {
-    name: 'todo',
+    name: 'task',
     data() {
         return {
             newTodo: '',
@@ -80,48 +80,48 @@ export default {
     methods: {
         addTodo: function() {
             const value = this.newTodo && this.newTodo.trim()
-            const todo = {
+            const task = {
                 title: value,
                 completed: false,
                 user_id: this.logged._id
             }
-            const valid = this.$api.save( 'task', todo )
+            const valid = this.$api.save( 'task', task )
             if( valid === undefined ) {
                 this.newTodo = ''
             }
         },
-        removeTodo: function( todo ) {
-            this.$api.del( 'task', todo )
+        removeTodo: function( task ) {
+            this.$api.del( 'task', task )
         },
-        editTodo: function( todo ) {
-            this.beforeEditCache = todo.title
-            this.editedTodo = todo
+        editTodo: function( task ) {
+            this.beforeEditCache = task.title
+            this.editedTodo = task
         },
-        doneEdit: function( todo ) {
+        doneEdit: function( task ) {
             if( !this.editedTodo ) return
             this.editedTodo = null
 
-            todo.title = todo.title.trim()
-            if( !todo.title ) this.removeTodo( todo._id )
-            if ( this.beforeEditCache === todo.title ) return
+            task.title = task.title.trim()
+            if( !task.title ) this.removeTodo( task._id )
+            if ( this.beforeEditCache === task.title ) return
             else  {
-                const valid = this.$api.update( 'task', todo )
+                const valid = this.$api.update( 'task', task )
 
                 if ( !valid && valid !== undefined ) {
-                    todo.title = this.beforeEditCache
+                    task.title = this.beforeEditCache
                 }
             }
         },
         cancelEdit: function() {
             this.editedTodo = null,
-            todo.title = this.beforeEditCache
+            task.title = this.beforeEditCache
         },
         removeCompleted: function() {
             this.tasks = filters.active( this.tasks )
         }
     },
     directives: {
-        'todo-focus': function( el, binding ) {
+        'task-focus': function( el, binding ) {
             if( binding.value ) el.focus()
         }
     },
@@ -136,8 +136,8 @@ export default {
 </script>
 
 <style lang="scss">
-.todoapp {
-    .new-todo{
+.taskapp {
+    .new-task{
         padding: 1rem ;
         border: none;
         background: rgba(0, 0, 0, 0.04);
@@ -150,11 +150,11 @@ export default {
         position: relative;
         z-index: 2;
         border:none;
-        .todo-list {
+        .task-list {
             margin: 0;
             padding: 0;
             list-style: none;
-            .todo {
+            .task {
                 padding-left: 0px;
                 position: relative;
                 font-size: 20px;
@@ -214,7 +214,7 @@ export default {
         height: 20px;
         text-align: center;
         background: transparent;
-        .todo-count {
+        .task-count {
             float: left;
             text-align: left;
         }
