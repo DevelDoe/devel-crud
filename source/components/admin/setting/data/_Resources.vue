@@ -42,6 +42,16 @@
                                     <small id="nameHelp" class="form-text text-muted">Update resource name.</small>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="uniqueCheck" v-model="resource.details">
+                                    <label class="form-check-label" for="requiredCheck">Details</label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -108,6 +118,11 @@
                                         <label class="form-check-label" for="requiredCheck">Unique</label>
                                     </div>
 
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="uniqueCheck" v-model="field.search">
+                                        <label class="form-check-label" for="requiredCheck">Search</label>
+                                    </div>
+
 
                                     <i class="fa fa-trash-o" aria-hidden="true" @click="resource.fields.splice( i , 1)"></i>
 
@@ -165,8 +180,8 @@ export default {
         addField( field ) {
             this.resource.fields.push({
                 name: '',
-                inputTypes: '',
-                dbTypes: '',
+                inputType: '',
+                dbType: '',
                 unique: false,
                 required: false
             })
