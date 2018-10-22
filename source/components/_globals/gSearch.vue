@@ -68,7 +68,6 @@ export default {
         },
         filterData() {
             return this.data.filter( key => {
-                console.log(key)
                 return key.field.toLowerCase().indexOf( this.search.toLowerCase().trim() ) > -1
                 // return keys['fileld'].toLowerCase().indexOf( this.search.toLowerCase() ) > -1
             })
