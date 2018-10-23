@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="container-fluid">
+    <div id="gform" class="container-fluid">
 
         <!-- deleteModal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModallLabel" aria-hidden="true">
@@ -24,7 +24,7 @@
         </div>
 
 
-        <div class="row heading">
+        <div class="row ">
             <div class="col">
                 <h3>Data</h3>
                 <form id="userForm" class="needs-validation" :class="{ 'needs-validation': !valid }" novalidate onsubmit="return false;">
@@ -48,18 +48,30 @@
                                 <option v-for="(key, i) in Object.keys(accelSecLv)" :value="accelSecLv[key]" >{{key}}</option>
                             </select>
                         </div>
-                        <!--  -->
-                        <form enctype="multipart/form-data" novalidate v-if=" item.inputType === 'image'">
-                            <div class="dropbox">
-                                <input type="file" :name="item.name" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
-                                <p v-if="isInitial"> Drag your avatar here to begin<br> or click to browse </p>
-                                <p v-if="isSaving" class="uploading"> Uploading your avatar,<br> please stand by... </p>
-                                <transition name="fade">
-                                <p v-if="isSuccess" class="success">Your avatar was uploaded<br> successfully.<a href="javascript:void(0)" @click="reset()"> Upload again?</a></p>
-                                <p v-if="isFailed" class="fail" @click="reset()">Error uploading your image. <br> Try again or contact you admin! </p>
-                                </transition>
+                        <!-- fileupload -->
+                        <span v-if=" item.inputType === 'image'">
+                            <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+                                <div class="dropbox">
+                                    <input type="file" :name="item.name" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
+                                    <p v-if="isInitial"> Drag your avatar here to begin<br> or click to browse </p>
+                                    <p v-if="isSaving" class="uploading"> Uploading your avatar,<br> please stand by... </p>
+                                </div>
+                            </form>
+                            <!--SUCCESS-->
+                            <transition name="fade">
+                            <div v-if="isSuccess" class="dropbox-success">
+                                <h2>Uploaded {{ uploadedFile.originalName }} successfully.</h2>
+                                <img :src="uploadedFile.img_src"  :alt="uploadedFile.originalName">
+                                <p> <a href="javascript:void(0)" @click="reset()">Upload again</a> </p>
                             </div>
-                        </form>
+                            <!--FAILED-->
+                            <div v-if="isFailed" class="dropbox-fail">
+                                    <h2>Uploaded failed.</h2>
+                                    <p>{{uploadError}} <br> <a href="javascript:void(0)" @click="reset()">Try again</a> </p>
+                            </div>
+                            </transition>
+                        </span>
+
                         <!-- <form enctype="multipart/form-data" novalidate v-if="item.inputType === 'image' && (isInitial || isSaving || isSuccess)">
                             <div class="dropbox">
                                 <input type="file" multiple :name="item.name" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
@@ -117,8 +129,9 @@ export default {
             sec_lvs:  { root: 0, admin: 1, owner: 2, operator: 3, super: 4, user: 5, pleab: 6, anonymous: 7, special: 8, guest: 9 },
             apps: [ 'tasks', 'notes' ],
             admins: [ 'users', 'data' ],
-            uploadedFiles: [],
-            currentStatus: null
+            uploadedFile: {},
+            currentStatus: null,
+            uploadError: ''
         }
     },
     computed: {
@@ -196,10 +209,17 @@ export default {
         save(formData) {
             this.currentStatus = STATUS_SAVING
             this.$api.upload(formData)
-            .then( x => {
-                this.data.img_src = x.img_src
+            .then( data => {
+                if(data.err) {
+                    this.currentStatus = STATUS_FAILED
+                    this.uploadError = data.err
+                    return
+                }
+                this.data.img_src = data.img_src
+                this.uploadedFile = data
                 this.currentStatus = STATUS_SUCCESS
             }).catch(err => {
+                debugger
                 this.currentStatus = STATUS_FAILED
             })
         },
@@ -219,6 +239,7 @@ export default {
 </script>
 
 <style lang="scss">
+#gform {
     .toggleFeatures {
         button {
             margin-left: 10px;
@@ -241,15 +262,21 @@ export default {
             text-align: center;
             padding: 54px 0;
         }
-        p.success {
-            color: #96d696;
-            a {
-                z-index: 9999;
-            }
+    }
+    .dropbox-success {
+        color: #96d696;
+        a {
+            z-index: 9999;
         }
-        .fail {
-            color: #965252;
+        img {
+            max-width: 50px;
+            float: left;
+            margin-right: 10px;
+            margin-bottom: 10px;
         }
+    }
+    .dropbox-fail {
+        color: #965252;
     }
     .input-file {
         opacity: 0; /* invisible but it's there! */
@@ -279,34 +306,34 @@ export default {
         animation-direction: alternate;
     }
 
-@-moz-keyframes blink {
-  from {
-    opacity: 1;
-  }
+    @-moz-keyframes blink {
+        from {
+            opacity: 1;
+        }
 
-  to {
-    opacity: 0;
-  }
+        to {
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes blink {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+    }
+
+    @keyframes blink {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+    }
 }
-
-@-webkit-keyframes blink {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes blink {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
 </style>

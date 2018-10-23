@@ -227,21 +227,30 @@ const API = {
                 bus.$emit('toast', 'Error uploading image' )
                 setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
                 store.dispatch('setLoading', false)
-                return
-            }
 
-            return res.json().then(data => {
-                var res = data.file
-                res.img_src = `${config.api_url}${data.file.path}`
-                return res 
-            })
+                return res.json().then(data => {
+                    var res = {}
+                    res.err = data.err.replace('Server Error:','');
+                    bus.$emit('toast', res.err )
+                    setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                    store.dispatch('setLoading', false)
+                    return res
+                })
+
+            } else {
+                return res.json().then(data => {
+                    var res = data.file
+                    res.img_src = `${config.api_url}${data.file.path}`
+                    store.dispatch('setLoading', false)
+                    return res
+                })
+            }
         })
         .catch(err => {
             bus.$emit('toast', 'Fetching error, please contact administrator...' )
             setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
             if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
             store.dispatch('setLoading', false)
-            return
         })
     }
 }
