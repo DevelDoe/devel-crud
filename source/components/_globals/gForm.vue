@@ -206,7 +206,7 @@ export default {
             this.currentStatus = STATUS_INITIAL
             this.uploadedFiles = []
         },
-        save(formData) {
+        upload(formData) {
             this.currentStatus = STATUS_SAVING
             this.$api.upload(formData)
             .then( data => {
@@ -219,7 +219,6 @@ export default {
                 this.uploadedFile = data
                 this.currentStatus = STATUS_SUCCESS
             }).catch(err => {
-                debugger
                 this.currentStatus = STATUS_FAILED
             })
         },
@@ -229,7 +228,7 @@ export default {
             Array.from(Array(fileList.length).keys()).map(x => {
                 formData.append(fieldName, fileList[x], fileList[x].name)
             })
-            this.save(formData)
+            this.upload(formData)
         }
     },
     mounted() {
