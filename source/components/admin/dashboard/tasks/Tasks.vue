@@ -112,9 +112,9 @@ export default {
                 }
             }
         },
-        cancelEdit: function() {
+        cancelEdit: function( task ) {
             this.editedTodo = null
-            // task.title = this.beforeEditCache
+            task.title = this.beforeEditCache
         },
         removeCompleted: function() {
             this.tasks = filters.active( this.tasks )
