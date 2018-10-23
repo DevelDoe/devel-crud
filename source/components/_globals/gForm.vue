@@ -43,13 +43,33 @@
                             <div class="invalid-feedback"> You must enter a email address, this will be used on login.</div>
                         </div>
                         <div class="form-group" v-if="item.inputType === 'sec_lv' && data._id !== logged._id && logged.sec_lv < data.sec_lv ">
-                            <label for="exampleFormControlSelect1">{{item.label}}</label>
+                            <label>{{item.label}}</label>
                             <select class="form-control"  v-model="data.sec_lv">
                                 <option v-for="(key, i) in Object.keys(accelSecLv)" :value="accelSecLv[key]" >{{key}}</option>
                             </select>
                         </div>
+                        <!--  -->
+                        <form enctype="multipart/form-data" novalidate v-if=" item.inputType === 'image'">
+                            <div class="dropbox">
+                                <input type="file" :name="item.name" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
+                                <p v-if="isInitial"> Drag your avatar here to begin<br> or click to browse </p>
+                                <p v-if="isSaving" class="uploading"> Uploading your avatar,<br> please stand by... </p>
+                                <transition name="fade">
+                                <p v-if="isSuccess" class="success">Your avatar was uploaded<br> successfully.<a href="javascript:void(0)" @click="reset()"> Upload again?</a></p>
+                                <p v-if="isFailed" class="fail" @click="reset()">Error uploading your image. <br> Try again or contact you admin! </p>
+                                </transition>
+                            </div>
+                        </form>
+                        <!-- <form enctype="multipart/form-data" novalidate v-if="item.inputType === 'image' && (isInitial || isSaving || isSuccess)">
+                            <div class="dropbox">
+                                <input type="file" multiple :name="item.name" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
+                                <p v-if="isInitial"> Drag your file(s) here to begin<br> or click to browse </p>
+                                <p v-if="isSaving"> Uploading {{ fileCount }} files... </p>
+                            </div>
+                        </form> -->
                     </span>
                 </form>
+
             </div>
             <div class="col-4 toggleFeatures" v-if="data.applications" >
                 <div class="row padding">
@@ -86,6 +106,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
 export default {
     name: 'gForm',
     props: [ 'schema', 'data' ],
@@ -95,7 +116,9 @@ export default {
             newPassword:'',
             sec_lvs:  { root: 0, admin: 1, owner: 2, operator: 3, super: 4, user: 5, pleab: 6, anonymous: 7, special: 8, guest: 9 },
             apps: [ 'tasks', 'notes' ],
-            admins: [ 'users', 'data' ]
+            admins: [ 'users', 'data' ],
+            uploadedFiles: [],
+            currentStatus: null
         }
     },
     computed: {
@@ -114,6 +137,18 @@ export default {
                 }
             }
             return acces
+        },
+        isInitial() {
+            return this.currentStatus === STATUS_INITIAL;
+        },
+        isSaving() {
+            return this.currentStatus === STATUS_SAVING;
+        },
+        isSuccess() {
+            return this.currentStatus === STATUS_SUCCESS;
+        },
+        isFailed() {
+            return this.currentStatus === STATUS_FAILED;
         }
     },
     methods: {
@@ -152,10 +187,33 @@ export default {
             } else {
                 this.valid = false
             }
+        },
+        reset() {
+            // reset form to initial state
+            this.currentStatus = STATUS_INITIAL
+            this.uploadedFiles = []
+        },
+        save(formData) {
+            this.currentStatus = STATUS_SAVING
+            this.$api.upload(formData)
+            .then( x => {
+                this.data.img_src = x.img_src
+                this.currentStatus = STATUS_SUCCESS
+            }).catch(err => {
+                this.currentStatus = STATUS_FAILED
+            })
+        },
+        filesChange(fieldName, fileList) {
+            const formData = new FormData()
+            if (!fileList.length) return
+            Array.from(Array(fileList.length).keys()).map(x => {
+                formData.append(fieldName, fileList[x], fileList[x].name)
+            })
+            this.save(formData)
         }
     },
-    update() {
-
+    mounted() {
+      this.reset();
     }
 }
 </script>
@@ -166,4 +224,89 @@ export default {
             margin-left: 10px;
         }
     }
+    .dropbox {
+        outline: 2px dashed grey; /* the dash box */
+        outline-offset: -10px;
+        color: #ccc;
+        min-height: 150px;
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+            background: #5c6577; /* when mouse over to the drop zone, change color */
+        }
+
+        p {
+            font-size: 1.2em;
+            text-align: center;
+            padding: 54px 0;
+        }
+        p.success {
+            color: #96d696;
+            a {
+                z-index: 9999;
+            }
+        }
+        .fail {
+            color: #965252;
+        }
+    }
+    .input-file {
+        opacity: 0; /* invisible but it's there! */
+        width: 100%;
+        height: 150px;
+        position: absolute;
+        cursor: pointer;
+    }
+    .uploading {
+        font-size: 1.2em;
+        text-align: center;
+        padding: 54px 100px;
+        color: #777;
+        -moz-animation-duration: 400ms;
+        -moz-animation-name: blink;
+        -moz-animation-iteration-count: infinite;
+        -moz-animation-direction: alternate;
+
+        -webkit-animation-duration: 400ms;
+        -webkit-animation-name: blink;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-direction: alternate;
+
+        animation-duration: 400ms;
+        animation-name: blink;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+@-moz-keyframes blink {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes blink {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 </style>

@@ -30,7 +30,7 @@
                     <div class="navbar-user">
                         <div class="container-fluid">
                             <div class="img">
-                                <img :src=" logged.img_src " alt="">
+                                <img :src="logged.img_src " alt="">
 
                             </div>
                             <div class="devel-col info">
