@@ -1,6 +1,8 @@
 // if( process.env.NODE_ENV === 'development' ) var url = 'http://localhost:4002'
 // if( process.env.NODE_ENV === 'production' )  var url = 'http://35.241.141.40:4002'
 var url = 'http://35.241.141.40:4002'
+
+import config from '../../config'
 import store from '../store/store'
 import Vue from 'vue'
 
@@ -167,9 +169,7 @@ const API = {
         store.dispatch('setLoading', true)
 
         if(  access ) {
-
             if( validate( coll, data ) ) {
-
                 fetch(`${url}/${coll}s/${data._id}`, {
                         method: "PUT", // *GET, POST, PUT, DELETE, etc.
                         mode: "cors", // no-cors, cors, *same-origin
@@ -212,6 +212,38 @@ const API = {
             store.dispatch('setLoading', false)
         }
     },
+    upload: function(formData) {
+        store.dispatch('setLoading', true)
+        return fetch(`${config.api_url}image`, {
+            method: 'POST',
+            headers: {
+                'Authorization': store.state.token
+            },
+            body: formData
+        })
+        .then( res => {
+            if( res.status !== 200 ) {
+                if( process.env.NODE_ENV === 'development' ) console.log('Status Code: ' + res.status)
+                bus.$emit('toast', 'Error uploading image' )
+                setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+                store.dispatch('setLoading', false)
+                return
+            }
+
+            return res.json().then(data => {
+                var res = data.file
+                res.img_src = `${config.api_url}${data.file.path}`
+                return res // Object assign to add base url
+            })
+        })
+        .catch(err => {
+            bus.$emit('toast', 'Fetching error, please contact administrator...' )
+            setTimeout( () => { bus.$emit('toast', '' ) }, 4000 )
+            if( process.env.NODE_ENV === 'development' ) console.log('Fetch Error :-S', err)
+            store.dispatch('setLoading', false)
+            return
+        })
+    }
 }
 export default API
 
