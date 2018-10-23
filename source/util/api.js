@@ -17,7 +17,7 @@ const API = {
 
         store.dispatch('setLoading', true)
 
-        fetch(`${url}/${coll}s`, {
+        fetch(`${config.api_url}${coll}s`, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, cors, *same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -62,7 +62,7 @@ const API = {
         if(  writeRights( coll ) ) {
             if( validate( coll, data ) ) {
 
-                fetch(`${url}/${coll}s`, {
+                fetch(`${config.api_url}${coll}s`, {
                         method: "POST", // *GET, POST, PUT, DELETE, etc.
                         mode: "cors", // no-cors, cors, *same-origin
                         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -124,7 +124,7 @@ const API = {
         const access = writeRights( coll, data )
         if(  access ) {
 
-            fetch(`${url}/${coll}s/${id}`, {
+            fetch(`${config.api_url}${coll}s/${id}`, {
                     method: "DELETE", // *GET, POST, PUT, DELETE, etc.
                     mode: "cors", // no-cors, cors, *same-origin
                     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -170,7 +170,7 @@ const API = {
 
         if(  access ) {
             if( validate( coll, data ) ) {
-                fetch(`${url}/${coll}s/${data._id}`, {
+                fetch(`${config.api_url}${coll}s/${data._id}`, {
                         method: "PUT", // *GET, POST, PUT, DELETE, etc.
                         mode: "cors", // no-cors, cors, *same-origin
                         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
