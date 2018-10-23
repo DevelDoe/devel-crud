@@ -1,6 +1,6 @@
 # DevelStrap VueJS
 
-Cpmplete Vue web app. Quickly straps all the needs for a complete Vue web app solution.
+Complete Vue web app. Quickly straps all the needs for a complete Vue web app solution.
 
 See [DEMO](http://develstrapvue.net/)
 
