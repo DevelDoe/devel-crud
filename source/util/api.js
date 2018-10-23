@@ -233,7 +233,7 @@ const API = {
             return res.json().then(data => {
                 var res = data.file
                 res.img_src = `${config.api_url}${data.file.path}`
-                return res // Object assign to add base url
+                return res 
             })
         })
         .catch(err => {
