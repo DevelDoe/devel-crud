@@ -113,8 +113,8 @@ export default {
             }
         },
         cancelEdit: function() {
-            this.editedTodo = null,
-            task.title = this.beforeEditCache
+            this.editedTodo = null
+            // task.title = this.beforeEditCache
         },
         removeCompleted: function() {
             this.tasks = filters.active( this.tasks )
